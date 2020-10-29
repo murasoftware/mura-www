@@ -206,7 +206,8 @@
 				"name":"PrimaryNav",
 				"contenttypes":"*",
 				"configurator":[
-					{"type":"radio","name":"displayhome","label":"Display Home?","labels":["Yes","No"],"options":["true","false"],"value":"false"}
+					{"type":"radio","name":"displayhome","label":"Display Home?","labels":["Yes","No"],"options":["true","false"],"value":"false"},
+					{"type":"file","name":"navlogo","label":"Navbar Logo"}
 				]
 			},
 			"HR":{
