@@ -1,0 +1,50 @@
+version: '2.1'
+
+services:
+  #Mura Server
+  mura:
+    build: .
+    environment:
+        MURA_ADMIN_USERNAME: admin
+        MURA_ADMIN_PASSWORD: admin
+        MURA_ADMINEMAIL: example@localhost.com
+        MURA_APPRELOADKEY: appreload
+        MURA_DATASOURCE: muradb
+        MURA_DATABASE: muradb
+        MURA_DBTYPE: mysql
+        MURA_DBUSERNAME: root
+        MURA_DBPASSWORD: NOT_SECURE_CHANGE
+        MURA_DBCONNECTIONSTRING: "jdbc:mysql://mura_mysql:3306/muradb?useUnicode=true&characterEncoding=UTF-8&useLegacyDatetimeCode=true"
+        MURA_DBCLASS: com.mysql.cj.jdbc.Driver
+        MURA_SITEIDINURLS: "false"
+        MURA_INDEXFILEINURLS: "false"
+        MURA_ADMINDOMAIN: "localhost"
+        MURA_EXTERNALCONFIG: "/var/www/config/mura.config.json"
+        MURA_DEFAULTTHEMEURL: "https://github.com/murasoftware/mura-minimal/archive/master.zip"
+        MURA_HTMLEDITORTYPE: markdown
+        MURA_EDITROUTE: "/edit"
+    volumes:
+        #-   ../mura/app/core:/var/www/core
+        #-   ../mura/app/admin:/var/www/admin
+        -   nextjs_sites_data:/var/www/sites
+        -   nextjs_themes_data:/var/www/themes
+        -   nextjs_plugins_data:/var/www/plugins
+    ports:
+        - "8888:8888"
+
+  #MySQL
+  mura_mysql:
+    image: mysql:5.7
+    environment:
+        MYSQL_ROOT_PASSWORD: NOT_SECURE_CHANGE
+        MYSQL_DATABASE: muradb
+    volumes:
+        - nextjs_mysql_data:/var/lib/mysql
+    ports:
+        - "55556:3306"
+
+volumes:
+    nextjs_mysql_data:
+    nextjs_sites_data:
+    nextjs_themes_data:
+    nextjs_plugins_data:

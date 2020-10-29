@@ -1,0 +1,51 @@
+{
+  "name": "mura-nextjs",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev -p 3000",
+    "build": "next build",
+    "start": "next start",
+    "test": "eslint src && echo \"no test specified\"",
+    "lint": "eslint src",
+    "lint-fix": "eslint src --fix",
+    "export": "next build && next export",
+    "help": "next export --help"
+  },
+  "husky": {
+    "hooks": {}
+  },
+  "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.30",
+    "@fortawesome/free-solid-svg-icons": "^5.14.0",
+    "@fortawesome/react-fontawesome": "^0.1.11",
+    "bootstrap": "^4.5.0",
+    "mura.js": "^1.0.260",
+    "next": "^9.5.4",
+    "next-transpile-modules": "^4.1.0",
+    "react": "16.13.1",
+    "react-bootstrap": "^1.2.0",
+    "react-dom": "16.13.1",
+    "react-fontawesome": "^1.7.1",
+    "react-markdown": "^4.3.1",
+    "react-meta-tags": "^0.7.4",
+    "react-slick": "^0.26.1",
+    "sass": "^1.26.10",
+    "slick-carousel": "^1.8.1",
+    "styled-components": "^5.2.0"
+  },
+  "devDependencies": {
+    "@next/bundle-analyzer": "^9.5.2",
+    "babel-eslint": "^10.1.0",
+    "eslint": "^6.1.0",
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-import-resolver-alias": "^1.1.2",
+    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-jsx-a11y": "^6.3.1",
+    "eslint-plugin-prettier": "^3.1.0",
+    "eslint-plugin-react": "^7.20.6",
+    "husky": "^4.3.0",
+    "prettier-eslint": "^9.0.1"
+  }
+}

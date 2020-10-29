@@ -1,0 +1,551 @@
+//base spacing options
+$tight-padding: 1rem !default;//MD breakpoint and down
+$tight-padding-lg: 1rem !default;//LG breakpoint and up
+$normal-padding: 2rem !default;//MD breakpoint and down
+$normal-padding-lg: 2.5rem !default;//LG breakpoint and up
+$loose-padding: 3rem !default;//MD breakpoint and down
+$loose-padding-lg: 5rem !default;//LG breakpoint and up
+
+//tight
+.mura-object[data-objectspacing="tight"],
+.spacing-tight {
+    @include module-padding($tight-padding, $tight-padding, $tight-padding-lg, $tight-padding-lg);
+}
+.mura-object[data-metaspacing="tight"]{
+    > div.mura-object-meta-wrapper{
+        > div.mura-object-meta{
+            @include module-padding($tight-padding, $tight-padding, $tight-padding-lg, $tight-padding-lg);
+        }
+    }
+}
+.mura-object[data-contentspacing="tight"]{
+    > div.mura-object-content{
+        @include module-padding($tight-padding, $tight-padding, $tight-padding-lg, $tight-padding-lg);
+    }
+}
+//normal
+.mura-object[data-objectspacing="normal"],
+.spacing-normal {
+    @include module-padding($tight-padding, $normal-padding, $normal-padding-lg, $normal-padding-lg);
+}
+.mura-object[data-contentspacing="normal"]{
+    > div.mura-object-content{
+        @include module-padding($tight-padding, $normal-padding, $normal-padding-lg, $normal-padding-lg);
+    }
+}
+.mura-object[data-metaspacing="normal"]{
+    > div.mura-object-meta-wrapper{
+        > div.mura-object-meta{
+            @include module-padding($tight-padding, $normal-padding, $normal-padding-lg, $normal-padding-lg);
+        }
+    }
+}
+//loose
+.mura-object[data-objectspacing="loose"],
+.spacing-loose {
+    @include module-padding($tight-padding, $loose-padding, $tight-padding-lg, $loose-padding-lg);
+}
+.mura-object[data-contentspacing="loose"]{
+    > div.mura-object-content{
+        @include module-padding($tight-padding, $loose-padding, $tight-padding-lg, $loose-padding-lg);
+    }
+}
+.mura-object[data-metaspacing="loose"]{
+    > div.mura-object-meta-wrapper{
+        > div.mura-object-meta{
+            @include module-padding($tight-padding, $loose-padding, $tight-padding-lg, $loose-padding-lg);
+        }
+    }
+}
+
+//vertical spacing only
+//tight-y
+.mura-object[data-objectspacing="tight-y"],
+.spacing-tight-y {
+    @include module-padding-y-only($tight-padding, $tight-padding);
+}
+.mura-object[data-metaspacing="tight-y"]{
+    > div.mura-object-meta-wrapper{
+        > div.mura-object-meta{
+            @include module-padding-y-only($tight-padding, $tight-padding);
+        }
+    }
+}
+.mura-object[data-contentspacing="tight-y"]{
+    > div.mura-object-content{
+        @include module-padding-y-only($tight-padding, $tight-padding);
+    }
+}
+//normal-y
+.mura-object[data-objectspacing="normal-y"],
+.spacing-normal-y {
+    @include module-padding-y-only($normal-padding, $normal-padding-lg);
+}
+.mura-object[data-contentspacing="normal-y"]{
+    > div.mura-object-content{
+        @include module-padding-y-only($normal-padding, $normal-padding-lg);
+    }
+}
+.mura-object[data-metaspacing="normal-y"]{
+    > div.mura-object-meta-wrapper{
+        > div.mura-object-meta{
+            @include module-padding-y-only($normal-padding, $normal-padding-lg);
+        }
+    }
+}
+//loose-y
+.mura-object[data-objectspacing="loose-y"],
+.spacing-loose-y {
+    @include module-padding-y-only($loose-padding, $loose-padding-lg);
+}
+.mura-object[data-contentspacing="loose-y"]{
+    > div.mura-object-content{
+        @include module-padding-y-only($loose-padding, $loose-padding-lg);
+    }
+}
+.mura-object[data-metaspacing="loose-y"]{
+    > div.mura-object-meta-wrapper{
+        > div.mura-object-meta{
+            @include module-padding-y-only($loose-padding, $loose-padding-lg);
+        }
+    }
+}
+
+//bottom only options
+//tight
+//module
+.mura-object[data-objectspacing="tight-bottom"],
+.spacing-loose-y {
+    @include module-padding-bottom-only($tight-padding, $tight-padding-lg)
+}
+//heading
+.mura-object[data-metaspacing="tight-bottom"]{
+    > div.mura-object-meta-wrapper{
+        > div.mura-object-meta{
+            @include module-padding-bottom-only($tight-padding, $tight-padding-lg)
+        }
+    }
+}
+//content
+.mura-object[data-contentspacing="tight-bottom"]{
+    > div.mura-object-content{
+        @include module-padding-bottom-only($tight-padding, $tight-padding-lg)
+    }
+}
+
+//normal
+//module
+.mura-object[data-objectspacing="normal-bottom"],
+.spacing-loose-y {
+    @include module-padding-bottom-only($normal-padding, $normal-padding-lg)
+}
+//heading
+.mura-object[data-metaspacing="normal-bottom"]{
+    > div.mura-object-meta-wrapper{
+        > div.mura-object-meta{
+            @include module-padding-bottom-only($normal-padding, $normal-padding-lg)
+        }
+    }
+}
+//content
+.mura-object[data-contentspacing="normal-bottom"]{
+    > div.mura-object-content{
+        @include module-padding-bottom-only($normal-padding, $normal-padding-lg)
+    }
+}
+
+//loose
+//module
+.mura-object[data-objectspacing="loose-bottom"],
+.spacing-loose-y {
+    @include module-padding-bottom-only($loose-padding, $loose-padding-lg)
+}
+//heading
+.mura-object[data-metaspacing="loose-bottom"]{
+    > div.mura-object-meta-wrapper{
+        > div.mura-object-meta{
+            @include module-padding-bottom-only($loose-padding, $loose-padding-lg)
+        }
+    }
+}
+//content
+.mura-object[data-contentspacing="loose-bottom"]{
+    > div.mura-object-content{
+        @include module-padding-bottom-only($loose-padding, $loose-padding-lg)
+    }
+}
+
+//top only options
+//tight
+//module
+.mura-object[data-objectspacing="tight-top"],
+.spacing-loose-y {
+    @include module-padding-top-only($tight-padding, $tight-padding-lg)
+}
+//heading
+.mura-object[data-metaspacing="tight-top"]{
+    > div.mura-object-meta-wrapper{
+        > div.mura-object-meta{
+            @include module-padding-top-only($tight-padding, $tight-padding-lg)
+        }
+    }
+}
+//content
+.mura-object[data-contentspacing="tight-top"]{
+    > div.mura-object-content{
+        @include module-padding-top-only($tight-padding, $tight-padding-lg)
+    }
+}
+
+//normal
+//module
+.mura-object[data-objectspacing="normal-top"],
+.spacing-loose-y {
+    @include module-padding-top-only($normal-padding, $normal-padding-lg)
+}
+//heading
+.mura-object[data-metaspacing="normal-top"]{
+    > div.mura-object-meta-wrapper{
+        > div.mura-object-meta{
+            @include module-padding-top-only($normal-padding, $normal-padding-lg)
+        }
+    }
+}
+//content
+.mura-object[data-contentspacing="normal-top"]{
+    > div.mura-object-content{
+        @include module-padding-top-only($normal-padding, $normal-padding-lg)
+    }
+}
+
+//loose
+//module
+.mura-object[data-objectspacing="loose-top"],
+.spacing-loose-y {
+    @include module-padding-top-only($loose-padding, $loose-padding-lg)
+}
+//heading
+.mura-object[data-metaspacing="loose-top"]{
+    > div.mura-object-meta-wrapper{
+        > div.mura-object-meta{
+            @include module-padding-top-only($loose-padding, $loose-padding-lg)
+        }
+    }
+}
+//content
+.mura-object[data-contentspacing="loose-top"]{
+    > div.mura-object-content{
+        @include module-padding-top-only($loose-padding, $loose-padding-lg)
+    }
+}
+
+//nested containers need vertical separation on mobile devices
+div.mura-object[data-object="container"]:not(.mura-objectclass){
+    div.mura-object[data-object="container"]{
+        & + div.mura-object[data-object="container"]{
+            @include media-breakpoint-down(sm){
+                margin-top:2rem;
+            }
+        }
+    }
+}
+
+@mixin module-theme($module-bg-color) {
+    background-color: $module-bg-color;
+    color: color-yiq($module-bg-color);
+}
+
+//let's replace this with a list/each loop
+.module-brand { @include module-theme($blue); }
+.module-light-gray { @include module-theme($light-gray); }
+.module-medium-gray { @include module-theme($medium-gray); }
+.module-dark-gray { @include module-theme($dark-gray); }
+.module-black { @include module-theme($black); }
+.module-orange { @include module-theme($orange); }
+.module-red { @include module-theme($red); }
+.module-azul { @include module-theme($azul); }
+.module-sea-foam  { @include module-theme($sea-foam); }
+.module-teal { @include module-theme($teal); }
+.module-green { @include module-theme($green); }
+.module-cranberry { @include module-theme($cranberry); }
+.module-goldenrod { @include module-theme($goldenrod); }
+.module-violet { @include module-theme($violet); }
+.module-purple { @include module-theme($purple); }
+.module-blue { @include module-theme($blue); }
+.module-white { @include module-theme($white); }
+
+.module-horizontal-nav{
+    .svCatSummary{
+        h2{
+            display:none;
+        }
+    }
+    .nav{
+        flex-direction: row !important;
+        justify-content:center;
+        background-color:$white;
+        margin-bottom:0;
+        padding-top:1rem;
+        padding-bottom:1rem;
+        .nav-item{
+            padding-left:3rem;
+            padding-right:3rem;
+            @include media-breakpoint-down(sm){
+                display:block;
+                border-left:0;
+                text-align:center;
+                width:100%;
+                margin-bottom:1rem;
+            }
+            .nav-link{
+                font-size:1.6rem;
+                line-height:1.5;
+                padding-top:0;
+                padding-bottom:0;
+                padding-left:0;
+                padding-right:0;
+                font-family:$font-family-sans-serif;
+                color:$black;
+                text-transform:uppercase;
+                font-weight:700;
+                letter-spacing:2px;
+                @include media-breakpoint-down(sm){
+                    display:inline-block;
+                }
+                span{
+                    display:none;
+                }
+                &.active{
+                    border-bottom:2px solid $blue;
+                }
+            }
+            + .nav-item{
+                border-left:1px solid $black;
+                @include media-breakpoint-down(sm){
+                    border-left:0;
+                }
+            }
+        }
+    }
+}
+
+.module-equal-height-icons{
+    [data-object="image"],
+    .mura-object-image{
+        figure{
+            img{
+                max-height:100px;
+                width:auto;
+                margin-left:0;
+                margin-right:auto;
+                display:block;
+                //margin-bottom:2rem;
+            }
+        }
+    }
+    [data-object="text"], 
+    .mura-object-text{
+        .mura-object-content{
+            img{
+                max-height:100px;
+                width:auto;
+                margin-left:0;
+                margin-right:auto;
+                display:block;
+                //margin-bottom:2rem;
+            }
+        }
+    }
+    &-lg{
+        [data-object="image"],
+        .mura-object-image{
+            figure{
+                img{
+                    max-height:150px;
+                    width:auto;
+                    margin-left:0;
+                    margin-right:auto;
+                    display:block;
+                    //margin-bottom:3rem;
+                }
+            }
+        }
+        [data-object="text"],
+        .mura-object-text{
+            .mura-object-content{
+                img{
+                    max-height:150px;
+                    width:auto;
+                    margin-left:0;
+                    margin-right:auto;
+                    display:block;
+                    //margin-bottom:3rem;
+                }
+            }
+        }
+    }
+    &-xl{
+        [data-object="image"],
+        .mura-object-image{
+            figure{
+                img{
+                    max-height:220px;
+                    width:auto;
+                    margin-left:0;
+                    margin-right:auto;
+                    display:block;
+                    //margin-bottom:5rem;
+                }
+            }
+        }
+        [data-object="text"],
+        .mura-object-text{
+            .mura-object-content{
+                img{
+                    max-height:220px;
+                    width:auto;
+                    margin-left:0;
+                    margin-right:auto;
+                    display:block;
+                    //margin-bottom:5rem;
+                }
+            }
+        }
+    }
+}
+
+.module-center-icons{
+    [data-object="image"],
+    .mura-object-image{
+        figure{
+            img{
+                margin-right:auto;
+                margin-left:auto;
+            }
+        }
+    }
+    [data-object="text"],
+    .mura-object-text{
+        .mura-object-content{
+            img{
+                margin-right:auto;
+                margin-left:auto;
+            }
+        }
+    }
+}
+
+.module-layout-40-60{
+    // padding-top:$loose-padding-lg;
+    // padding-bottom:$loose-padding-lg;
+    > .mura-object-content{
+        justify-content: space-between !important;
+        > .mura-object{
+            @include media-breakpoint-up(lg){
+                width:calc(40% - #{$normal-padding-lg / 2}) !important;
+            }
+            + .mura-object{
+                //margin-top:$normal-padding;
+                @include media-breakpoint-up(lg){
+                    width:calc(60% - #{$normal-padding-lg / 2}) !important;
+                    margin-top:0;
+                }
+                &:nth-child(n+3){
+                    margin-top:$normal-padding-lg;
+                }
+            }          
+        }
+    }
+}
+
+.module-layout-60-40{
+    // padding-top:$loose-padding-lg;
+    // padding-bottom:$loose-padding-lg;
+    > .mura-object-content{
+        justify-content: space-between !important;
+        > .mura-object{
+            @include media-breakpoint-up(lg){
+                width:calc(60% - #{$normal-padding-lg / 2}) !important;
+            }
+            + .mura-object{
+                //margin-top:$normal-padding;
+                @include media-breakpoint-up(lg){
+                    width:calc(40% - #{$normal-padding-lg / 2}) !important;
+                    margin-top:0;
+                }
+                &:not(:first-child){
+                    @include media-breakpoint-down(md){
+                        margin-top: $normal-padding-lg;
+                    }
+                }
+                &:nth-child(n+3){
+                    margin-top:$normal-padding-lg;
+                }
+            }          
+        }
+    }
+}
+
+.module-layout-two-col,
+.mura-editing .module-layout-two-col{
+    //$base-per-row, $sm-per-row, $md-per-row, $lg-per-row, $margin-top-start-item, $margin-top-start-item-sm, $margin-top-start-item-md, $margin-top-start-item-lg
+    @include multi-column-grid-layout(1, 2, 2, 2, 2, 3, 3, 3);
+}
+
+.module-layout-three-col,
+.mura-editing .module-layout-three-col{
+    //$base-per-row, $sm-per-row, $md-per-row, $lg-per-row, $margin-top-start-item, $margin-top-start-item-sm, $margin-top-start-item-md, $margin-top-start-item-lg
+    @include multi-column-grid-layout(1, 2, 3, 3, 2, 3, 4, 4);
+}
+
+.module-layout-four-col,
+.mura-editing .module-layout-four-col{
+    //$base-per-row, $sm-per-row, $md-per-row, $lg-per-row, $margin-top-start-item, $margin-top-start-item-sm, $margin-top-start-item-md, $margin-top-start-item-lg
+    @include multi-column-grid-layout(1, 2, 2, 4, 2, 3, 3, 5);
+}
+
+.module-layout-five-col,
+.mura-editing .module-layout-five-col{
+    //$base-per-row, $sm-per-row, $md-per-row, $lg-per-row, $margin-top-start-item, $margin-top-start-item-sm, $margin-top-start-item-md, $margin-top-start-item-lg
+    @include multi-column-grid-layout(2, 2, 3, 5, 3, 3, 4, 6);
+}
+
+.module-layout-six-col,
+.mura-editing .module-layout-six-col{
+    //$base-per-row, $sm-per-row, $md-per-row, $lg-per-row, $margin-top-start-item, $margin-top-start-item-sm, $margin-top-start-item-md, $margin-top-start-item-lg
+    @include multi-column-grid-layout(2, 2, 3, 6, 3, 3, 4, 7);
+}
+
+.module-text-cards{
+    &.mura-object{
+        > .mura-object-content{
+            .mura-object{
+                @extend .card, .shadow;
+                .mura-object-meta{
+                    //@extend .card-body;
+                    *{
+                        @extend .card-title;
+                    }
+                }
+                .mura-object-content{
+                    //@extend .card-body;
+                    a{
+                        @extend .card-link;
+                    }
+                }
+                &.mura-object-image,
+                &[data-objectname="Image"]{
+                    .mura-object-content{
+                        figure{
+                            @extend .card-img-top;
+                            figcaption{
+                                @extend .card-body;
+                                padding-top:0;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

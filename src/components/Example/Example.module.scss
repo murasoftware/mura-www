@@ -1,0 +1,17 @@
+
+.label{
+    color:#fff;
+    background:#000;
+    padding:2rem 1rem;
+    text-align:center;
+    position: relative;
+    &::after{
+        content:'';
+        position: absolute;
+        bottom:0;
+        height:5px;
+        left:0;
+        right:0;
+        background-color:lightskyblue;
+    }
+}

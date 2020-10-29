@@ -1,0 +1,232 @@
+{
+	"global":{
+		"rendererProperties":{
+			"templateArray":["default"],
+			"collectionLayoutArray":["DefaultLayout","CollectionLayout","Cards","List","AccordionLayout","AlternatingBoxes","AlternatingRows","Masonry","SlickSlider"],
+			"collectionDefaultLayout":"List",
+			"SSR":false,
+			"hashurls":false,
+			"primaryContentTypes":"Page,Link,File",
+			"editableAttributesArray":[],
+			"imageAttributesArray":[],
+			"defaultInheritedRegions":["header","footer"],
+			"spacingOptions":[
+				{"name":"Tight","value":"tight"},
+				{"name":"Tight Vertical","value":"tight-y"},
+				{"name":"Tight Top","value":"tight-top"},
+				{"name":"Tight Bottom","value":"tight-bottom"},
+				{"name":"Normal","value":"normal"},
+				{"name":"Normal Vertical","value":"normal-y"},
+				{"name":"Normal Top","value":"normal-top"},
+				{"name":"Normal Bottom","value":"normal-bottom"},
+				{"name":"Loose","value":"loose"},
+				{"name":"Loose Vertical","value":"loose-y"},
+				{"name":"Loose Top","value":"loose-top"},
+				{"name":"Loose Bottom","value":"loose-bottom"}
+			],
+			"moduleThemeOptions":[
+				{"name":"Brand Default","value":"module-brand"},
+				{"name":"Black","value":"module-black"},
+				{"name":"Light Gray","value":"module-light-gray"},
+				{"name":"Medium Gray","value":"module-medium-gray"},
+				{"name":"Dark Gray","value":"module-dark-gray"},
+				{"name":"Orange","value":"module-orange"},
+				{"name":"Red","value":"module-red"},
+				{"name":"Azul","value":"module-azul"},
+				{"name":"Sea Foam","value":"module-sea-foam"},
+				{"name":"Teal","value":"module-teal"},
+				{"name":"Green","value":"module-green"},
+				{"name":"Cranberry","value":"module-cranberry"},
+				{"name":"Goldenrod","value":"module-goldenrod"},
+				{"name":"Violet","value":"module-violet"},
+				{"name":"Purple","value":"module-purple"},
+				{"name":"Blue","value":"module-blue"},
+				{"name":"White","value":"module-white"},
+				{"name":"Horizontal Nav","value":"module-horizontal-nav"},
+				{"name":"Equal Height Icons (100px)","value":"module-equal-height-icons"},
+				{"name":"Equal Height Icons LG (150px)","value":"module-equal-height-icons-lg"},
+				{"name":"Equal Height Icons XL (220px)","value":"module-equal-height-icons-xl"},
+				{"name":"Center Icons","value":"module-center-icons"},
+				{"name":"Layout Items 40/60","value":"module-layout-40-60"},
+				{"name":"Layout Items 60/40","value":"module-layout-60-40"},
+				{"name":"Layout Items 2 Columns","value":"module-layout-two-col"},
+				{"name":"Layout Items 3 Columns","value":"module-layout-three-col"},
+				{"name":"Layout Items 4 Columns","value":"module-layout-four-col"},
+				{"name":"Layout Items 5 Columns","value":"module-layout-five-col"},
+				{"name":"Layout Items 6 Columns","value":"module-layout-six-col"},
+				{"name":"Cards","value":"module-text-cards"}
+			]
+		},
+		"proxies":{
+			"weather":{
+				"endpoint":"https://api.weather.gov/",
+				"httpmethod":"get",
+				"credentials":[
+					{
+					"type":"header",
+					"name":"User-Agent",
+					"data":"(myweatherapp.com, contact@myweatherapp.com)"
+					}
+				],
+				"events":[]
+			}
+		},
+		"modules":{
+			"Example":{
+				"name":"My Module",
+				"contenttypes":"*",
+				"omitcontenttypes":"",
+				"configurator":[
+					{
+						"type":"text",
+						"name":"myvar",
+						"label":"My Label"
+					},
+					{
+						"type":"select",
+						"name":"myselect",
+						"label":"My Select",
+						"options":[
+							"option1",
+							"option2",
+							"option3",
+							"option4"
+						]
+					},
+					{
+						"type":"dispenser",
+						"name":"mydispenser",
+						"label":"My Dispenser",
+						"options":[
+							"option1",
+							"option2",
+							"option3",
+							"option4"
+						]
+					}
+				]
+			},
+			"CTAButton":{
+				"name":"CTA Button",
+				"contenttypes":"*",
+				"omitcontenttypes":"",
+				"configurator":[
+					{"type":"text","name":"buttontext","label":"Button Text"},
+					{"type":"select","name":"buttoncolor","label":"Button Color","labels":["Primary","Secondary","Success","Warning","Danger","Light","Dark","Link"],"options":["primary","secondary","success","warning","danger","light","dark","link"],"value":"primary"},
+					{"type":"select","name":"buttonsize","label":"Button Size","labels":["Small","Normal","Large"],"options":["sm","md","lg"],"value":"md"},
+					{"type":"text","name":"buttonlink","label":"Button Link"},
+					{"type":"select","name":"buttontarget","label":"Button Target","labels":["_blank","_self","_parent","_top"],"options":["Blank","Self","Parent","Top"],"value":"_self"},
+					{"type":"select","name":"buttonblock","label":"Button Block?","labels":["Yes","No"],"options":["true","false"],"value":"false"}
+				]
+			},
+			"CollectionLayout":{
+				"name":"CollectionLayout",
+				"contenttypes":""
+			},
+			"DefaultLayout":{
+				"name":"DefaultLayout",
+				"contenttypes":"",
+				"configurator":[
+					{"type":"fieldlist","name":"fields","label":"Display List"}
+				]
+			},
+			"Cards":{
+				"name":"Cards",
+				"contenttypes":"",
+				"configurator":[
+					{"type":"fieldlist","name":"fields","label":"Display List"},
+					{"type":"select","name":"rowcolsxl","label":"Columns > 1199px","labels":["6","5","4","3","2","1"],"options":["6","5","4","3","2","1"],"value":"4"},
+					{"type":"select","name":"rowcolslg","label":"Columns > 991px","labels":["6","5","4","3","2","1"],"options":["6","5","4","3","2","1"],"value":"3"},
+					{"type":"select","name":"rowcolsmd","label":"Columns > 767px","labels":["6","5","4","3","2","1"],"options":["6","5","4","3","2","1"],"value":"3"},
+					{"type":"select","name":"rowcolssm","label":"Columns > 575px","labels":["6","5","4","3","2","1"],"options":["6","5","4","3","2","1"],"value":"2"},
+					{"type":"select","name":"imagesize","label":"Image Size","labels":["Small","Medium","Large","Portrait","Landscape","Hero"],"options":["small","medium","large","portrait","landscape","hero"]}
+				]
+			},
+			"List":{
+				"name":"List",
+				"contenttypes":"",
+				"configurator":[
+					{"type":"fieldlist","name":"fields","label":"Display List"}
+				]
+			},
+			"AccordionLayout":{
+				"name":"Accordion",
+				"contenttypes":"",
+				"configurator":[
+					{"type":"fieldlist","name":"fields","label":"Display List"}
+				]
+			},
+			"AlternatingBoxes":{
+				"name":"AlternatingBoxes",
+				"contentypes":"",
+				"configurator":[
+					{"type":"fieldlist","name":"fields","label":"Display List"}
+				]
+			},
+			"AlternatingRows":{
+				"name":"AlternatingRows",
+				"contenttypes":"",
+				"configurator":[
+					{"type":"fieldlist","name":"fields","label":"Display List"}
+				]
+			},
+			"Masonry":{
+				"name":"Masonry",
+				"contenttypes":"",
+				"configurator":[
+					{"type":"fieldlist","name":"fields","label":"Display List"}
+				]
+			},
+			"SlickSlider":{
+				"name":"SlickSlider",
+				"contenttypes":"",
+				"configurator":[
+					{"type":"fieldlist","name":"fields","label":"Display List"},
+					{"type":"select","name":"imagesize","label":"Image Size","labels":["Small","Medium","Large","Landscape","Portrait","Hero"],"options":["banner","cards"],"value":"cards"},
+					{"type":"select","name":"sliderLayout","label":"Slider Layout","labels":["Banner","Cards"],"options":["banner","cards"],"value":"cards"},
+					{"type":"select","name":"slidesToShow","label":"Slides to Show","labels":["6","5","4","3","2","1"],"options":["6","5","4","3","2","1"],"value":"3"},
+					{"type":"select","name":"slidesToScroll","label":"Slides to Scroll","labels":["6","5","4","3","2","1"],"options":["6","5","4","3","2","1"],"value":"3"},
+					{"type":"radio","name":"dots","label":"Show Dots","labels":["Yes","No"],"options":["true","false"],"value":"true"},
+					{"type":"radio","name":"arrows","label":"Show Arrows","labels":["Yes","No"],"options":["true","false"],"value":"true"},
+					{"type":"radio","name":"infinite","label":"Inifinte","labels":["Yes","No"],"options":["true","false"],"value":"true"},
+					{"type":"text","name":"speed","label":"Transition Speed","value":"500"},
+					{"type":"text","name":"autoplayspeed","label":"Autoplay Speed","value":"2000"},
+					{"type":"radio","name":"autoplay","label":"Autoplay","labels":["Yes","No"],"options":["true","false"],"value":"false"},
+					{"type":"radio","name":"centermode","label":"Center Mode","labels":["Yes","No"],"options":["true","false"],"value":"false"},
+					{"type":"text","name":"centerpadding","label":"Center Padding","value":"50"},
+					{"type":"radio","name":"fade","label":"Fade","labels":["Yes","No"],"options":["true","false"],"value":"false"},
+					{"type":"radio","name":"lazyload","label":"Lazy Load","labels":["Yes","No"],"options":["true","false"],"value":"false"},
+					{"type":"select","name":"rows","label":"Rows","labels":["6","5","4","3","2","1"],"options":["6","5","4","3","2","1"],"value":"1"},
+					{"type":"select","name":"slidesperrow","label":"Slides Per Row","labels":["6","5","4","3","2","1"],"options":["6","5","4","3","2","1"],"value":"3"},
+					{"type":"radio","name":"vertical","label":"Vertical","labels":["Yes","No"],"options":["true","false"],"value":"false"},
+					{"type":"radio","name":"verticalswiping","label":"Vertical Swiping","labels":["Yes","No"],"options":["true","false"],"value":"false"}					
+				]
+			},
+			"PrimaryNav":{
+				"name":"PrimaryNav",
+				"contenttypes":"*",
+				"configurator":[
+					{"type":"radio","name":"displayhome","label":"Display Home?","labels":["Yes","No"],"options":["true","false"],"value":"false"}
+				]
+			},
+			"HR":{
+				"name":"HR",
+				"contenttypes":"*"
+			},
+			"Embed":{
+				"name":"Embed",
+				"contenttypes":"*"
+			}
+	},
+	"sites":{
+		"default":{
+			"rendererProperties":{
+
+			},
+			"modules":{
+
+			}
+		}
+	}
+	}
+}

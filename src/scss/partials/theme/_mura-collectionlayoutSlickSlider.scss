@@ -1,0 +1,172 @@
+.mura-sidebar-state__pushed--right{
+    .mura-region-inherited{
+        .mura-twelve.mura-object{
+            max-width: calc(100vw - 315px) !important;
+        }
+    }
+    .mura-region-local{
+        .mura-twelve.mura-object{
+            max-width: calc(100vw - 315px) !important;
+        }
+    }
+}
+
+.collectionLayoutSlickSlider{
+    .card{
+        border-width:1px;
+        .card-footer{
+            background-color:#fff;
+            border-top:0;
+            svg[data-icon]{
+                width:10px;
+            }
+        }   
+        .stretched-link{
+            &::after{
+                transition:all ease-in-out .15s;
+            }
+            &:hover{
+                &::after{
+                    background-color:rgba(255, 255, 255, .25);
+                    border-radius:.25rem;
+                    border:1px solid $primary;
+                }
+            }
+        }
+    }
+    .slick{
+        &-track{
+            display: flex !important;
+        }
+    }
+    
+    .slick-slide {
+        height: inherit !important;
+        > div{
+            height:100%;
+        }
+        img{
+            width:100%;
+        }
+    }
+    
+    .slick-prev,
+    .slick-next{
+        height:auto;
+        color: $primary;
+        &:before{
+            display:none !important;
+            color:black !important;
+        }
+    }
+    .slick-dots{
+        li{
+            button{
+                &:before{
+                    font-size:12px;
+                    color: rgba($primary, .45)
+                }
+            }
+            &.slick-active{
+                button{
+                    &:before{
+                        color:$primary;
+                        opacity:1;
+                    }
+                }
+            }
+        }
+    }
+    &.banner{
+        .mura-item-meta{
+            @extend .rounded-lg, .shadow-lg;
+            position: absolute;
+            z-index:2;
+            top:50%;
+            right:50%;
+            left:10%;
+            transform: translateY(-50%);
+            background-color: rgba($black, .6);
+            border:1px solid $black;
+            padding:2rem;
+            &__title{
+                @extend h2;
+                color: $white;
+            }
+            &__summary{
+                p,h1,h2,h3,h4,h5,h6,li{
+                    color: $white;
+                }
+            }
+        }
+    }
+}
+.mura-object-content{
+    &:not(.container){
+        .collectionLayoutSlickSlider{
+            .slick{
+                &-prev,
+                &-next{
+                    z-index:1;
+                    background-color: rgba($white, 1);
+                    padding:1rem;
+                    color:$primary;
+                    width:auto;
+                    max-width:45px;
+                    border:1px solid $white;
+                    transition: all .2s ease;
+                    font-size:unset;
+                    svg{
+                        width:100%;
+                    }
+                    &:before{
+                        display:block;
+                    }
+                    &:hover{
+                        background-color: rgba($primary, 1);
+                        color:$white;
+                        border:1px solid $primary;
+                    }
+                }
+                &-next{
+                    right:15px;
+                }
+                &-prev{
+                    left:15px;
+                }
+                &-dots{
+                    bottom:15px;
+                    li{
+                        button{
+                            padding:0;
+                            &:before{
+                                border:2px solid transparent;
+                                width: auto;
+                                height: auto;
+                                line-height:1;
+                                border-radius:100px;
+                                color: $white;
+                                opacity:1;
+                                font-size:14px;
+                            }
+                            &:hover{
+                                &:before{
+                                    border-color:$primary;
+                                }
+                            }
+                        }
+                    }                    
+                    .slick-active{
+                        button{                            
+                            &:before{
+                                border-color:$white;
+                                color: $primary;
+                            }
+                            
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

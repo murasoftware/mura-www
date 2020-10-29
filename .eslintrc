@@ -1,0 +1,93 @@
+{
+  "extends": ["airbnb", "prettier", "prettier/react"],
+  "parser": "babel-eslint",
+  "parserOptions": {
+    "ecmaVersion": 2018,
+    "ecmaFeatures": {
+      "impliedStrict": true,
+      "classes": true
+    }
+  },
+  "env": {
+    "browser": true,
+    "node": true,
+    "jquery": true,
+    "jest": true
+  },
+  "rules": {
+    "semi": "off",
+    "camelcase": "off",
+    "no-use-before-define": "off",
+    "no-underscore-dangle": "off",
+    "no-set-state": "off",
+    "no-useless-escape": "off",
+    "no-plusplus": "off",
+    "linebreak-style": "off",
+    "radix": "off",
+    "max-len": ["error", 120],
+    "react/jsx-filename-extension": "off",
+    "react/prop-types": "off",
+    "no-console": "error",
+    "no-restricted-syntax": "off",
+    "react/no-unescaped-entities": "off",
+    "guard-for-in": "off",
+    "import/extensions": "off",
+    "jsx-a11y/label-has-for": "off",
+    "jsx-a11y/label-has-associated-control": "off",
+    "prefer-const": [
+      "error",
+      {
+        "destructuring": "all"
+      }
+    ],
+    "arrow-body-style": [2, "as-needed"],
+    "no-unused-expressions": [
+      2,
+      {
+        "allowTaggedTemplates": true
+      }
+    ],
+    "no-unused-vars": "error",
+    "array-callback-return": "error",
+    "import/prefer-default-export": "off",
+    "require-jsdoc": [
+      "error",
+      {
+        "require": {
+          "FunctionDeclaration": false,
+          "MethodDefinition": false,
+          "ClassDeclaration": false,
+          "ArrowFunctionExpression": false
+        }
+      }
+    ],
+    "valid-jsdoc": [
+      "error",
+      {
+        "requireReturn": false
+      }
+    ],
+    "import/no-unresolved": "off"
+  },
+  "settings": {
+    "import/resolver": {
+      "alias": {
+        "map": [
+          ["components", "./src/components/"],
+          ["utils", "./src/utils/"],
+          ["lib", "./lib"],
+          ["atoms", "./src/components/atoms"],
+          ["molecules", "./src/components/molecules"],
+          ["organisms", "./src/components/organisms"],
+          ["state", "./src/state"],
+          ["context", "./src/context"],
+          ["config", "./src/config"],
+          ["hooks", "./src/hooks"],
+          ["queries", "./src/queries"],
+          ["helpers", "./src/helpers"]
+        ],
+        "extensions": [".ts", ".js", ".jsx", ".json"]
+      }
+    }
+  }
+}

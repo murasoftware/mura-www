@@ -1,0 +1,28 @@
+.accordion{
+    .card-header{
+        position:relative;
+        background-color:$white;
+        cursor: pointer;
+        &::before{
+            font-family: 'fontawesome';
+            font-weight: 900;
+            position:absolute;
+            top:50%;
+            transform: translateY(-50%);
+            right:30px;
+            font-size:110%;
+        }
+        &.open:before {   
+            content: "\f077";
+        }
+        &.not-open:before {
+            content: "\f078";
+        }  
+        &:hover{
+            background: rgba(0,0,0,.05);
+            text-decoration: none;
+            transition: all .3s ease;
+            -webkit-transition: all .3s ease;
+        }
+    }
+}

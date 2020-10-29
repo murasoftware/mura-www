@@ -1,0 +1,12 @@
+.pagination{
+    .page-item{
+        .page-link{
+            &:hover{
+                cursor: pointer;
+            }
+            svg[data-icon]{
+                width:10px;
+            }
+        }
+    }
+}

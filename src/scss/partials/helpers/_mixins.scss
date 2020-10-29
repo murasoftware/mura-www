@@ -1,0 +1,142 @@
+
+//mixins
+@mixin module-padding($padding-x, $padding-y, $padding-x-lg, $padding-y-lg){
+    padding: $padding-y $padding-x;
+    @include media-breakpoint-up(md){
+        padding: $padding-y;
+    }
+    @include media-breakpoint-up(lg){
+        padding: $padding-y-lg;
+    }
+}
+
+@mixin module-padding-y-only($padding-y, $padding-y-lg){
+    padding-top: $padding-y;
+    padding-bottom: $padding-y;
+    @include media-breakpoint-up(md){
+        padding-top: $padding-y;
+        padding-bottom: $padding-y;
+    }
+    @include media-breakpoint-up(lg){
+        padding-top: $padding-y-lg;
+        padding-bottom: $padding-y-lg;
+    }
+}
+
+@mixin module-padding-bottom-only($padding-bottom, $padding-bottom-lg){
+    padding-bottom: $padding-bottom;
+    @include media-breakpoint-up(md){
+        padding-bottom: $padding-bottom;
+    }
+    @include media-breakpoint-up(lg){
+        padding-bottom: $padding-bottom-lg;
+    }
+}
+
+@mixin module-padding-top-only($padding-top, $padding-top-lg){
+    padding-top: $padding-top;
+    @include media-breakpoint-up(md){
+        padding-top: $padding-top;
+    }
+    @include media-breakpoint-up(lg){
+        padding-top: $padding-top-lg;
+    }
+}
+
+@mixin multi-column-flex-layout($base-per-row, $sm-per-row, $md-per-row, $lg-per-row, $margin-top-start-item, $margin-top-start-item-sm, $margin-top-start-item-md, $margin-top-start-item-lg){
+    > .mura-object-content{
+        justify-content: space-between !important;
+        > .mura-object{
+            width: calc(1/#{$base-per-row}*100% - (1 - 1/#{$base-per-row})*#{$normal-padding}) !important;
+            padding: $tight-padding;
+            @include media-breakpoint-up(sm){
+                width: calc(1/#{$sm-per-row}*100% - (1 - 1/#{$sm-per-row})*#{$normal-padding}) !important;
+            }
+            @include media-breakpoint-up(md){
+                width: calc(1/#{$md-per-row}*100% - (1 - 1/#{$md-per-row})*#{$normal-padding}) !important;
+            }
+            @include media-breakpoint-up(lg){
+                width: calc(1/#{$lg-per-row}*100% - (1 - 1/#{$lg-per-row})*#{$normal-padding-lg}) !important;
+                padding: $tight-padding-lg;
+            }
+
+            &:nth-child(n+#{$margin-top-start-item-lg}){
+                @include media-breakpoint-down(xl){
+                    margin-top:$normal-padding-lg;
+                }
+            }
+
+            &:nth-child(n+#{$margin-top-start-item-md}){
+                @include media-breakpoint-down(md){
+                    margin-top:$normal-padding;
+                }
+            }
+
+            &:nth-child(n+#{$margin-top-start-item-sm}){
+                @include media-breakpoint-down(sm){
+                    margin-top:$normal-padding;
+                }
+            }
+
+            &:nth-child(n+#{$margin-top-start-item}){
+                @include media-breakpoint-down(xs){
+                    margin-top:$normal-padding;
+                }
+            }
+            
+        }
+    }
+}
+
+@mixin multi-column-grid-layout($base-per-row, $sm-per-row, $md-per-row, $lg-per-row, $margin-top-start-item, $margin-top-start-item-sm, $margin-top-start-item-md, $margin-top-start-item-lg){
+    &.mura-object[data-instanceid]{
+        > div.mura-object-content{
+            justify-content: space-between !important;
+            display: grid !important;
+            grid-template-columns: repeat(auto-fill, calc(1/#{$base-per-row}*100% - (1 - 1/#{$base-per-row})*#{$normal-padding})) !important;
+            @include media-breakpoint-up(sm){
+                grid-template-columns: repeat(auto-fill, calc(1/#{$sm-per-row}*100% - (1 - 1/#{$sm-per-row})*#{$normal-padding})) !important;
+            }
+            @include media-breakpoint-up(md){
+                grid-template-columns: repeat(auto-fill, calc(1/#{$md-per-row}*100% - (1 - 1/#{$md-per-row})*#{$normal-padding})) !important;
+            }
+            @include media-breakpoint-up(lg){
+                //normal-padding-lg works until 6 columns then width of columns allows for 7 items
+                //can't force 6 items per row using
+                @if $lg-per-row >= 6 {
+                    grid-template-columns: repeat(auto-fill, calc(1/#{$lg-per-row}*100% - (1 - 1/#{$lg-per-row})*#{$tight-padding})) !important;
+                } @else if $lg-per-row == 5{
+                    grid-template-columns: repeat(auto-fill, calc(1/#{$lg-per-row}*100% - (1 - 1/#{$lg-per-row})*#{$normal-padding})) !important;
+                } @else {
+                    grid-template-columns: repeat(auto-fill, calc(1/#{$lg-per-row}*100% - (1 - 1/#{$lg-per-row})*#{$normal-padding-lg})) !important;
+                }
+            }
+            > .mura-object{
+                &:nth-child(n+#{$margin-top-start-item-lg}){
+                    @include media-breakpoint-down(xl){
+                        margin-top:$normal-padding-lg;
+                    }
+                }
+
+                &:nth-child(n+#{$margin-top-start-item-md}){
+                    @include media-breakpoint-down(md){
+                        margin-top:$normal-padding;
+                    }
+                }
+
+                &:nth-child(n+#{$margin-top-start-item-sm}){
+                    @include media-breakpoint-down(sm){
+                        margin-top:$normal-padding;
+                    }
+                }
+
+                &:nth-child(n+#{$margin-top-start-item}){
+                    @include media-breakpoint-down(xs){
+                        margin-top:$normal-padding;
+                    }
+                }
+                
+            }
+        }
+    }
+}

@@ -1,0 +1,58 @@
+.collectionLayoutAlternatingBoxes{
+    .card{
+        border-radius:0;
+        > .row{
+            [class*="col-"]{
+                position:unset;
+            }
+        }
+        .card-img{
+            &-left,
+            &-right{
+                img{
+                    @include media-breakpoint-up(md){
+                        height:100%;
+                        object-fit: cover;
+                        object-position: center center;
+                    }
+                }
+            }
+            &-left{
+                img{
+                    @include media-breakpoint-up(md){
+                        border-bottom-left-radius: calc(0.25rem - 1px);
+                        border-top-left-radius: calc(0.25rem - 1px);
+                        border-top-right-radius: 0;
+                    }
+                }
+            }
+            &-right{
+                img{
+                    @include media-breakpoint-up(md){
+                        border-bottom-right-radius: calc(0.25rem - 1px);
+                        border-top-right-radius: calc(0.25rem - 1px);
+                        border-top-left-radius: 0;
+                    }
+                }
+            }
+        }
+        .card-body{
+            border-radius:0;
+        }
+        .stretched-link{
+            &::after{
+                transition:all ease-in-out .15s;
+            }
+            &:hover{
+                &::after{
+                    background-color:rgba(255, 255, 255, .25);
+                    border-radius:.0;
+                    border:1px solid $primary;
+                }
+            }
+        }
+        &:last-child{
+            margin-bottom:1rem;
+        }
+    }
+}

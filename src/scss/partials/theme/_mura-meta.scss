@@ -1,0 +1,68 @@
+.mura-item-meta{
+    &__subtype{
+        @extend .badge, .badge-pill, .badge-primary, .mb-2;
+        font-size:.8rem;
+        &[data-value]:before{
+            position: relative;
+            font-family:"fontawesome";
+            margin-left: .15rem;
+            vertical-align: top;
+            content:'\f15b';
+            margin-right:.35rem;
+            font-weight:400;
+        }
+        &[data-value="Article"]{
+            background-color: $goldenrod;
+            &:before{
+                content:'\f15c';
+            }
+        }
+        &[data-value="Webinar"]{
+            background-color: $goldenrod;
+            &:before{
+                content:'\f108';
+                bottom: -1px;
+            }
+        }
+        &[data-value="White Paper"]{
+            background-color: $orange;
+            &:before{
+                content:'\f1c1';
+            }
+        }
+    }
+    &__date{
+        @extend .text-uppercase, .text-muted, .small, .mb-2;
+    }
+    &__readmore{
+        a{
+            svg[data-icon]{
+                width:10px;
+            }
+        }
+    }
+}
+
+.btn{
+    svg{
+        &[data-icon]{
+            width:10px;
+        }
+    }
+    &-sm{
+        svg{
+            &[data-icon]{
+                width:8px;
+                margin-top:-1px;
+            }
+        }
+    }
+    &-lg{
+        svg{
+            &[data-icon]{
+                width:14px;
+                margin-top:-2px;
+            }
+        }
+    }
+}
