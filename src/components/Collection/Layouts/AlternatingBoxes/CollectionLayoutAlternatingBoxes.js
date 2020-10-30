@@ -4,10 +4,8 @@ import Card from 'react-bootstrap/Card';
 import ReactMarkdown from "react-markdown";
 import CollectionNav from '../../../CollectionNav/CollectionNav';
 import ItemDate from '../../../Utilities/ItemDate';
+import CollectionReadMoreBtn from "@components/Utilities/CollectionReadMoreBtn";
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faChevronRight } from '@fortawesome/free-solid-svg-icons'
-import CollectionReadMoreBtn from "@components/CollectionReadMoreBtn";
 /*
   The link component throws an error when rerending after being 
   reconfigured in edit mode. Hence CollectionLink

@@ -3,7 +3,7 @@ import React from 'react';
 import ReactMarkdown from "react-markdown";
 import CollectionNav from '../../../CollectionNav/CollectionNav';
 import ItemDate from '../../../Utilities/ItemDate';
-import CollectionReadMoreBtn from '@components/CollectionReadMoreBtn';
+import CollectionReadMoreBtn from '@components/Utilities/CollectionReadMoreBtn';
 /*
   The link component throws an error when rerending after being 
   reconfigured in edit mode. Hence CollectionLink

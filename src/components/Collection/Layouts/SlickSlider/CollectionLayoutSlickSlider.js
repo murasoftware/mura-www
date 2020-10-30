@@ -3,7 +3,7 @@ import React from 'react';
 import Card from 'react-bootstrap/Card';
 import ReactMarkdown from "react-markdown";
 import ItemDate from '@components/Utilities/ItemDate';
-import CollectionReadMoreBtn from '@components/CollectionReadMoreBtn';
+import CollectionReadMoreBtn from '@components/Utilities/CollectionReadMoreBtn';
 
 import Slider from "react-slick";
 
