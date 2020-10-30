@@ -35,7 +35,7 @@ const CurrentItems = (props) => {
 
   for(let i = pos;i < itemsTo;i++) {
     item = items[i];
-    console.log(item);
+    // console.log(item);
 
     itemsList.push(
       <div className="row mb-3" key={item.get('contentid')}>
