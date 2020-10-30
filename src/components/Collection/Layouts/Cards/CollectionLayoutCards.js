@@ -4,9 +4,7 @@ import Card from 'react-bootstrap/Card';
 import ReactMarkdown from "react-markdown";
 import CollectionNav from '../../../CollectionNav/CollectionNav';
 import ItemDate from '../../../Utilities/ItemDate';
-
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faChevronRight } from '@fortawesome/free-solid-svg-icons'
+import CollectionReadMoreBtn from '@components/CollectionReadMoreBtn';
 /*
   The link component throws an error when rerending after being 
   reconfigured in edit mode. Hence CollectionLink
@@ -69,9 +67,12 @@ const CurrentItems = (props) => {
           </div>
         </Card.Body>
         <Card.Footer>
-          <Link href={`/${item.get('filename')}`} passHref className="stretched-link btn btn-primary">
-            Read More  <FontAwesomeIcon icon={faChevronRight} />
-          </Link>
+          <CollectionReadMoreBtn
+            href={`/${item.get('filename')}`}
+            ctatext="Read More"
+            link={Link}
+            key={item.get('contentid')}
+          />
         </Card.Footer>
 
       </Card>

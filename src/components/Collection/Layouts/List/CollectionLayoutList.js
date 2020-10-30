@@ -3,9 +3,7 @@ import React from 'react';
 import ReactMarkdown from "react-markdown";
 import CollectionNav from '../../../CollectionNav/CollectionNav';
 import ItemDate from '../../../Utilities/ItemDate';
-
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faChevronRight } from '@fortawesome/free-solid-svg-icons'
+import CollectionReadMoreBtn from '@components/CollectionReadMoreBtn';
 /*
   The link component throws an error when rerending after being 
   reconfigured in edit mode. Hence CollectionLink
@@ -67,9 +65,12 @@ const CurrentItems = (props) => {
                   return <ReactMarkdown source={item.get('summary')} key={field} />
                 case "readmore":
                       return (
-                        <div className="mura-item-meta__readmore" key={field}>
-                          <Link href={`/${item.get('filename')}`} passHref className="btn btn-link pl-0">Read More  <FontAwesomeIcon icon={faChevronRight} /></Link>
-                        </div>
+                        <CollectionReadMoreBtn
+                          href={`/${item.get('filename')}`}
+                          ctatext="Read More"
+                          link={Link}
+                          key={item.get('contentid')}
+                        />
                       )
                 default:
                   return <div className={`mura-item-meta__${field}`} key={field} data-value={item.get(field)}>{item.get(field)}</div>

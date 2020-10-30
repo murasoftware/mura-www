@@ -2,8 +2,8 @@ import { useState } from "react";
 import React from 'react';
 import Card from 'react-bootstrap/Card';
 import ReactMarkdown from "react-markdown";
-import ItemDate from '../../../Utilities/ItemDate';
-import CollectionReadMoreBtn from '../../../CollectionReadMoreBtn';
+import ItemDate from '@components/Utilities/ItemDate';
+import CollectionReadMoreBtn from '@components/CollectionReadMoreBtn';
 
 import Slider from "react-slick";
 
@@ -174,9 +174,12 @@ const SliderItem = (props) => {
                     case "readmore":
                       return(
                         <div className="mura-item-meta__readmore" key={item.get('contentid')}>
-                          <Link href={`/${item.get('filename')}`} passHref className="btn btn-primary">
-                            Read More  <FontAwesomeIcon icon={faChevronRight} />
-                          </Link>
+                          <CollectionReadMoreBtn
+                            href={`/${item.get('filename')}`}
+                            ctatext="Read More"
+                            link={Link}
+                            key={item.get('contentid')}
+                          />
                         </div>
                       );
                     default:
@@ -213,9 +216,12 @@ const SliderItem = (props) => {
                       return <ReactMarkdown source={item.get('summary')} key={field} />
                     case "readmore":
                       return(
-                        <Link href={`/${item.get('filename')}`} passHref className="stretched-link btn btn-primary" key={item.get('contentid')} >
-                          Read More  <FontAwesomeIcon icon={faChevronRight} />
-                        </Link>
+                        <CollectionReadMoreBtn
+                          href={`/${item.get('filename')}`}
+                          ctatext="Read More"
+                          link={Link}
+                          key={item.get('contentid')}
+                        />
                       );
                     default:
                       return <div className={`mura-item-meta__${field}`} key={field} data-value={item.get(field)}>{item.get(field)}</div>
