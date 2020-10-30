@@ -1,6 +1,6 @@
 /* eslint-disable */
 import Mura from 'mura.js';
-import ComponentRegistry from './ComponentRegistry';
+import ComponentRegistry from './src/mura/MuraComponents/MuraComponents';
 
 require('mura.js/src/core/stylemap-static');
 

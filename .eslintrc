@@ -73,6 +73,7 @@
     "import/resolver": {
       "alias": {
         "map": [
+          ["mura", "./src/mura/"],
           ["components", "./src/components/"],
           ["utils", "./src/utils/"],
           ["lib", "./lib"],

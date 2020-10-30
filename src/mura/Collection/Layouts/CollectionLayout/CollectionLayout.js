@@ -1,6 +1,6 @@
 import { useEffect,useState } from "react";
 import ReactMarkdown from "react-markdown";
-import CollectionNav from '../../../CollectionNav/CollectionNav';
+import CollectionNav from '@mura/CollectionNav/CollectionNav';
 
 const CollectionLayout = ({props,collection,link}) => {
   const {nextn} = props;

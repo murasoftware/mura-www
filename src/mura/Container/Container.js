@@ -2,7 +2,7 @@ import React from 'react';
 import Mura from 'mura.js/src/core/core';
 
 // eslint-disable-next-line
-import { getComponent } from '@helpers/MuraHelper';
+import { getComponent } from 'mura.config';
 import MuraDecorator from '../MuraDecorator';
 
 function Container(props) {

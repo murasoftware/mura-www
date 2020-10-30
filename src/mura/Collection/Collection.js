@@ -1,7 +1,7 @@
 import React,{useState,useEffect} from 'react';
 import Mura from 'mura.js';
 import Link from "next/link";
-import ComponentRegistry from '../../helpers/ComponentRegistry';
+import ComponentRegistry from '../MuraComponents/MuraComponents';
 
 const getLayout=(layout) => {
 

@@ -1,9 +1,9 @@
 import React from 'react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
-import EditLayout from '../../components/EditLayout';
+import EditLayout from '../../mura/EditLayout';
 import Page from '../[...page]';
-import { getMuraProps, getRootPath } from '../../helpers/MuraHelper';
+import { getMuraProps, getRootPath } from '../../../mura.config';
 
 export async function getServerSideProps(context) {
   const props = await getMuraProps(context,true);

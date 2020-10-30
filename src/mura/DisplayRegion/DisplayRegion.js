@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { getComponent } from '@helpers/MuraHelper';
+import { getComponent } from 'mura.config';
 import MuraDecorator from '../MuraDecorator';
 import GlobalContext from '../GlobalContext';
 
