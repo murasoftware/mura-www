@@ -1,4 +1,11 @@
 .accordion{
+    .card{
+        .collapse{
+            .card-body{
+                position:relative;
+            }
+        }
+    }
     .card-header{
         position:relative;
         background-color:$white;
