@@ -16,7 +16,7 @@ export const videoConfig = {
 	thumbnailplayiconsize:"5x",
 	buttonplayiconsize:"1x",
 	textplayiconsize:"1x",
-	thumbnailplayiconcolor:"##E24B3C",
+	thumbnailplayiconcolor:"#E24B3C",
 	buttonctatext:"Watch video",
 	textctatext:"Watch video",
 	ctatextwrapper:"p"	
