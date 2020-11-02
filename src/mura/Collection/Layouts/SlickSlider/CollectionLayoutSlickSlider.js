@@ -194,9 +194,11 @@ const SliderItem = (props) => {
     return(
       <div className="mx-2 h-100" key={props.contentid} >
         <Card className="h-100">
-          <Link href={`/${item.get('filename')}`} passHref>
-            <img src={props.sliderimage} className="card-img-top" />
-          </Link>
+          {
+            fieldlist.filter(field => field == 'image').map(filteredField => (
+              <Card.Img variant="top" src={item.get('images')[props.imagesize]} key={filteredField} />
+            ))
+          }          
           <Card.Body className="spacing-normal h-100">
               <div className="mura-item-meta">
                 {
