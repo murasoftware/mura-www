@@ -53,7 +53,7 @@ const CurrentItems = (props) => {
           case "date":
               return (item.get('releasedate') || item.get('lastupdate'));
           case "image":
-            return  <CollectImage key={field} imageurl={item.get('images')[props.imagesize]}/>
+            return  <CollectImage key={field} imageurl={item.get('images')}/>
           case "summary":
             return <ReactMarkdown source={item.get('summary')} key={field} />
           case "readmore":
