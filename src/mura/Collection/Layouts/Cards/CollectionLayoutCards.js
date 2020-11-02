@@ -33,7 +33,7 @@ const CurrentItems = (props) => {
   const items = collection.get('items');
   const itemsTo = pos+nextn > items.length ? items.length : pos+nextn;
   const fieldlist = fields ? fields.toLowerCase().split(",") : [];
-  // console.log(fieldlist);
+  //console.log(fieldlist);
 
   for(let i = pos;i < itemsTo;i++) {
     item = items[i];
@@ -41,7 +41,11 @@ const CurrentItems = (props) => {
       
     <div className="col mb-4" key={item.get('contentid')}>
       <Card className="mb-3 h-100 shadow">
-        <Card.Img variant="top" src={item.get('images')[props.imagesize]} />
+        {
+          fieldlist.filter(field => field == 'image').map(filteredField => (
+            <Card.Img variant="top" src={item.get('images')[props.imagesize]} key={item.get('fileid')} />
+          ))
+        }
         <Card.Body>
           <div className="mura-item-meta">
             {
