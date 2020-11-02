@@ -43,7 +43,7 @@ const CurrentItems = (props) => {
       <Card className="mb-3 h-100 shadow">
         <div className="row no-gutters align-items-stretch">
           <div className={`col-12 col-md-6 ${i % 2 == 0 ? "card-img-left" : "card-img-right  order-md-2"}`}>
-            <Card.Img variant="top" src={item.get('images').landscape} />
+            <Card.Img variant="top" src={item.get('images')[props.imagesize]} />
           </div>
           <div className="col-12 col-md-6 p-0">
             <Card.Body className="spacing-normal h-100">

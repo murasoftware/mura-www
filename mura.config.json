@@ -139,42 +139,47 @@
 					{"type":"select","name":"rowcolslg","label":"Columns > 991px","labels":["6","5","4","3","2","1"],"options":["6","5","4","3","2","1"],"value":"3"},
 					{"type":"select","name":"rowcolsmd","label":"Columns > 767px","labels":["6","5","4","3","2","1"],"options":["6","5","4","3","2","1"],"value":"3"},
 					{"type":"select","name":"rowcolssm","label":"Columns > 575px","labels":["6","5","4","3","2","1"],"options":["6","5","4","3","2","1"],"value":"2"},
-					{"type":"select","name":"imagesize","label":"Image Size","labels":["Small","Medium","Large","Portrait","Landscape","Hero"],"options":["small","medium","large","portrait","landscape","hero"]}
+					{"type":"select","name":"imagesize","label":"Image Size","labels":["Small","Medium","Large","Portrait","Landscape","Hero"],"options":["small","medium","large","portrait","landscape","hero"],"value":"landscape"}
 				]
 			},
 			"List":{
 				"name":"List",
 				"contenttypes":"",
 				"configurator":[
-					{"type":"fieldlist","name":"fields","label":"Display List"}
+					{"type":"fieldlist","name":"fields","label":"Display List"},
+					{"type":"select","name":"imagesize","label":"Image Size","labels":["Small","Medium","Large","Portrait","Landscape","Hero"],"options":["small","medium","large","portrait","landscape","hero"],"value":"medium"}
 				]
 			},
 			"AccordionLayout":{
 				"name":"Accordion",
 				"contenttypes":"",
 				"configurator":[
-					{"type":"fieldlist","name":"fields","label":"Display List"}
+					{"type":"fieldlist","name":"fields","label":"Display List"},
+					{"type":"select","name":"imagesize","label":"Image Size","labels":["Small","Medium","Large","Portrait","Landscape","Hero"],"options":["small","medium","large","portrait","landscape","hero"],"value":"medium"}
 				]
 			},
 			"AlternatingBoxes":{
 				"name":"AlternatingBoxes",
 				"contentypes":"",
 				"configurator":[
-					{"type":"fieldlist","name":"fields","label":"Display List"}
+					{"type":"fieldlist","name":"fields","label":"Display List"},
+					{"type":"select","name":"imagesize","label":"Image Size","labels":["Small","Medium","Large","Portrait","Landscape","Hero"],"options":["small","medium","large","portrait","landscape","hero"],"value":"landscape"}
 				]
 			},
 			"AlternatingRows":{
 				"name":"AlternatingRows",
 				"contenttypes":"",
 				"configurator":[
-					{"type":"fieldlist","name":"fields","label":"Display List"}
+					{"type":"fieldlist","name":"fields","label":"Display List"},
+					{"type":"select","name":"imagesize","label":"Image Size","labels":["Small","Medium","Large","Portrait","Landscape","Hero"],"options":["small","medium","large","portrait","landscape","hero"],"value":"landscape"}
 				]
 			},
 			"Masonry":{
 				"name":"Masonry",
 				"contenttypes":"",
 				"configurator":[
-					{"type":"fieldlist","name":"fields","label":"Display List"}
+					{"type":"fieldlist","name":"fields","label":"Display List"},
+					{"type":"select","name":"imagesize","label":"Image Size","labels":["Small","Medium","Large","Portrait","Landscape","Hero"],"options":["small","medium","large","portrait","landscape","hero"],"value":"landscape"}
 				]
 			},
 			"SlickSlider":{
@@ -182,7 +187,7 @@
 				"contenttypes":"",
 				"configurator":[
 					{"type":"fieldlist","name":"fields","label":"Display List"},
-					{"type":"select","name":"imagesize","label":"Image Size","labels":["Small","Medium","Large","Landscape","Portrait","Hero"],"options":["banner","cards"],"value":"cards"},
+					{"type":"select","name":"imagesize","label":"Image Size","labels":["Small","Medium","Large","Portrait","Landscape","Hero"],"options":["small","medium","large","portrait","landscape","hero"],"value":"hero"},
 					{"type":"select","name":"sliderLayout","label":"Slider Layout","labels":["Banner","Cards"],"options":["banner","cards"],"value":"cards"},
 					{"type":"select","name":"slidesToShow","label":"Slides to Show","labels":["6","5","4","3","2","1"],"options":["6","5","4","3","2","1"],"value":"3"},
 					{"type":"select","name":"slidesToScroll","label":"Slides to Scroll","labels":["6","5","4","3","2","1"],"options":["6","5","4","3","2","1"],"value":"3"},
@@ -199,7 +204,7 @@
 					{"type":"select","name":"rows","label":"Rows","labels":["6","5","4","3","2","1"],"options":["6","5","4","3","2","1"],"value":"1"},
 					{"type":"select","name":"slidesperrow","label":"Slides Per Row","labels":["6","5","4","3","2","1"],"options":["6","5","4","3","2","1"],"value":"3"},
 					{"type":"radio","name":"vertical","label":"Vertical","labels":["Yes","No"],"options":["true","false"],"value":"false"},
-					{"type":"radio","name":"verticalswiping","label":"Vertical Swiping","labels":["Yes","No"],"options":["true","false"],"value":"false"}					
+					{"type":"radio","name":"verticalswiping","label":"Vertical Swiping","labels":["Yes","No"],"options":["true","false"],"value":"false"}
 				]
 			},
 			"PrimaryNav":{

@@ -48,10 +48,10 @@ const CurrentItems = (props) => {
   }
 
   // console.log(fieldlist);
+  //console.log("image size: " + props.imagesize);
 
   for(let i = pos;i < itemsTo;i++) {
     item = items[i];
-    // console.log("title:" + item.get('title') + " / " + i);
     itemsList.push(
       <Card key={item.get('contentid')}>
         <Accordion.Toggle as={Card.Header} variant="link" eventKey={item.get('contentid')} className={activeId === i ? 'open' : 'not-open'} onClick={() => toggleActive(i)}>
@@ -65,7 +65,7 @@ const CurrentItems = (props) => {
                     case "image":
                         return (
                           <img
-                            src={item.get('images').medium}
+                            src={item.get('images')[props.imagesize]}
                             alt={item.get('title')}
                             className="img-fluid"
                             key={item.get('contentid')}

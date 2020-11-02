@@ -42,8 +42,8 @@ const SlickSlider = ({props,collection,link}) => {
   
   const slides = collection.map((item) => (
       <SliderItem 
-        bannerimage={item.get('images').hero}//why can't I get this in SliderItem
-        cardimage={item.get('images').landscape}
+        sliderimage={item.get('images')[props.imagesize]}
+        imagesize={props.imagesize}
         item={item}
         link={link}
         slidestoshow={Number(props.slidestoshow)}
@@ -148,12 +148,12 @@ const SliderItem = (props) => {
   const slidesToShow = props.slidesToShow;
   const Link = props.link;
   const fieldlist = props.fields ? props.fields.toLowerCase().split(",") : [];
-  //console.log(fieldlist);
+  // console.log('image size: ' + props.imagesize);
   if (props.sliderlayout === 'banner') {//swith to props.layout
     return(
       <div key={item.get('contentid')} className="h-100 position-relative">
         <Link href={`/${item.get('filename')}`} passHref>
-          <img src={props.bannerimage} />
+          <img src={props.sliderimage} />
         </Link>
         <div className="mura-item-meta">
                 {
@@ -195,7 +195,7 @@ const SliderItem = (props) => {
       <div className="mx-2 h-100" key={props.contentid} >
         <Card className="h-100">
           <Link href={`/${item.get('filename')}`} passHref>
-            <img src={props.cardimage} className="card-img-top" />
+            <img src={props.sliderimage} className="card-img-top" />
           </Link>
           <Card.Body className="spacing-normal h-100">
               <div className="mura-item-meta">

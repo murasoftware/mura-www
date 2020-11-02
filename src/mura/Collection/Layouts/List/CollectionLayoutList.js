@@ -41,7 +41,7 @@ const CurrentItems = (props) => {
       <div className="row mb-3" key={item.get('contentid')}>
       <div className="col-12 col-md-3 mb-3 pr-md-0">
       <img
-        src={item.get('images').medium}
+        src={item.get('images')[props.imagesize]}
         alt={item.get('title')}
         className="img-fluid"
       />

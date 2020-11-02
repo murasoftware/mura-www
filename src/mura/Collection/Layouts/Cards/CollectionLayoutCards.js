@@ -41,7 +41,7 @@ const CurrentItems = (props) => {
       
     <div className="col mb-4" key={item.get('contentid')}>
       <Card className="mb-3 h-100 shadow">
-        <Card.Img variant="top" src={item.get('images').landscape} />
+        <Card.Img variant="top" src={item.get('images')[props.imagesize]} />
         <Card.Body>
           <div className="mura-item-meta">
             {

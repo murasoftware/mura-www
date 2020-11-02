@@ -43,7 +43,7 @@ const CurrentItems = (props) => {
       <Card className="border-0" key={item.get('contentid')}>
         <div className="row no-gutters align-items-stretch">
           <div className={`col-12 col-md-6 ${i % 2 == 0 ? "card-img-left" : "card-img-right  order-md-2"}`}>
-            <Card.Img variant="top" src={item.get('images').landscape} className="rounded-0" />
+            <Card.Img variant="top" src={item.get('images')[props.imagesize]} className="rounded-0" />
           </div>
           <div className="col-12 col-md-6 p-0">
             <Card.Body className="spacing-normal h-100">
