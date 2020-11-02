@@ -40,7 +40,11 @@ const CurrentItems = (props) => {
     itemsList.push(
       
       <Card className="mb-3 h-100 shadow" key={item.get('contentid')}>
-        <Card.Img variant="top" src={item.get('images')[props.imagesize]} />
+        {
+          fieldlist.filter(field => field == 'image').map(filteredField => (
+            <Card.Img variant="top" src={item.get('images')[props.imagesize]} key={item.get('fileid')} />
+          ))
+        }
         <Card.Body>
           <div className="mura-item-meta">
             {
