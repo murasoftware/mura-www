@@ -39,21 +39,62 @@ const CurrentItems = (props) => {
 
     itemsList.push(
       <div className="row mb-3" key={item.get('contentid')}>
-      <div className="col-12 col-md-3 mb-3 pr-md-0">
-      <img
-        src={item.get('images')[props.imagesize]}
-        alt={item.get('title')}
-        className="img-fluid"
-      />
+        <ListImage fieldlist={fieldlist} item={item} imagesize={props.imagesize} />
+        <ListMeta fieldlist={fieldlist} item={item} Link={Link} />
       </div>
-      <div className="col-12 col-md-9 py-3">
+    );
+  }
+
+  return itemsList;
+}
+
+const ListImage = (props) => {
+  const {fieldlist, item} = props;
+
+  let hasImage = false;
+  if (fieldlist.indexOf("image") > -1) {
+    hasImage = true;
+  }
+  if(hasImage) {
+    return(
+      <div className="col-12 col-md-3 mb-3 pr-md-0">        
+          <img
+            src={item.get('images')[props.imagesize]}
+            alt={item.get('title')}
+            className="img-fluid"
+          />      
+      </div>
+    )  
+  }
+  return(
+    <></>
+  )
+}
+
+const ListMeta = (props) => {
+  const {fieldlist, item, Link} = props;
+
+  let hasImage = false;
+  if (fieldlist.indexOf("image") > -1) {
+    hasImage = true;
+  }
+
+  let isLink = false;
+  if (item.get('type') === "Link") {
+    isLink = true;
+  }
+  // console.log(item.get('type'));
+  return(
+    <div className={hasImage ? 'col-12 col-md-9 py-3' : 'col-12 py-3'}>
         <div className="mura-item-meta">
         {
             fieldlist.map(field => {
               switch(field) {
                 case "title":
                   return (
-                    <h5 key={item.get('field')}>{item.get('title')}</h5>
+                    <div className="mura-item-meta__title" key={item.get('field')}>
+                      <h3>{item.get('title')}</h3>
+                    </div>
                   )
                 case "date":
                     return (
@@ -65,12 +106,14 @@ const CurrentItems = (props) => {
                   return <ReactMarkdown source={item.get('summary')} key={field} />
                 case "readmore":
                       return (
-                        <CollectionReadMoreBtn
-                          href={`/${item.get('filename')}`}
-                          ctatext="Read More"
-                          link={Link}
-                          key={item.get('contentid')}
-                        />
+                        <div className="mura-item-meta__readmore" key={field}>
+                          <CollectionReadMoreBtn
+                            href={`/${item.get('filename')}`}
+                            ctatext="Read More"
+                            link={Link}
+                            key={item.get('contentid')}
+                          />
+                        </div>
                       )
                 default:
                   return <div className={`mura-item-meta__${field}`} key={field} data-value={item.get(field)}>{item.get(field)}</div>
@@ -79,13 +122,8 @@ const CurrentItems = (props) => {
         }
         </div>
       </div>
-      </div>
-    );
-  }
-
-  return itemsList;
+  )
 }
-
 /*
   This is not required; it is used to retrieve the required fields when populated getStatic/getServerSide props
 */
