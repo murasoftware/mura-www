@@ -34,8 +34,14 @@ const CurrentItems = (props) => {
   let item = '';
   const Link = link;
   const items = collection.get('items');
-  const itemsTo = pos+nextn > items.length ? items.length : pos+nextn;
+  let itemsTo = pos+nextn > items.length ? items.length : pos+nextn;
   const fieldlist = fields ? fields.toLowerCase().split(",") : [];
+  const maxItems = props.maxitems;
+  // console.log('fieldlist: ' + fieldlist);
+
+  if (maxItems < items.length && pos+nextn > maxItems){
+    itemsTo = maxItems;
+  }
 
   const [activeId, setActiveId] = useState('0');
 
