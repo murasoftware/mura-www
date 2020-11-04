@@ -20,7 +20,7 @@ export default function Page(props) {
     },
     moduleStyleData
   } = props;
-  console.log('content: ' + content);
+  //console.log('content: ' + content);
   return (
     <MainLayout {...props}>
       <Head>
