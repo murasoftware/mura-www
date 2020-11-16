@@ -1,5 +1,5 @@
 import {useState,useEffect} from "react";
-import CollectionNav from '@mura/CollectionNav/CollectionNav';
+import CollectionNav from '@mura/react/CollectionNav/CollectionNav';
 import ReactMarkdown from "react-markdown";
 
 const DefaultLayout = ({props,collection,link}) => {

@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
-import { getComponent } from 'mura.config';
-import MuraDecorator from '../MuraDecorator';
+import { getComponent } from '@mura/react/MuraConnector';
+import MuraDecorator from '@mura/react/MuraDecorator';
 import GlobalContext from '../GlobalContext';
 
 const DisplayRegionSection = ({ children, region, section, iseditmode }) => {

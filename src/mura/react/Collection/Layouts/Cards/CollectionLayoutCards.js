@@ -2,18 +2,18 @@ import { useState } from "react";
 import React from 'react';
 import Card from 'react-bootstrap/Card';
 import ReactMarkdown from "react-markdown";
-import CollectionNav from '@mura/CollectionNav/CollectionNav';
-import ItemDate from '@mura/Utilities/ItemDate';
-import CollectionReadMoreBtn from '@mura/Utilities/CollectionReadMoreBtn';
+import CollectionNav from '@mura/react/CollectionNav/CollectionNav';
+import ItemDate from '@mura/react/Utilities/ItemDate';
+import CollectionReadMoreBtn from '@mura/react/Utilities/CollectionReadMoreBtn';
 /*
   The link component throws an error when rerending after being 
   reconfigured in edit mode. Hence CollectionLink
 */
-const Masonry = ({props,collection,link}) => {
+const Cards = ({props,collection,link}) => {
   const [pos, setPos] = useState(0);
   return (
     <>
-      <div className={`collectionLayoutMasonry card-columns`}>
+      <div className={`row collectionLayoutCards row-cols-1 row-cols-sm-${props.rowcolssm} row-cols-md-${props.rowcolsmd} row-cols-lg-${props.rowcolslg} row-cols-xl-${props.rowcolsxl}`}>
           <CurrentItems collection={collection} pos={pos} link={link} {...props} /> 
       </div>
       <div className="row">
@@ -44,7 +44,8 @@ const CurrentItems = (props) => {
     item = items[i];
     itemsList.push(
       
-      <Card className="mb-3 h-100 shadow" key={item.get('contentid')}>
+    <div className="col mb-4" key={item.get('contentid')}>
+      <Card className="mb-3 h-100 shadow">
         {
           fieldlist.filter(field => field == 'image').map(filteredField => (
             <Card.Img variant="top" src={item.get('images')[props.imagesize]} key={item.get('fileid')} />
@@ -84,6 +85,7 @@ const CurrentItems = (props) => {
         </Card.Footer>
 
       </Card>
+    </div>
     );
   }
 
@@ -100,4 +102,4 @@ export const getQueryProps = () => {
   return data;
 };
 
-export default Masonry;
+export default Cards;

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import Mura from 'mura.js';
-import MuraStyles from '../MuraStyles';
+import MuraStyles from '@mura/react/MuraStyles';
 
 const MainLayout = props => {
   const { content, moduleStyleData, children, footer } = props;

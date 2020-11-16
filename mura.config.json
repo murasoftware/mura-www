@@ -146,7 +146,6 @@
 				"name":"List",
 				"contenttypes":"",
 				"configurator":[
-					{"type":"fieldlist","name":"fields","label":"Display List"},
 					{"type":"select","name":"imagesize","label":"Image Size","labels":["Small","Medium","Large","Portrait","Landscape","Hero"],"options":["small","medium","large","portrait","landscape","hero"],"value":"medium"}
 				]
 			},

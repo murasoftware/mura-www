@@ -24,8 +24,8 @@ services:
         MURA_HTMLEDITORTYPE: markdown
         MURA_EDITROUTE: "/edit"
     volumes:
-        #-   ../mura/app/core:/var/www/core
-        #-   ../mura/app/admin:/var/www/admin
+        -   ../mura/app/core:/var/www/core
+        -   ../mura/app/admin:/var/www/admin
         -   nextjs_sites_data:/var/www/sites
         -   nextjs_themes_data:/var/www/themes
         -   nextjs_plugins_data:/var/www/plugins

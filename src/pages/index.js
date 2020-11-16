@@ -1,8 +1,8 @@
 import React from 'react';
 import Head from 'next/head';
-import MainLayout from '../mura/MainLayout';
-import DisplayRegion from '../mura/DisplayRegion';
-import { getMuraProps, getRootPath, getSiteName } from '../../mura.config';
+import MainLayout from '@mura/react/MainLayout';
+import DisplayRegion from '@mura/react/DisplayRegion';
+import { getMuraProps, getRootPath, getSiteName } from '@mura/react/MuraConnector';
 
 export async function getStaticProps(context) {
   // console.log("CON",context);

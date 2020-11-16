@@ -1,9 +1,9 @@
 import React from 'react';
 import Head from 'next/head';
-import { getMuraProps, getRootPath, getMuraPaths, getSiteName } from 'mura.config';
+import { getMuraProps, getRootPath, getMuraPaths, getSiteName } from '@mura/react/MuraConnector';
 
-import MainLayout from '../mura/MainLayout';
-import DisplayRegion from '../mura/DisplayRegion';
+import MainLayout from '@mura/react/MainLayout';
+import DisplayRegion from '@mura/react/DisplayRegion';
 
 export async function getStaticPaths() {
   const paths = await getMuraPaths();

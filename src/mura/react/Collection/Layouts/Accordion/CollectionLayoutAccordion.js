@@ -1,22 +1,24 @@
 import { useState } from "react";
 import React from 'react';
-import Card from 'react-bootstrap/Card';
 import ReactMarkdown from "react-markdown";
-import CollectionNav from '@mura/CollectionNav/CollectionNav';
-import ItemDate from '@mura/Utilities/ItemDate';
-import CollectionReadMoreBtn from "@mura/Utilities/CollectionReadMoreBtn";
-
+import CollectionNav from '@mura/react/CollectionNav/CollectionNav';
+import ItemDate from '@mura/react/Utilities/ItemDate';
+import Accordion from "react-bootstrap/Accordion";
+import Card from "react-bootstrap/Card";
+import CollectionReadMoreBtn from "@mura/react/Utilities/CollectionReadMoreBtn";
 /*
   The link component throws an error when rerending after being 
   reconfigured in edit mode. Hence CollectionLink
 */
-const AlternatingBoxes = ({props,collection,link}) => {
+
+const AccordionLayout = ({props,collection,link}) => {
   const [pos, setPos] = useState(0);
   return (
     <>
-      <div className="collectionLayoutAlternatingBoxes">
-          <CurrentItems collection={collection} pos={pos} link={link} {...props} /> 
-      </div>
+      <Accordion className="collectionLayoutAccordion">
+        <CurrentItems collection={collection} pos={pos} link={link} {...props} /> 
+      </Accordion>
+
       <div className="row">
         <div className="col-12">
         <CollectionNav collection={collection} pos={pos} setPos={setPos} link={link} {...props} />
@@ -40,26 +42,41 @@ const CurrentItems = (props) => {
   if (maxItems < items.length && pos+nextn > maxItems){
     itemsTo = maxItems;
   }
-  
+
+  const [activeId, setActiveId] = useState('0');
+
+  function toggleActive(id) {
+    if (activeId === id) {
+      setActiveId(null);
+    } else {
+      setActiveId(id);
+    }
+  }
+
+  // console.log(fieldlist);
+  //console.log("image size: " + props.imagesize);
+
   for(let i = pos;i < itemsTo;i++) {
     item = items[i];
     itemsList.push(
-
-      <Card className="border-0" key={item.get('contentid')}>
-        <div className="row no-gutters align-items-stretch">
-          <div className={`col-12 col-md-6 ${i % 2 == 0 ? "card-img-left" : "card-img-right  order-md-2"}`}>
-            <Card.Img variant="top" src={item.get('images')[props.imagesize]} className="rounded-0" />
-          </div>
-          <div className="col-12 col-md-6 p-0">
-            <Card.Body className="spacing-normal h-100">
-              <div className="mura-item-meta">
-                {
+      <Card key={item.get('contentid')}>
+        <Accordion.Toggle as={Card.Header} variant="link" eventKey={item.get('contentid')} className={activeId === i ? 'open' : 'not-open'} onClick={() => toggleActive(i)}>
+          {item.get('title')}
+        </Accordion.Toggle>
+        <Accordion.Collapse eventKey={item.get('contentid')}>
+          <Card.Body>
+            {
                 fieldlist.map(field => {
                   switch(field) {
-                    case "title":
-                      return (
-                        <Card.Title key={field}>{item.get('title')}</Card.Title>
-                      )
+                    case "image":
+                        return (
+                          <img
+                            src={item.get('images')[props.imagesize]}
+                            alt={item.get('title')}
+                            className="img-fluid"
+                            key={item.get('contentid')}
+                          />
+                        );
                     case "date":
                         return (
                           <div className="mura-item-meta__date" key="date">
@@ -69,23 +86,21 @@ const CurrentItems = (props) => {
                     case "summary":
                       return <ReactMarkdown source={item.get('summary')} key={field} />
                     case "readmore":
-                      return(
-                        <CollectionReadMoreBtn
-                          href={`/${item.get('filename')}`}
-                          ctatext="Read More"
-                          link={Link}
-                          key={item.get('contentid')}
-                        />
-                      );
+                          return (
+                            <CollectionReadMoreBtn
+                              href={`/${item.get('filename')}`}
+                              ctatext="Read More"
+                              link={Link}
+                              key={field}
+                            />
+                          )
                     default:
                       return <div className={`mura-item-meta__${field}`} key={field} data-value={item.get(field)}>{item.get(field)}</div>
                   }        
                 })
-                }
-              </div>
-            </Card.Body>
-          </div>
-        </div>
+            }
+          </Card.Body>
+        </Accordion.Collapse>
       </Card>
     );
   }
@@ -103,4 +118,4 @@ export const getQueryProps = () => {
   return data;
 };
 
-export default AlternatingBoxes;
+export default AccordionLayout;
