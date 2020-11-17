@@ -5,7 +5,7 @@ import ReactMarkdown from "react-markdown";
 function Text(props) {
   const objectparams = Object.assign({}, props);
 
-  if(objectparams.sourcetype==='component' && !objectparams.dynamicProps){
+  if(!objectparams.dynamicProps && (objectparams.sourcetype==='component' || objectparams.sourcetype==='boundattribute' )){
     const [source, setSource]=useState('');
 
     useEffect(() => {
@@ -25,7 +25,7 @@ function Text(props) {
     }
   } else {
     let source='';
-    if(objectparams.sourcetype==='component' && objectparams.dynamicProps){
+    if(objectparams.dynamicProps && (objectparams.sourcetype==='component' || objectparams.sourcetype==='boundattribute')){
       source=objectparams.dynamicProps.source;
     } else {
       source=objectparams.source;
@@ -45,18 +45,22 @@ function Text(props) {
 export const getDynamicProps = async props => {
   const data = {};
   if (
-    typeof props.sourcetype !== 'undefined' &&
-    props.sourcetype === 'component'
+    typeof props.sourcetype !== 'undefined'
+    && (props.sourcetype === 'component' || props.sourcetype === 'boundattribute')
   ) {
-    if(Mura.isUUID(props.source)){
-      const entity= await Mura.getEntity('content')
-        .loadBy('contentid', props.source, { type: 'component', fields: 'body' });
+    if(props.sourcetype === 'component'){
+      if(Mura.isUUID(props.source)){
+        const entity= await Mura.getEntity('content')
+          .loadBy('contentid', props.source, { type: 'component', fields: 'body' });
+          data.source=entity.get('body');
+      } else {
+        const entity= await Mura.getEntity('content')
+        .loadBy('title', props.source, { type: 'component', fields: 'body' });
         data.source=entity.get('body');
-    } else {
-      const entity= await Mura.getEntity('content')
-      .loadBy('title', props.source, { type: 'component', fields: 'body' });
-      data.source=entity.get('body');
-    } 
+      } 
+    } else if(props.sourcetype === 'boundattribute'){
+      data.source=props.content.get(props.source);
+    }
   }
 
   return data;
