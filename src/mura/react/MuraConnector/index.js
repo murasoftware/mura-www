@@ -1,3 +1,3 @@
-import { getMuraProps, getRootPath, getMuraPaths, getSiteName, getComponent } from './MuraConnector'
+import { getMuraProps, getRootPath, getMuraPaths, getSiteName, getComponent, getMura } from './MuraConnector'
 
-export { getMuraProps, getRootPath, getMuraPaths, getSiteName, getComponent };
+export { getMuraProps, getRootPath, getMuraPaths, getSiteName, getComponent, getMura };

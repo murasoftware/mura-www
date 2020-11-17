@@ -4,6 +4,7 @@ import {ComponentRegistry,ConnectorConfig} from 'mura.config';
 
 require('mura.js/src/core/stylemap-static');
 
+let connectorConfig=Object.assign({},ConnectorConfig);
 let muraIsInit = false;
 let contextIsInit = false;
 
@@ -54,20 +55,18 @@ export const getMuraPaths = async () => {
 };
 
 export const getMura = context => {
-
   if (context && context.res) {
-    Mura.init(Object.assign(
-        ConnectorConfig,
-        { 
-          response: context.res,
-          request: context.req
-        }
-      )
+    connectorConfig=Object.assign(connectorConfig,
+      { 
+        response: context.res,
+        request: context.req
+      }
     );
+    Mura.init(connectorConfig);
     contextIsInit = true;
     muraIsInit = true;
   } else if (!muraIsInit) {
-    Mura.init(ConnectorConfig);
+    Mura.init(connectorConfig);
     muraIsInit = true;
   }
 
@@ -86,7 +85,7 @@ export const getSiteName = () => {
 
 export const getMuraProps = async (context,isEditMode) => {
   const Mura=getMura(context);
-
+  
   const muraObject = await renderContent(context);
   const content = muraObject.getAll();
   const moduleStyleData = await getRegionProps(muraObject,isEditMode);
@@ -94,6 +93,7 @@ export const getMuraProps = async (context,isEditMode) => {
   delete Mura._request;
   delete Mura.response;
   delete Mura.request;
+
   contextIsInit = false;
   muraIsInit = false;
 
