@@ -28,7 +28,9 @@ function MuraDecorator(props) {
     className:"mura-object-meta-wrapper"
   }
 
-  if (isEditMode) {
+  const proxiedModules=['form','cta','cookie_consent'];
+
+  if (isEditMode || proxiedModules.find((item)=>item===props.object)) {
     Object.keys(props).forEach(key => {
       if (
         !['html', 'content', 'children', 'isEditMode', 'dynamicProps', 'moduleStyleData'].find(
