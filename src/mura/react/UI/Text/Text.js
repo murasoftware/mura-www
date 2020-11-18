@@ -59,7 +59,11 @@ export const getDynamicProps = async props => {
         data.source=entity.get('body');
       } 
     } else if(props.sourcetype === 'boundattribute'){
-      data.source=props.content.get(props.source);
+      if(typeof props.content.get =='function'){
+        data.source=props.content.get(props.source);
+      } else {
+        data.source=props.content.body || '';
+      }
     }
   }
 
