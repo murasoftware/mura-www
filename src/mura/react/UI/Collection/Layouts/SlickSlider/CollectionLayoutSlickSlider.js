@@ -2,8 +2,8 @@ import { useState } from "react";
 import React from 'react';
 import Card from 'react-bootstrap/Card';
 import ReactMarkdown from "react-markdown";
-import ItemDate from '@mura/react/Utilities/ItemDate';
-import CollectionReadMoreBtn from '@mura/react/Utilities/CollectionReadMoreBtn';
+import ItemDate from '@mura/react/UI/Utilities/ItemDate';
+import CollectionReadMoreBtn from '@mura/react/UI/Utilities/CollectionReadMoreBtn';
 
 import Slider from "react-slick";
 

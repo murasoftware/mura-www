@@ -1,23 +1,23 @@
 import Mura from 'mura.js';
-import Text, {getDynamicProps as  getTextProps } from '@mura/react/Text';
-import Collection, {getDynamicProps as getCollectionProps } from '@mura/react/Collection';
-import Video from '@mura/react/Video';
-import Image from '@mura/react/Image';
-import Container from '@mura/react/Container';
-import Embed from '@mura/react/Embed';
-import Hr from '@mura/react/Hr';
-import PrimaryNav,{getDynamicProps as getPrimaryNavProps} from '@mura/react/PrimaryNav';
-import CTAButton from '@mura/react/CTAButton';
+import Text, {getDynamicProps as  getTextProps } from '@mura/react/UI/Text';
+import Collection, {getDynamicProps as getCollectionProps } from '@mura/react/UI/Collection';
+import Video from '@mura/react/UI/Video';
+import Image from '@mura/react/UI/Image';
+import Container from '@mura/react/UI/Container';
+import Embed from '@mura/react/UI/Embed';
+import Hr from '@mura/react/UI/Hr';
+import PrimaryNav,{getDynamicProps as getPrimaryNavProps} from '@mura/react/UI/PrimaryNav';
+import CTAButton from '@mura/react/UI/CTAButton';
 
-import DefaultLayout from '@mura/react/Collection/Layouts/DefaultLayout';
-import CollectionLayout,{getQueryProps as getCollectionLayoutProps} from '@mura/react/Collection/Layouts/CollectionLayout';
-import Cards from '@mura/react/Collection/Layouts/Cards';
-import List from '@mura/react/Collection/Layouts/List';
-import AccordionLayout from '@mura/react/Collection/Layouts/Accordion';
-import AlternatingBoxes from '@mura/react/Collection/Layouts/AlternatingBoxes';
-import AlternatingRows from '@mura/react/Collection/Layouts/AlternatingRows';
-import Masonry from '@mura/react/Collection/Layouts/Masonry';
-import SlickSlider from '@mura/react/Collection/Layouts/SlickSlider';
+import DefaultLayout from '@mura/react/UI/Collection/Layouts/DefaultLayout';
+import CollectionLayout,{getQueryProps as getCollectionLayoutProps} from '@mura/react/UI/Collection/Layouts/CollectionLayout';
+import Cards from '@mura/react/UI/Collection/Layouts/Cards';
+import List from '@mura/react/UI/Collection/Layouts/List';
+import AccordionLayout from '@mura/react/UI/Collection/Layouts/Accordion';
+import AlternatingBoxes from '@mura/react/UI/Collection/Layouts/AlternatingBoxes';
+import AlternatingRows from '@mura/react/UI/Collection/Layouts/AlternatingRows';
+import Masonry from '@mura/react/UI/Collection/Layouts/Masonry';
+import SlickSlider from '@mura/react/UI/Collection/Layouts/SlickSlider';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -26,11 +26,11 @@ import ReactDOM from 'react-dom';
 import Example from 'src/Example';
 
 export const ConnectorConfig = {
-  rootpath: 'http://localhost:8888',
+  rootpath: 'https://swisscom.review.murasoftware.com',
   siteid: 'default',
   processMarkup: false,
   editroute: '/edit',
-  sitename: 'Mura NextJS Example',
+  sitename: 'Swisscom',
 }
 
 //This module is also registered with Mura via the ./static/mura.config.json

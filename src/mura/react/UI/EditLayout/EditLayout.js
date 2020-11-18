@@ -1,5 +1,5 @@
 import React,{ useContext, useEffect } from "react";
-import GlobalContext from "../GlobalContext";
+import GlobalContext from "../../GlobalContext";
 
 const EditLayout = ({children}) => {
     const [, setIsEditMode]  = useContext(GlobalContext);

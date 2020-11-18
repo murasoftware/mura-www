@@ -1,7 +1,7 @@
 import React from 'react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
-import EditLayout from '@mura/react/EditLayout';
+import EditLayout from '@mura/react/UI/EditLayout';
 import Page from '../[...page]';
 import { getMuraProps, getRootPath } from '@mura/react/MuraConnector';
 

@@ -1,9 +1,9 @@
 import { useState } from "react";
 import React from 'react';
 import ReactMarkdown from "react-markdown";
-import CollectionNav from '@mura/react/CollectionNav/CollectionNav';
-import ItemDate from '@mura/react/Utilities/ItemDate';
-import CollectionReadMoreBtn from '@mura/react/Utilities/CollectionReadMoreBtn';
+import CollectionNav from '@mura/react/UI/CollectionNav/CollectionNav';
+import ItemDate from '@mura/react/UI/Utilities/ItemDate';
+import CollectionReadMoreBtn from '@mura/react/UI/Utilities/CollectionReadMoreBtn';
 /*
   The link component throws an error when rerending after being 
   reconfigured in edit mode. Hence CollectionLink
