@@ -71,6 +71,39 @@ export const getMuraPaths = async () => {
 };
 
 export const getMura = context => {
+
+  if(Array.isArray(ConnectorConfig.siteid)){
+    let page=[];
+    if(context && context.params && context.params.page){
+      page=context.params.page
+    } else if (typeof location != 'undefined'){
+      page=location.pathname.split("/");
+      if(page.length 
+        && ConnectorConfig.editroute
+        && page[0]===ConnectorConfig.editroute.split("/")[1]
+      ){
+        page.shift();
+      }
+    } 
+
+    page=page.filter(item => item.length);
+
+    if(page.length){
+      const potentialSiteID=page[0];
+      if(ConnectorConfig.siteid.find((item)=>{
+        return (item===potentialSiteID)
+        })
+      ){
+        connectorConfig.siteid=page[0];
+        connectorConfig.siteidinurls=true;
+      } else {
+        connectorConfig.siteid=ConnectorConfig.siteid[0];
+      }
+    } else {
+      connectorConfig.siteid=ConnectorConfig.siteid[0];
+    } 
+  }
+
   if (context && context.res) {
     Object.assign(connectorConfig,
       { 
@@ -78,34 +111,15 @@ export const getMura = context => {
         request: context.req
       }
     );
-  
-    if(Array.isArray(connectorConfig.siteid)){
-      if(context.params && context.params.page){
-        const potentialSiteID=context.params.page[0];
-        if(connectorConfig.siteid.find(item=>item===potentialSiteID)){
-          connectorConfig.siteid=context.params.page[0];
-          connectorConfig.siteidinurls=true;
-        } else {
-          connectorConfig.siteid=connectorConfig.siteid[0];
-        }
-      } else {
-        connectorConfig.siteid=connectorConfig.siteid[0];
-      }
-    }
-   
+
     Mura.init(connectorConfig);
     contextIsInit = true;
     muraIsInit = true;
   } else if (!muraIsInit) {
-
-    if(Array.isArray(connectorConfig.siteid)){
-        connectorConfig.siteid=connectorConfig.siteid[0];
-    }
-
     Mura.init(connectorConfig);
     muraIsInit = true;
   }
- 
+
   Mura.holdReady(true);
 
   return Mura;
@@ -173,6 +187,8 @@ async function renderContent(context) {
     filename=filename.join("/");
   }
   
+  //console.log(Mura.siteid)
+
   return await Mura.renderFilename(filename, query).then(
     async rendered => {
       return rendered;
