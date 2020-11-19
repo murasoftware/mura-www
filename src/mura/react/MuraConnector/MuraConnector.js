@@ -64,8 +64,13 @@ export const getMura = context => {
     );
 
     if(Array.isArray(connectorConfig.siteid)){
-      if(context.params && content.pages){
-        connectorConfig.siteid=content.parms.pages[0];
+      if(context.params && context.params.page){
+        const potentialSiteID=content.params.page[0];
+        if(connectorConfig.siteid.find(item=>item===potentialSiteID)){
+          connectorConfig.siteid=content.parms.page[0];
+        } else {
+          connectorConfig.siteid=connectorConfig.siteid[0];
+        }
       } else {
         connectorConfig.siteid=connectorConfig.siteid[0];
       }
