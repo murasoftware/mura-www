@@ -31,7 +31,7 @@ export default function Page(props) {
         <meta property="og:site_name" content={getSiteName()} />
         <meta property="og:title" content={content.htmltitle} />
         <meta property="og:description" content={content.metadesc} />
-        {content.images.large &&
+        {content.images && content.images.large &&
           <meta property="og:image" content={content.images.large} />
         }
         <meta property="og:type" content="website" />
