@@ -8,6 +8,20 @@ let connectorConfig=Object.assign({},ConnectorConfig);
 let muraIsInit = false;
 let contextIsInit = false;
 
+export const getHref = (filename) => {
+  let path=filename.split('/');
+  if(path.length && !path[0]){
+    path.shift();
+  }
+  if(connectorConfig.siteidinurls){
+    if(Array.isArray(connectorConfig.siteid)){
+       return '/' + connectorConfig.siteid[0] + '/' + path.join('/');
+    } else {
+      return '/' + connectorConfig.siteid + + '/' + path.join('/');
+    }
+  }
+}
+
 export const getComponent = item => {
   getMura();
 
