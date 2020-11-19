@@ -17,8 +17,10 @@ export const getHref = (filename) => {
     if(Array.isArray(connectorConfig.siteid)){
        return '/' + connectorConfig.siteid[0] + '/' + path.join('/');
     } else {
-      return '/' + connectorConfig.siteid + + '/' + path.join('/');
+      return '/' + connectorConfig.siteid + '/' + path.join('/');
     }
+  } else {
+    return filename;
   }
 }
 

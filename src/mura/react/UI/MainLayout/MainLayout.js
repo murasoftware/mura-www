@@ -69,7 +69,7 @@ function contentDidChange(_content) {
         // Mura.loader().loadjs(Mura.rootpath + "/core/modules/v1/core_assets/js/variation.js?siteid=" + Mura.siteid)
       }
     }, 5);
-
+    
     Mura.init(Mura.extend({ queueObjects: false, content }));
     Mura.holdReady(false);
   }, 5);

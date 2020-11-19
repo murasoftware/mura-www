@@ -4,6 +4,7 @@ import Mura from 'mura.js';
 import Navbar from 'react-bootstrap/Navbar'
 import Nav from 'react-bootstrap/Nav'
 import NavDropdown from 'react-bootstrap/NavDropdown'
+import {getHref} from '@mura/react/MuraConnector';
 
 function PrimaryNav(props) {
   const objectparams = Object.assign({}, props);
@@ -41,7 +42,7 @@ const Render = ({ items, link, ...props }) => {
       <Navbar bg="white" variant="light" expand="lg" className="navbar-static-top py-0"  collapseOnSelect>
       <div className="container-xl">
         <Link
-          href="/"
+          href={'/'}
           className="navbar-brand"
           type="navbarbrand"
           navlogo={props.props.navlogo} />
@@ -88,21 +89,21 @@ const RouterlessLink = ({href,className,type,menutitle,navlogo})=>{
   switch(type) {
     case "navdropdownitem":
       return (
-        <NavDropdown.Item href={href}>{menutitle}</NavDropdown.Item>
+        <NavDropdown.Item href={getHref(href)}>{menutitle}</NavDropdown.Item>
       )
     case "navlink":
       return (
-        <Nav.Link href={href}>{menutitle}</Nav.Link>
+        <Nav.Link href={getHref(href)}>{menutitle}</Nav.Link>
       )
     case "navbarbrand":
       return(
-        <Navbar.Brand href={href}>
+        <Navbar.Brand href={getHref(href)}>
           <img src={navlogo} loading="lazy" />
         </Navbar.Brand>
       )
     default:
       return (     
-        <a className={className} href={href}>
+        <a className={className} href={getHref(href)}>
             {menutitle}
         </a>
       )
@@ -114,21 +115,21 @@ const RouterLink = ({href,className,type,menutitle,navlogo})=>{
     case "navdropdownitem":
       return (
         <Link 
-        href={href} passHref>
+        href={getHref(href)} passHref>
           <NavDropdown.Item>{menutitle}</NavDropdown.Item>
         </Link>
       )
     case "navlink":
       return (
         <Link 
-        href={href} passHref>
+        href={getHref(href)} passHref>
           <Nav.Link>{menutitle}</Nav.Link>
         </Link>
       )
     case "navbarbrand":
       return(
         <Link 
-        href={href} passHref>
+        href={getHref(href)} passHref>
           <Navbar.Brand>
             <img src={navlogo} loading="lazy" />
           </Navbar.Brand>
@@ -137,7 +138,7 @@ const RouterLink = ({href,className,type,menutitle,navlogo})=>{
     default:
       return (
         <Link 
-          href={href}>      
+          href={getHref(href)}>      
             <a 
               className={className}>
                 {menutitle}

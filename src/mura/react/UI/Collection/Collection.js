@@ -2,6 +2,7 @@ import React,{useState,useEffect} from 'react';
 import Mura from 'mura.js';
 import Link from "next/link";
 import ComponentRegistry from 'mura.config';
+import {getHref} from '@mura/react/MuraConnector';
 
 const getLayout=(layout) => {
 
@@ -47,7 +48,7 @@ function Collection(props) {
 
 const RouterlessLink = ({href,children,className})=>{
   return (
-    <a href={href} className={className}>
+    <a href={getHref(href)} className={className}>
       {children}
     </a>
   );
@@ -55,7 +56,7 @@ const RouterlessLink = ({href,children,className})=>{
 
 const RouterLink = ({href,children,className})=>{
   return (
-    <Link href={href}>
+    <Link href={getHref(href)}>
       <a className={className}>{children}</a>
     </Link>
   );
