@@ -62,12 +62,13 @@ export const getMura = context => {
         request: context.req
       }
     );
-
+  
     if(Array.isArray(connectorConfig.siteid)){
       if(context.params && context.params.page){
         const potentialSiteID=context.params.page[0];
         if(connectorConfig.siteid.find(item=>item===potentialSiteID)){
           connectorConfig.siteid=context.params.page[0];
+          connectorConfig.siteidinurls=true;
         } else {
           connectorConfig.siteid=connectorConfig.siteid[0];
         }
@@ -75,7 +76,7 @@ export const getMura = context => {
         connectorConfig.siteid=connectorConfig.siteid[0];
       }
     }
-
+   
     Mura.init(connectorConfig);
     contextIsInit = true;
     muraIsInit = true;
@@ -88,7 +89,7 @@ export const getMura = context => {
     Mura.init(connectorConfig);
     muraIsInit = true;
   }
-
+ 
   Mura.holdReady(true);
 
   return Mura;
@@ -108,7 +109,7 @@ export const getMuraProps = async (context,isEditMode) => {
   const muraObject = await renderContent(context);
   const content = muraObject.getAll();
   const moduleStyleData = await getRegionProps(muraObject,isEditMode);
-
+  
   delete Mura._request;
   delete Mura.response;
   delete Mura.request;

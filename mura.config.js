@@ -30,7 +30,8 @@ export const ConnectorConfig = {
   siteid: ['default'],
   processMarkup: false,
   editroute: '/edit',
-  sitename: 'Example Site'
+  sitename: 'Example Site',
+  siteidinurls:false
 }
 
 //This module is also registered with Mura via the ./static/mura.config.json
