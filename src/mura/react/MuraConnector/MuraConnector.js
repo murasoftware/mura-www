@@ -56,16 +56,30 @@ export const getMuraPaths = async () => {
 
 export const getMura = context => {
   if (context && context.res) {
-    connectorConfig=Object.assign(connectorConfig,
+    Object.assign(connectorConfig,
       { 
         response: context.res,
         request: context.req
       }
     );
+
+    if(Array.isArray(connectorConfig.siteid)){
+      if(context.params && content.pages){
+        connectorConfig.siteid=content.parms.pages[0];
+      } else {
+        connectorConfig.siteid=connectorConfig.siteid[0];
+      }
+    }
+
     Mura.init(connectorConfig);
     contextIsInit = true;
     muraIsInit = true;
   } else if (!muraIsInit) {
+
+    if(Array.isArray(connectorConfig.siteid)){
+        connectorConfig.siteid=connectorConfig.siteid[0];
+    }
+
     Mura.init(connectorConfig);
     muraIsInit = true;
   }
@@ -131,6 +145,9 @@ async function renderContent(context) {
   }
 
   if(Array.isArray(filename)){
+    if(filename.length && filename[0]==connectorConfig.siteid){
+      filename.shift();
+    }
     filename=filename.join("/");
   }
   

@@ -26,11 +26,11 @@ import ReactDOM from 'react-dom';
 import Example from 'src/Example';
 
 export const ConnectorConfig = {
-  rootpath: 'https://swisscom.review.murasoftware.com',
-  siteid: 'default',
+  rootpath: 'https://localhost:3000',
+  siteid: ['default'],
   processMarkup: false,
   editroute: '/edit',
-  sitename: 'Swisscom',
+  sitename: 'Example Site'
 }
 
 //This module is also registered with Mura via the ./static/mura.config.json
