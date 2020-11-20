@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import Mura from 'mura.js';
 import MuraStyles from '@mura/react/MuraStyles';
+import {getMura} from '@mura/react/MuraConnector';
 
 const MainLayout = props => {
   const { content, moduleStyleData, children, footer } = props;
@@ -22,9 +23,12 @@ const MainLayout = props => {
 function contentDidChange(_content) {
   const content = Mura.getEntity('content').set(_content);
 
+  getMura();
+  
   if (content.get('redirect')) {
     // eslint-disable-next-line
-    location.href = content.get('redirect');
+    //location.href = content.get('redirect');
+    console.log(content.get('redirect'))
     return;
   }
 

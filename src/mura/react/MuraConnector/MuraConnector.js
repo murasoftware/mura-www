@@ -38,71 +38,57 @@ export const getComponent = item => {
 };
 
 export const getMuraPaths = async () => {
-  getMura();
-
-  const pathList = await Mura.getFeed('content')
-    .maxItems(0)
-    .itemsPerPage(0)
-    .sort('orderno')
-    .getQuery()
-    .then(collection => {
-      let tempArray = collection.getAll().items;
-      /*
-      tempArray.unshift({
-        url: '/',
-        menutitle: 'Home',
-        title: 'Home',
-        filename: '',
-        contentid: Mura.homeid,
-      });
-      */
-      return tempArray;
-    });
-
-  const paths = pathList
-    .map(item => {
-      return { params: { page: item.filename.split('/') } };
-    })
-    .filter(function(item) {
-      return item.params.page.length;
-    });
-
-  return paths;
+  return [];
 };
 
 export const getMura = context => {
 
+  const ishomepage=(
+    (context && !(context.params && context.params.page)) 
+    || (typeof location != 'undefined' && location.pathname=="/")
+  );
+
+  const startingsiteid=Mura.siteid;
+
   if(Array.isArray(ConnectorConfig.siteid)){
-    let page=[];
-    if(context && context.params && context.params.page){
-      page=context.params.page
-    } else if (typeof location != 'undefined'){
-      page=location.pathname.split("/");
-      if(page.length 
-        && ConnectorConfig.editroute
-        && page[0]===ConnectorConfig.editroute.split("/")[1]
-      ){
-        page.shift();
-      }
-    } 
-
-    page=page.filter(item => item.length);
-
-    if(page.length){
-      const potentialSiteID=page[0];
-      if(ConnectorConfig.siteid.find((item)=>{
-        return (item===potentialSiteID)
-        })
-      ){
-        connectorConfig.siteid=page[0];
-        connectorConfig.siteidinurls=true;
-      } else {
-        connectorConfig.siteid=ConnectorConfig.siteid[0];
-      }
-    } else {
+    if(ishomepage){
       connectorConfig.siteid=ConnectorConfig.siteid[0];
-    } 
+    } else {
+      let page=[];
+      if(context && context.params && context.params.page){
+        page=[...context.params.page]
+      } else if (typeof location != 'undefined'){
+        page=location.pathname.split("/");
+        if(page.length 
+          && ConnectorConfig.editroute
+          && page[0]===ConnectorConfig.editroute.split("/")[1]
+        ){
+          page.shift();
+        }
+      } 
+
+      page=page.filter(item => item.length);
+
+      if(page.length){
+        if(ConnectorConfig.siteid.find((item)=>{
+          return (item===page[0])
+          })
+        ){
+          connectorConfig.siteid=page[0];
+          connectorConfig.siteidinurls=true;
+        } else {
+          connectorConfig.siteid=ConnectorConfig.siteid[0];
+        }
+      } 
+    }
   }
+
+  const clearMuraAPICache = ()=>{
+    delete connectorConfig.apiEndpoint;
+    delete connectorConfig.apiendpoint;
+    delete Mura.apiEndpoint;
+    delete Mura.apiendpoint;
+  };
 
   if (context && context.res) {
     Object.assign(connectorConfig,
@@ -111,13 +97,12 @@ export const getMura = context => {
         request: context.req
       }
     );
-
+    clearMuraAPICache();
     Mura.init(connectorConfig);
-    contextIsInit = true;
-    muraIsInit = true;
-  } else if (!muraIsInit) {
+  } else if (startingsiteid != connectorConfig.siteid) {
+    console.log('changeing siteid',startingsiteid,connectorConfig.siteid)
+    clearMuraAPICache();
     Mura.init(connectorConfig);
-    muraIsInit = true;
   }
 
   Mura.holdReady(true);
@@ -171,13 +156,13 @@ async function renderContent(context) {
   if (context.browser) {
     query = Mura.getQueryStringParams();
   } else if (context.query) {
-    query = context.query;
+    query = {...context.query};
   }
 
   let filename = '';
 
   if (context.params && context.params.page) {
-    filename = context.params.page;
+    filename = [...context.params.page];
   }
 
   if(Array.isArray(filename)){
@@ -187,7 +172,7 @@ async function renderContent(context) {
     filename=filename.join("/");
   }
   
-  //console.log(Mura.siteid)
+  //console.log(filename,Mura.siteid)
 
   return await Mura.renderFilename(filename, query).then(
     async rendered => {
