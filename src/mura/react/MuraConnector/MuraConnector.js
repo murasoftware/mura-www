@@ -8,7 +8,7 @@ let connectorConfig=Object.assign({},ConnectorConfig);
 
 export const getHref = (filename) => {
   let path=filename.split('/').filter(item => item.length);
-
+  
   if(connectorConfig.siteidinurls){
     return '/' + Mura.siteid + '/' + path.join('/');
   } else {
@@ -48,9 +48,11 @@ export const getMura = context => {
     } else {
       let page=[];
       if(context && context.params && context.params.page){
-        page=[...context.params.page]
+        page=[...context.params.page];
+        page=page.filter(item => item.length);
       } else if (typeof location != 'undefined'){
         page=location.pathname.split("/");
+        page=page.filter(item => item.length);
         if(page.length 
           && ConnectorConfig.editroute
           && page[0]===ConnectorConfig.editroute.split("/")[1]
@@ -58,8 +60,6 @@ export const getMura = context => {
           page.shift();
         }
       } 
-
-      page=page.filter(item => item.length);
 
       if(page.length){
         if(ConnectorConfig.siteid.find((item)=>{
