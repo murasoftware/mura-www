@@ -5,22 +5,14 @@ import {ComponentRegistry,ConnectorConfig} from 'mura.config';
 require('mura.js/src/core/stylemap-static');
 
 let connectorConfig=Object.assign({},ConnectorConfig);
-let muraIsInit = false;
-let contextIsInit = false;
 
 export const getHref = (filename) => {
-  let path=filename.split('/');
-  if(path.length && !path[0]){
-    path.shift();
-  }
+  let path=filename.split('/').filter(item => item.length);
+
   if(connectorConfig.siteidinurls){
-    if(Array.isArray(connectorConfig.siteid)){
-       return '/' + connectorConfig.siteid[0] + '/' + path.join('/');
-    } else {
-      return '/' + connectorConfig.siteid + '/' + path.join('/');
-    }
+    return '/' + Mura.siteid + '/' + path.join('/');
   } else {
-    return filename;
+    return '/' + path.join('/');
   }
 }
 
@@ -128,7 +120,7 @@ export const getMuraProps = async (context,isEditMode) => {
   delete Mura._request;
   delete Mura.response;
   delete Mura.request;
-  console.log(content);
+ 
   const props = {
     content: content,
     moduleStyleData: moduleStyleData
@@ -279,7 +271,7 @@ async function getModuleProps(item,moduleStyleData,isEditMode,content) {
   } catch(e){
     console.log(e);
   }
-  
+
   const styleData = Mura.recordModuleStyles(item);
  
   return {
