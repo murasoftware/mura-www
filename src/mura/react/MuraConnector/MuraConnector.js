@@ -128,10 +128,7 @@ export const getMuraProps = async (context,isEditMode) => {
   delete Mura._request;
   delete Mura.response;
   delete Mura.request;
-
-  contextIsInit = false;
-  muraIsInit = false;
-
+  console.log(content);
   const props = {
     content: content,
     moduleStyleData: moduleStyleData
@@ -251,34 +248,38 @@ async function getRegionProps(content,isEditMode) {
 async function getModuleProps(item,moduleStyleData,isEditMode,content) {
   getMura();
 
-  const objectkey = Mura.firstToUpperCase(item.object);
-  if (typeof ComponentRegistry[objectkey] != 'undefined') {
+  try{
+    const objectkey = Mura.firstToUpperCase(item.object);
+    if (typeof ComponentRegistry[objectkey] != 'undefined') {
 
-    item.dynamicProps = await ComponentRegistry[objectkey].getDynamicProps({...item,content});
-    if (item.object == 'container') {
-      if (
-        typeof item.items != 'undefined' &&
-        !Array.isArray(item.items)
-      ) {
-        try {
-          item.items = JSON.parse(item.items);
-        } catch (e) {
-          item.items = [];
+      item.dynamicProps = await ComponentRegistry[objectkey].getDynamicProps({...item,content});
+      if (item.object == 'container') {
+        if (
+          typeof item.items != 'undefined' &&
+          !Array.isArray(item.items)
+        ) {
+          try {
+            item.items = JSON.parse(item.items);
+          } catch (e) {
+            item.items = [];
+          }
+        }
+        for(const containerIdx in item.items){
+          const containerItem=item.items[containerIdx];
+          containerItem.instanceid = containerItem.instanceid || Mura.createUUID();
+          moduleStyleData[containerItem.instanceid] = await getModuleProps(
+            containerItem,
+            moduleStyleData,
+            isEditMode,
+            content
+          );
         }
       }
-      for(const containerIdx in item.items){
-        const containerItem=item.items[containerIdx];
-        containerItem.instanceid = containerItem.instanceid || Mura.createUUID();
-        moduleStyleData[containerItem.instanceid] = await getModuleProps(
-          containerItem,
-          moduleStyleData,
-          isEditMode,
-          content
-        );
-      }
     }
+  } catch(e){
+    console.log(e);
   }
-
+  
   const styleData = Mura.recordModuleStyles(item);
  
   return {
