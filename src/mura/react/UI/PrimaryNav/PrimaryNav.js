@@ -8,7 +8,7 @@ import {getHref} from '@mura/react/MuraConnector';
 
 function PrimaryNav(props) {
   const objectparams = Object.assign({}, props);
-  
+  //console.log(props)
   if(!objectparams.dynamicProps){
     const [items, setItems]=useState('');
 
@@ -37,7 +37,7 @@ function PrimaryNav(props) {
 const Render = ({ items, link, ...props }) => {
     const Link=link;
     const homeNavIcon = '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" focusable="false" width="1em" height="1em" style="-ms-transform: rotate(360deg); -webkit-transform: rotate(360deg); transform: rotate(360deg);" preserveAspectRatio="xMidYMid meet" viewBox="0 0 20 20"><path d="M16 8.5l1.53 1.53l-1.06 1.06L10 4.62l-6.47 6.47l-1.06-1.06L10 2.5l4 4v-2h2v4zm-6-2.46l6 5.99V18H4v-5.97zM12 17v-5H8v5h4z" fill="#626262"/></svg>';
-    
+   
     return (
       <Navbar bg="white" variant="light" expand="lg" className="navbar-static-top py-0"  collapseOnSelect>
       <div className="container-xl">
@@ -58,6 +58,10 @@ const Render = ({ items, link, ...props }) => {
                     <NavLinkDropdown key={item.contentid} contentid={item.contentid} filename={item.filename} menutitle={item.menutitle} kids={item.kids} link={Link} navicon={item.navicon} />
                   )
               })
+            }
+            {props.props.content && props.props.content.translations && (
+                <LangOptions translations={props.props.content.translations} />
+              )
             }
             </Nav>
           </Navbar.Collapse>
@@ -172,6 +176,25 @@ const Homelink = (props) => {
   return (
     <></>
   )
+}
+
+const LangOptions = props => {
+
+  if (props.translations.items.length) {
+       
+    return (
+      <>
+      <NavDropdown key="lang-options" title="Other Languages" id="lang-options" href="" renderMenuOnMount={true}>
+        {/* if there are children, build the rest of the dropdown */}
+        {props.translations.items.map((translation) => {
+          return(
+            <NavDropdown.Item href={translation.url}>{translation.label}</NavDropdown.Item>
+          )
+        })}
+      </NavDropdown>
+      </>
+    )
+  }
 }
 
 const NavLinkDropdown = props => {

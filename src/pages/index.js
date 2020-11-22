@@ -59,18 +59,21 @@ export default function Page(props) {
         <DisplayRegion
           region={header}
           moduleStyleData={moduleStyleData}
+          content={content}
         />
       )}
       {content && displayregions && primarycontent && (
         <DisplayRegion
           region={primarycontent}
           moduleStyleData={moduleStyleData}
+          content={content}
         />
       )}
       {content && displayregions && footer && (
         <DisplayRegion
           region={footer}
           moduleStyleData={moduleStyleData}
+          content={content}
         />
       )}
     </MainLayout>
