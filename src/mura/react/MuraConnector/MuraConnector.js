@@ -30,54 +30,102 @@ export const getComponent = item => {
 };
 
 export const getMuraPaths = async () => {
-  return [];
+  
+  let siteids=ConnectorConfig.siteid;
+  let pathList=[];
+
+  if(!Array.isArray(siteids)){
+    siteids=siteids.split();
+  }
+
+  for (let index = 0; index < siteids.length; index++) {
+    getMura(siteids[index]);
+    const items=await Mura.getFeed('content')
+    .maxItems(0)
+    .itemsPerPage(0)
+    .sort('orderno')
+    .getQuery();
+    pathList=pathList.concat(items.getAll().items);
+    pathList.push({ 
+      siteid:siteids[index],
+      filename: "" 
+    });
+  }
+
+  const paths = pathList
+    .map(item => {
+      let page=[];
+      if(item.filename){
+        page=item.filename.split('/');
+      }
+      page.unshift(item.siteid);
+      console.log(item.filename,page)
+      return { params: { page: page } };
+    })
+    .filter(function(item) {
+      return (item.params.page.length || item.params.page[0]);
+    });
+
+  return paths;
 };
 
 export const getMura = context => {
 
-  const ishomepage=(
-    (context && !(context.params && context.params.page)) 
-    || (typeof location != 'undefined' 
-      && (
-        location.pathname=="/"
-        || location.pathname==(ConnectorConfig.editroute + "/")
-      )
-    )
-  );
- 
   const startingsiteid=Mura.siteid;
 
-  if(Array.isArray(ConnectorConfig.siteid)){
-    if(ishomepage){
-      connectorConfig.siteid=ConnectorConfig.siteid[0];
-    } else {
-      let page=[];
-      if(context && context.params && context.params.page){
-        page=[...context.params.page];
-        page=page.filter(item => item.length);
-      } else if (typeof location != 'undefined'){
-        page=location.pathname.split("/");
-        page=page.filter(item => item.length);
-        if(page.length 
-          && ConnectorConfig.editroute
-          && page[0]===ConnectorConfig.editroute.split("/")[1]
-        ){
-          page.shift();
-        }
-      } 
-     
-      if(page.length){
-        if(ConnectorConfig.siteid.find((item)=>{
-          return (item===page[0])
-          })
-        ){
-          connectorConfig.siteid=page[0];
-          connectorConfig.siteidinurls=true;
-        } else {
-          connectorConfig.siteid=ConnectorConfig.siteid[0];
-        }
-      } 
+  if(typeof context == 'string'
+    && ConnectorConfig.siteid.find((item)=>{
+      return (item===context)
+      })
+  ){
+   
+    connectorConfig.siteid=context;
+  
+  } else {
+
+    const ishomepage=(
+      (context && !(context.params && context.params.page)) 
+      || (typeof location != 'undefined' 
+        && (
+          location.pathname=="/"
+          || location.pathname==(ConnectorConfig.editroute + "/")
+        )
+      )
+    );
+  
+    if(Array.isArray(ConnectorConfig.siteid)){
+      if(ishomepage){
+        connectorConfig.siteid=ConnectorConfig.siteid[0];
+      } else {
+        let page=[];
+        if(context && context.params && context.params.page){
+          page=[...context.params.page];
+          page=page.filter(item => item.length);
+        } else if (typeof location != 'undefined'){
+          page=location.pathname.split("/");
+          page=page.filter(item => item.length);
+          if(page.length 
+            && ConnectorConfig.editroute
+            && page[0]===ConnectorConfig.editroute.split("/")[1]
+          ){
+            page.shift();
+          }
+        } 
+      
+        if(page.length){
+          if(ConnectorConfig.siteid.find((item)=>{
+            return (item===page[0])
+            })
+          ){
+            connectorConfig.siteid=page[0];
+            connectorConfig.siteidinurls=true;
+          } else {
+            connectorConfig.siteid=ConnectorConfig.siteid[0];
+          }
+        } 
+      }
     }
+
   }
 
   const clearMuraAPICache = ()=>{
