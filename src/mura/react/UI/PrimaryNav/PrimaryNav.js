@@ -188,7 +188,7 @@ const LangOptions = props => {
         {/* if there are children, build the rest of the dropdown */}
         {props.translations.items.map((translation) => {
           return(
-            <NavDropdown.Item href={translation.url}>{translation.label}</NavDropdown.Item>
+            <NavDropdown.Item key={`lang-option-${translation.siteid}`} href={translation.url}>{translation.label}</NavDropdown.Item>
           )
         })}
       </NavDropdown>

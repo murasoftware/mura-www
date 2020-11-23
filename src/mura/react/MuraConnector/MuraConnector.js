@@ -37,9 +37,14 @@ export const getMura = context => {
 
   const ishomepage=(
     (context && !(context.params && context.params.page)) 
-    || (typeof location != 'undefined' && location.pathname=="/")
+    || (typeof location != 'undefined' 
+      && (
+        location.pathname=="/"
+        || location.pathname==ConnectorConfig.editroute
+      )
+    )
   );
-
+ 
   const startingsiteid=Mura.siteid;
 
   if(Array.isArray(ConnectorConfig.siteid)){
@@ -60,7 +65,7 @@ export const getMura = context => {
           page.shift();
         }
       } 
-
+     
       if(page.length){
         if(ConnectorConfig.siteid.find((item)=>{
           return (item===page[0])
@@ -71,7 +76,9 @@ export const getMura = context => {
         } else {
           connectorConfig.siteid=ConnectorConfig.siteid[0];
         }
-      } 
+      }  else {
+        connectorConfig.siteid=ConnectorConfig.siteid[0];
+      }
     }
   }
 
@@ -90,6 +97,7 @@ export const getMura = context => {
       }
     );
     clearMuraAPICache();
+    console.log('initing', connectorConfig.siteid)
     Mura.init(connectorConfig);
   } else if (startingsiteid != connectorConfig.siteid) {
     console.log('changeing siteid',startingsiteid,connectorConfig.siteid)
