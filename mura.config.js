@@ -26,7 +26,7 @@ import ReactDOM from 'react-dom';
 import Example from 'src/Example';
 
 export const ConnectorConfig = {
-  rootpath: 'https://localhost:8888',
+  rootpath: 'http://localhost:8888',
   siteid: ['default'],
   processMarkup: false,
   editroute: '/edit',
