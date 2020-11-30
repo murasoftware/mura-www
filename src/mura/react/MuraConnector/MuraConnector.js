@@ -5,22 +5,14 @@ import {ComponentRegistry,ConnectorConfig} from 'mura.config';
 require('mura.js/src/core/stylemap-static');
 
 let connectorConfig=Object.assign({},ConnectorConfig);
-let muraIsInit = false;
-let contextIsInit = false;
 
 export const getHref = (filename) => {
-  let path=filename.split('/');
-  if(path.length && !path[0]){
-    path.shift();
-  }
+  let path=filename.split('/').filter(item => item.length);
+  
   if(connectorConfig.siteidinurls){
-    if(Array.isArray(connectorConfig.siteid)){
-       return '/' + connectorConfig.siteid[0] + '/' + path.join('/');
-    } else {
-      return '/' + connectorConfig.siteid + '/' + path.join('/');
-    }
+    return '/' + Mura.siteid + '/' + path.join('/');
   } else {
-    return filename;
+    return '/' + path.join('/');
   }
 }
 
@@ -38,49 +30,102 @@ export const getComponent = item => {
 };
 
 export const getMuraPaths = async () => {
-  return [];
+  
+  let siteids=ConnectorConfig.siteid;
+  let pathList=[];
+
+  if(!Array.isArray(siteids)){
+    siteids=siteids.split();
+  }
+
+  for (let index = 0; index < siteids.length; index++) {
+    getMura(siteids[index]);
+    const items=await Mura.getFeed('content')
+    .maxItems(0)
+    .itemsPerPage(0)
+    .sort('orderno')
+    .getQuery();
+    pathList=pathList.concat(items.getAll().items);
+    pathList.push({ 
+      siteid:siteids[index],
+      filename: "" 
+    });
+  }
+
+  const paths = pathList
+    .map(item => {
+      let page=[];
+      if(item.filename){
+        page=item.filename.split('/');
+      }
+      page.unshift(item.siteid);
+      console.log(item.filename,page)
+      return { params: { page: page } };
+    })
+    .filter(function(item) {
+      return (item.params.page.length || item.params.page[0]);
+    });
+
+  return paths;
 };
 
 export const getMura = context => {
 
-  const ishomepage=(
-    (context && !(context.params && context.params.page)) 
-    || (typeof location != 'undefined' && location.pathname=="/")
-  );
-
   const startingsiteid=Mura.siteid;
 
-  if(Array.isArray(ConnectorConfig.siteid)){
-    if(ishomepage){
-      connectorConfig.siteid=ConnectorConfig.siteid[0];
-    } else {
-      let page=[];
-      if(context && context.params && context.params.page){
-        page=[...context.params.page]
-      } else if (typeof location != 'undefined'){
-        page=location.pathname.split("/");
-        if(page.length 
-          && ConnectorConfig.editroute
-          && page[0]===ConnectorConfig.editroute.split("/")[1]
-        ){
-          page.shift();
-        }
-      } 
+  if(typeof context == 'string'
+    && ConnectorConfig.siteid.find((item)=>{
+      return (item===context)
+      })
+  ){
+   
+    connectorConfig.siteid=context;
+  
+  } else {
 
-      page=page.filter(item => item.length);
-
-      if(page.length){
-        if(ConnectorConfig.siteid.find((item)=>{
-          return (item===page[0])
-          })
-        ){
-          connectorConfig.siteid=page[0];
-          connectorConfig.siteidinurls=true;
-        } else {
-          connectorConfig.siteid=ConnectorConfig.siteid[0];
-        }
-      } 
+    const ishomepage=(
+      (context && !(context.params && context.params.page)) 
+      || (typeof location != 'undefined' 
+        && (
+          location.pathname=="/"
+          || location.pathname==(ConnectorConfig.editroute + "/")
+        )
+      )
+    );
+  
+    if(Array.isArray(ConnectorConfig.siteid)){
+      if(ishomepage){
+        connectorConfig.siteid=ConnectorConfig.siteid[0];
+      } else {
+        let page=[];
+        if(context && context.params && context.params.page){
+          page=[...context.params.page];
+          page=page.filter(item => item.length);
+        } else if (typeof location != 'undefined'){
+          page=location.pathname.split("/");
+          page=page.filter(item => item.length);
+          if(page.length 
+            && ConnectorConfig.editroute
+            && page[0]===ConnectorConfig.editroute.split("/")[1]
+          ){
+            page.shift();
+          }
+        } 
+      
+        if(page.length){
+          if(ConnectorConfig.siteid.find((item)=>{
+            return (item===page[0])
+            })
+          ){
+            connectorConfig.siteid=page[0];
+            connectorConfig.siteidinurls=true;
+          } else {
+            connectorConfig.siteid=ConnectorConfig.siteid[0];
+          }
+        } 
+      }
     }
+
   }
 
   const clearMuraAPICache = ()=>{
@@ -98,9 +143,10 @@ export const getMura = context => {
       }
     );
     clearMuraAPICache();
+    console.log('initing', connectorConfig.siteid)
     Mura.init(connectorConfig);
   } else if (startingsiteid != connectorConfig.siteid) {
-    console.log('changeing siteid',startingsiteid,connectorConfig.siteid)
+    console.log('changing siteid',startingsiteid,connectorConfig.siteid)
     clearMuraAPICache();
     Mura.init(connectorConfig);
   }
@@ -128,10 +174,7 @@ export const getMuraProps = async (context,isEditMode) => {
   delete Mura._request;
   delete Mura.response;
   delete Mura.request;
-
-  contextIsInit = false;
-  muraIsInit = false;
-
+ 
   const props = {
     content: content,
     moduleStyleData: moduleStyleData
@@ -251,32 +294,36 @@ async function getRegionProps(content,isEditMode) {
 async function getModuleProps(item,moduleStyleData,isEditMode,content) {
   getMura();
 
-  const objectkey = Mura.firstToUpperCase(item.object);
-  if (typeof ComponentRegistry[objectkey] != 'undefined') {
+  try{
+    const objectkey = Mura.firstToUpperCase(item.object);
+    if (typeof ComponentRegistry[objectkey] != 'undefined') {
 
-    item.dynamicProps = await ComponentRegistry[objectkey].getDynamicProps({...item,content});
-    if (item.object == 'container') {
-      if (
-        typeof item.items != 'undefined' &&
-        !Array.isArray(item.items)
-      ) {
-        try {
-          item.items = JSON.parse(item.items);
-        } catch (e) {
-          item.items = [];
+      item.dynamicProps = await ComponentRegistry[objectkey].getDynamicProps({...item,content});
+      if (item.object == 'container') {
+        if (
+          typeof item.items != 'undefined' &&
+          !Array.isArray(item.items)
+        ) {
+          try {
+            item.items = JSON.parse(item.items);
+          } catch (e) {
+            item.items = [];
+          }
+        }
+        for(const containerIdx in item.items){
+          const containerItem=item.items[containerIdx];
+          containerItem.instanceid = containerItem.instanceid || Mura.createUUID();
+          moduleStyleData[containerItem.instanceid] = await getModuleProps(
+            containerItem,
+            moduleStyleData,
+            isEditMode,
+            content
+          );
         }
       }
-      for(const containerIdx in item.items){
-        const containerItem=item.items[containerIdx];
-        containerItem.instanceid = containerItem.instanceid || Mura.createUUID();
-        moduleStyleData[containerItem.instanceid] = await getModuleProps(
-          containerItem,
-          moduleStyleData,
-          isEditMode,
-          content
-        );
-      }
     }
+  } catch(e){
+    console.log(e);
   }
 
   const styleData = Mura.recordModuleStyles(item);
