@@ -15,7 +15,7 @@ const AccordionLayout = ({props,collection,link}) => {
   const [pos, setPos] = useState(0);
   return (
     <>
-      <Accordion className="collectionLayoutAccordion">
+      <Accordion className={`collectionLayoutAccordion ${props.accordionpadding}-spacing ${props.collapseindicators} ${props.collapseindicatorslocation}-indicator`}>
         <CurrentItems collection={collection} pos={pos} link={link} {...props} /> 
       </Accordion>
 
