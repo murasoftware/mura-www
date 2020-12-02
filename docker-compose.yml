@@ -3,7 +3,7 @@ version: '2.1'
 services:
   #Mura Server
   mura:
-    build: .
+    image: murasoftware:latest
     environment:
         MURA_ADMIN_USERNAME: admin
         MURA_ADMIN_PASSWORD: admin
@@ -24,11 +24,11 @@ services:
         MURA_HTMLEDITORTYPE: markdown
         MURA_EDITROUTE: "/edit"
     volumes:
-        -   ../mura/app/core:/var/www/core
-        -   ../mura/app/admin:/var/www/admin
-        -   nextjs_sites_data:/var/www/sites
-        -   nextjs_themes_data:/var/www/themes
-        -   nextjs_plugins_data:/var/www/plugins
+        #-   ../mura/app/core:/var/www/core
+        #-   ../mura/app/admin:/var/www/admin
+        -   mura_www_sites_data:/var/www/sites
+        -   mura_www_themes_data:/var/www/themes
+        -   mura_www_plugins_data:/var/www/plugins
     ports:
         - "8888:8888"
 
@@ -44,7 +44,7 @@ services:
         - "55556:3306"
 
 volumes:
-    nextjs_mysql_data:
-    nextjs_sites_data:
-    nextjs_themes_data:
-    nextjs_plugins_data:
+    mura_www_mysql_data:
+    mura_www_sites_data:
+    mura_www_themes_data:
+    mura_www_plugins_data:

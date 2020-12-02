@@ -1,21 +1,14 @@
-FROM murasoftware/mura:latest
-MAINTAINER Matt Levine, matt.levine@getmura.com
+FROM node:lts-alpine
 
-ARG admin_hspw=
-ARG web_hspw=
+# set working directory
+WORKDIR /app
 
-RUN sed -i "s/hspw=\"\"/hspw=\"$admin_hspw\"/" /opt/lucee/server/lucee-server/context/lucee-server.xml \
-	&& sed -i "s/hspw=\"\"/hspw=\"$web_hspw\"/" /opt/lucee/web/lucee-web.xml.cfm
+# add `/app/node_modules/.bin` to $PATH
+ENV PATH /app/node_modules/.bin:$PATH
 
-# Logs
-RUN ln -sf /dev/stdout /opt/lucee/web/logs/application.log \
-	&& ln -sf /dev/stdout /opt/lucee/web/logs/exception.log
+# install and cache app dependencies
+COPY ./ /app/
+RUN npm install && npm run build
 
-COPY web.xml /usr/local/tomcat/conf/
-COPY mura.config.json /var/www/config/
-
-# Copy Mura files
-# COPY . /var/www
-
-# Add healthcheck
-HEALTHCHECK --start-period=3m CMD curl --fail http://localhost:8888/?healthcheck || exit 1
+# start app
+CMD ["npm", "run", "start"]
