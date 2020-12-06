@@ -62,7 +62,7 @@ export const getDynamicProps = async props => {
       if(typeof props.content.get =='function'){
         data.source=props.content.get(props.source);
       } else {
-        data.source=props.content.body || '';
+        data.source=props.content[props.source] || '';
       }
     }
   }

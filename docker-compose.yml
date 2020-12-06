@@ -1,9 +1,11 @@
-version: '2.1'
+version: '3.8'
 
 services:
   #Mura Server
   mura:
-    image: murasoftware:latest
+    build:
+        context: .
+        dockerfile: Dockerfile.mura
     environment:
         MURA_ADMIN_USERNAME: admin
         MURA_ADMIN_PASSWORD: admin
@@ -13,7 +15,7 @@ services:
         MURA_DATABASE: muradb
         MURA_DBTYPE: mysql
         MURA_DBUSERNAME: root
-        MURA_DBPASSWORD: NOT_SECURE_CHANGE
+        MURA_DBPASSWORD: password
         MURA_DBCONNECTIONSTRING: "jdbc:mysql://mura_mysql:3306/muradb?useUnicode=true&characterEncoding=UTF-8&useLegacyDatetimeCode=true"
         MURA_DBCLASS: com.mysql.cj.jdbc.Driver
         MURA_SITEIDINURLS: "false"
@@ -26,25 +28,25 @@ services:
     volumes:
         #-   ../mura/app/core:/var/www/core
         #-   ../mura/app/admin:/var/www/admin
-        -   mura_www_sites_data:/var/www/sites
-        -   mura_www_themes_data:/var/www/themes
-        -   mura_www_plugins_data:/var/www/plugins
+        -   sites_data:/var/www/sites
+        -   themes_data:/var/www/themes
+        -   plugins_data:/var/www/plugins
     ports:
         - "8888:8888"
 
   #MySQL
   mura_mysql:
-    image: mysql:5.7
+    image: mysql:latest
     environment:
-        MYSQL_ROOT_PASSWORD: NOT_SECURE_CHANGE
+        MYSQL_ROOT_PASSWORD: password
         MYSQL_DATABASE: muradb
     volumes:
-        - nextjs_mysql_data:/var/lib/mysql
+        - mysql_data:/var/lib/mysql
     ports:
         - "55556:3306"
 
 volumes:
-    mura_www_mysql_data:
-    mura_www_sites_data:
-    mura_www_themes_data:
-    mura_www_plugins_data:
+    mysql_data:
+    sites_data:
+    themes_data:
+    plugins_data:
