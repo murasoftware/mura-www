@@ -218,6 +218,13 @@
 					{"type":"file","name":"navlogo","label":"Navbar Logo"}
 				]
 			},
+			"ArticleMeta":{
+				"name":"Article Meta",
+				"contenttypes":"*",
+				"configurator":[
+					{"type":"fieldlist","name":"fields","label":"Display List","value":"Date,Credits,Tags"}
+				]
+			},
 			"HR":{
 				"name":"HR",
 				"contenttypes":"*"
