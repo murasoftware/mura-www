@@ -218,6 +218,10 @@
 					{"type":"file","name":"navlogo","label":"Navbar Logo"}
 				]
 			},
+			"ResourceHub":{
+				"name":"ResourceHub",
+				"contenttypes":"*"
+			},
 			"ArticleMeta":{
 				"name":"Article Meta",
 				"contenttypes":"*",
