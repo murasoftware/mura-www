@@ -169,7 +169,7 @@ export const getMuraProps = async (context,isEditMode) => {
   
   const muraObject = await renderContent(context);
   const content = muraObject.getAll();
-  const moduleStyleData = await getRegionProps(muraObject,isEditMode);
+  const moduleStyleData = await getRegionProps(content,isEditMode);
   
   delete Mura._request;
   delete Mura.response;
@@ -255,7 +255,7 @@ async function renderContent(context) {
 async function getRegionProps(content,isEditMode) {
   getMura();
   let moduleStyleData = {};
-  const regions=Object.values(content.get('displayregions'));
+  const regions=Object.values(content.displayregions);
 
   for(const regionIdx in regions){
    const region=regions[regionIdx]; 
