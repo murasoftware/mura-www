@@ -5,7 +5,7 @@ import ComponentRegistry from 'mura.config';
 import {getHref} from '@mura/react/MuraConnector';
 
 const getLayout=(layout) => {
-    console.log('getLayout!' + layout);
+    console.log('getLayout: ' + layout);
     const uselayout = layout == 'default' ? "DefaultLayout" : layout;
   
     if(typeof ComponentRegistry[uselayout] != 'undefined') {
@@ -19,8 +19,8 @@ const getLayout=(layout) => {
 function ResourceHub(props) {
     // console.log('ResourceHub!' + JSON.stringify(props));
     const objectparams = Object.assign({}, props);
-    console.log(JSON.stringify(objectparams, replacerFunc()));
-    const DynamicCollectionLayout = getLayout('Cards').component;
+    // console.log('objectparams: ' + JSON.stringify(objectparams, replacerFunc()));
+    const DynamicCollectionLayout = getLayout('Cards').component;//objectparams.layout not working -- undefined
 
     if(!objectparams.dynamicProps){
         const [collection,setCollection]=useState(false);
@@ -32,20 +32,27 @@ function ResourceHub(props) {
         }, []);
 
         if(collection) {
+            // console.log('dynamic items: ' + JSON.stringify(dynamicProps.collection, replacerFunc()));
             return (
+                <>
+                <h1>DYNAMIC SOMETHING</h1>
                 <DynamicCollectionLayout collection={collection} props={props} link={RouterlessLink}/>
+                </>
             )
         }
         else {
             return (
-                <div></div>
+                <div><h1>EMPTY SOMETHING</h1></div>
             )
         }
     } else {
         const collection=new Mura.EntityCollection(objectparams.dynamicProps.collection,Mura._requestcontext);
-        console.log('items: ' + collection);
+        // console.log('static items: ' + JSON.stringify(objectparams.dynamicProps.collection, replacerFunc()));
         return (
+            <>
+            <h1>STATIC SOMETHING</h1>
             <DynamicCollectionLayout collection={collection} props={props} link={RouterLink}/>
+            </>
         )
     }
 }
@@ -66,13 +73,17 @@ const RouterLink = ({href,children,className})=>{
     );
 }
 
-export const getDynamicProps = async props => {  
+export const getDynamicProps = async props => {
+    const excludeIDList=props.content.contentid;
+
     const collection=await Mura.getFeed('content')
         .where()
         .prop('type').isIn('Page,Link,File')
-        .andProp('path').containsValue(props.content.contentid)
+        // .andProp('path').containsValue(props.content.contentid)
+        // .andProp('contentid').isNotIn(excludeIDList)
         .getQuery();
-        console.log('collection: ' + collection);
+        // console.log('collection getDynamicProps: ' + JSON.stringify(collection.getAll().items, replacerFunc()));
+        console.log('collection getDynamicProps: ' + JSON.stringify(props, replacerFunc()));
 
 
         //.setMaxItems(props.maxitems);
