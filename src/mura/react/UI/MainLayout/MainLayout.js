@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react';
 import Mura from 'mura.js';
 import MuraStyles from '@mura/react/MuraStyles';
+import MuraExternalAssets from '@mura/react/MuraExternalAssets';
 import {getMura} from '@mura/react/MuraConnector';
 
 const MainLayout = props => {
-  const { content, moduleStyleData, children, footer } = props;
+  const { content, moduleStyleData, children } = props;
 
   Mura.moduleStyleData = moduleStyleData;
 
@@ -14,7 +15,8 @@ const MainLayout = props => {
 
   return (
     <div>
-      {children}
+      {children}  
+      <MuraExternalAssets {...props}/>
       <MuraStyles {...props} />
     </div>
   );

@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import GlobalContext from '../GlobalContext';
+import {ExternalModules} from 'mura.config';
 
 function MuraDecorator(props) {
   const { label, instanceid, labeltag, children } = props;
@@ -28,9 +29,10 @@ function MuraDecorator(props) {
     className:"mura-object-meta-wrapper"
   }
 
-  const proxiedModules=['form','cta','cookie_consent'];
+  //Proxied module are modules that will always be server side rendered
+  const isExternalModule=ExternalModules[props.object];
 
-  if (isEditMode || proxiedModules.find((item)=>item===props.object)) {
+  if (isEditMode || isExternalModule) {
     Object.keys(props).forEach(key => {
       if (
         !['html', 'content', 'children', 'isEditMode', 'dynamicProps', 'moduleStyleData'].find(
@@ -100,13 +102,20 @@ function MuraDecorator(props) {
 
   }
   
-  return (
-    <div {...domObject}>
-      {label ? <MuraMeta label={label} labeltag={labeltag} dommeta={domMeta} dommetawrapper={domMetaWrapper}/> : null}
-      {label ? <div className="mura-flex-break" /> : null}
-      <div {...domContent}>{children}</div>
-    </div>
-  );
+  if(isExternalModule){
+    return (
+      <div {...domObject}></div>
+    );
+  } else {
+    return (
+      <div {...domObject}>
+        {label ? <MuraMeta label={label} labeltag={labeltag} dommeta={domMeta} dommetawrapper={domMetaWrapper}/> : null}
+        {label ? <div className="mura-flex-break" /> : null}
+        <div {...domContent}>{children}</div>
+      </div>
+    );
+  }
+  
 }
 
 const MuraMeta = ({ label, labeltag, dommeta, dommetawrapper }) => {

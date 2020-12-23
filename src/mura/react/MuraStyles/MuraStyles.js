@@ -5,7 +5,7 @@ function MuraStyles(props) {
 
   if (typeof moduleStyleData !== 'undefined') {
     return (
-      <div>
+      <>
         {Object.keys(moduleStyleData).map(instanceid => {
           const rules = moduleStyleData[instanceid];
           if(!rules.isEditMode){
@@ -20,11 +20,11 @@ function MuraStyles(props) {
             return '';
           }
         })}
-      </div>
+      </>
     );
   } 
-    // console.log("DYN IS NOT ARRAY: ");
-    return <div />;
+  // console.log("DYN IS NOT ARRAY: ");
+  return <></>;
   
 }
 
