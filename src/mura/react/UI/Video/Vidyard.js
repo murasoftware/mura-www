@@ -12,7 +12,7 @@ function Vidyard(props) {
 			data-type="lightbox">
 		<Head>
 			<script src="https://play.vidyard.com/embed/v4.js"></script>
-			<script src={`${Mura.rootpath}'/core/modules/v1/videos/js/video_module.js`}></script>
+			<script src={`${Mura.rootpath}'/core/modules/v1/video/js/video_module.js`}></script>
 		</Head>
 		</div>
 	);

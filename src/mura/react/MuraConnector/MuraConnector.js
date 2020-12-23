@@ -1,6 +1,6 @@
 /* eslint-disable */
 import Mura from 'mura.js';
-import {ComponentRegistry,ConnectorConfig} from 'mura.config';
+import {ComponentRegistry,ConnectorConfig,ExternalModules} from 'mura.config';
 
 require('mura.js/src/core/stylemap-static');
 
@@ -68,6 +68,10 @@ export const getMuraPaths = async () => {
 
   return paths;
 };
+
+export const getMuraExternalModules = ()=>{
+  return ExternalModules;
+}
 
 export const getMura = context => {
 
@@ -177,7 +181,8 @@ export const getMuraProps = async (context,isEditMode) => {
  
   const props = {
     content: content,
-    moduleStyleData: moduleStyleData
+    moduleStyleData: moduleStyleData,
+    externalModules: ExternalModules
   };
 
   if(isEditMode){
@@ -297,8 +302,9 @@ async function getModuleProps(item,moduleStyleData,isEditMode,content) {
   try{
     const objectkey = Mura.firstToUpperCase(item.object);
     if (typeof ComponentRegistry[objectkey] != 'undefined') {
-
-      item.dynamicProps = await ComponentRegistry[objectkey].getDynamicProps({...item,content});
+      if(ComponentRegistry[objectkey].SSR){
+        item.dynamicProps = await ComponentRegistry[objectkey].getDynamicProps({...item,content});
+      }
       if (item.object == 'container') {
         if (
           typeof item.items != 'undefined' &&

@@ -34,11 +34,42 @@ export const ConnectorConfig = {
   editroute: '/edit',
   sitename: 'Example Site',
   siteidinurls:false
-}
+};
 
-//This module is also registered with Mura via the ./static/mura.config.json
+/*
+  These module are also registered with Mura via the mura.config.json
 
+  Proxied modules are modules that are handled by standard Mura.js 
+  and/or traditional serverside rendering from within the Mura service
+*/
 let moduleRegistry = [
+  {
+    name: 'cta',
+    js:[
+      ConnectorConfig.rootpath + "/core/modules/v1/cta/js/mura.displayobject.cta.min.js",
+    ]
+  },
+  {
+    name: 'content_gate',
+    js:[
+      ConnectorConfig.rootpath + "/core/modules/v1/content_gate/js/mura.displayobject.content_gate.min.js",
+    ]
+  },
+  {
+    name: 'pdfviewer',
+    js:[
+      ConnectorConfig.rootpath + "/core/modules/v1/pdfviewer/dist/main.bundle.js",
+    ],
+    css:[
+      ConnectorConfig.rootpath + "/core/modules/v1/pdfviewer/assets/css/pdfviewer.css",
+    ]
+  },
+  {
+    name: 'form'
+  },
+  {
+    name: 'cookie_content'
+  },
   {
     name: 'Example',
     component: Example,
@@ -140,40 +171,49 @@ let moduleRegistry = [
 ];
 
 let moduleLookup = {};
+let externalLookup = {};
 
 moduleRegistry.forEach(module => {
-  module.getDynamicProps =
-    module.getDynamicProps ||
-    function() {
-      return {};
-    };
-  module.getQueryProps =
-    module.getQueryProps ||
-    function() {
-      return {fields:''};
-    };
-  moduleLookup[module.name] = {
-    component: module.component,
-    getDynamicProps: module.getDynamicProps,
-    getQueryProps: module.getQueryProps
-  };
-
-  if (!module.excludeFromClient) {
-    Mura.Module[module.name] = Mura.UI.extend({
+  if(typeof module.component == 'undefined'){
+    externalLookup[module.name]=module;
+  } else {
+    if(typeof module.SSR == 'undefined'){
+      module.SSR=true;
+    }
+    module.getDynamicProps =
+      module.getDynamicProps ||
+      function() {
+        return {};
+      };
+    module.getQueryProps =
+      module.getQueryProps ||
+      function() {
+        return {fields:''};
+      };
+    moduleLookup[module.name] = {
       component: module.component,
-      renderClient() {
-        
-        const content = Mura.content.getAll();
+      getDynamicProps: module.getDynamicProps,
+      getQueryProps: module.getQueryProps,
+      SSR:module.SSR
+    };
 
-        ReactDOM.render(
-          React.createElement(this.component, {...this.context,content}),
-          this.context.targetEl,
-          () => {
-            this.trigger('afterRender');
-          },
-        );
-      },
-    });
+    if (!module.excludeFromClient) {
+      Mura.Module[module.name] = Mura.UI.extend({
+        component: module.component,
+        renderClient() {
+          
+          const content = Mura.content.getAll();
+
+          ReactDOM.render(
+            React.createElement(this.component, {...this.context,content}),
+            this.context.targetEl,
+            () => {
+              this.trigger('afterRender');
+            },
+          );
+        },
+      });
+    }
   }
 });
 
@@ -198,4 +238,5 @@ Mura.Module.Container.reopen({
 });
 
 export const ComponentRegistry=moduleLookup;
+export const ExternalModules=externalLookup;
 export default moduleLookup;
