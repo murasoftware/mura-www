@@ -171,6 +171,9 @@ moduleRegistry.forEach(module => {
   if(typeof module.component == 'undefined'){
     externalLookup[module.name]=module;
   } else {
+    if(typeof module.SSR == 'undefined'){
+      module.SSR=true;
+    }
     module.getDynamicProps =
       module.getDynamicProps ||
       function() {

@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import GlobalContext from '../GlobalContext';
-import {ExternalModules} from 'mura.config';
+import {ExternalModules, ComponentRegistry} from 'mura.config';
 
 function MuraDecorator(props) {
   const { label, instanceid, labeltag, children } = props;
@@ -32,7 +32,9 @@ function MuraDecorator(props) {
   //Proxied module are modules that will always be server side rendered
   const isExternalModule=ExternalModules[props.object];
 
-  if (isEditMode || isExternalModule) {
+  const isSSR=ComponentRegistry[props.object] && ComponentRegistry[props.object].SSR;
+
+  if (isEditMode || isExternalModule || !isSSR) {
     Object.keys(props).forEach(key => {
       if (
         !['html', 'content', 'children', 'isEditMode', 'dynamicProps', 'moduleStyleData'].find(
@@ -102,7 +104,7 @@ function MuraDecorator(props) {
 
   }
   
-  if(isExternalModule){
+  if(isExternalModule || !isSSR){
     return (
       <div {...domObject}></div>
     );
