@@ -303,7 +303,9 @@ async function getModuleProps(item,moduleStyleData,isEditMode,content) {
     const objectkey = Mura.firstToUpperCase(item.object);
     if (typeof ComponentRegistry[objectkey] != 'undefined') {
 
-      item.dynamicProps = await ComponentRegistry[objectkey].getDynamicProps({...item,content});
+      if(ComponentRegistry[objectkey].SSR){
+        item.dynamicProps = await ComponentRegistry[objectkey].getDynamicProps({...item,content});
+      }
       if (item.object == 'container') {
         if (
           typeof item.items != 'undefined' &&
