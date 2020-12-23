@@ -187,7 +187,8 @@ moduleRegistry.forEach(module => {
     moduleLookup[module.name] = {
       component: module.component,
       getDynamicProps: module.getDynamicProps,
-      getQueryProps: module.getQueryProps
+      getQueryProps: module.getQueryProps,
+      SSR:module.SSR
     };
 
     if (!module.excludeFromClient) {
