@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import GlobalContext from '../GlobalContext';
 import {ExternalModules, ComponentRegistry} from 'mura.config';
+import Mura from 'mura.js';
 
 function MuraDecorator(props) {
   const { label, instanceid, labeltag, children } = props;
@@ -32,7 +33,9 @@ function MuraDecorator(props) {
   //Proxied module are modules that will always be server side rendered
   const isExternalModule=ExternalModules[props.object];
 
-  const isSSR=ComponentRegistry[props.object] && ComponentRegistry[props.object].SSR;
+  const moduleKey=Mura.firstToUpperCase(props.object);
+
+  const isSSR=ComponentRegistry[moduleKey] && ComponentRegistry[moduleKey].SSR;
 
   if (isEditMode || isExternalModule || !isSSR) {
     Object.keys(props).forEach(key => {
