@@ -33,9 +33,9 @@ function MuraDecorator(props) {
   //Proxied module are modules that will always be server side rendered
   const isExternalModule=ExternalModules[props.object];
 
-  const moduleKey=Mura.firstToUpperCase(props.object);
+  const objectKey=Mura.firstToUpperCase(props.object);
 
-  const isSSR=ComponentRegistry[moduleKey] && ComponentRegistry[moduleKey].SSR;
+  const isSSR=ComponentRegistry[objectKey] && ComponentRegistry[objectKey].SSR;
 
   if (isEditMode || isExternalModule || !isSSR) {
     Object.keys(props).forEach(key => {
