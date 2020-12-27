@@ -190,7 +190,7 @@ moduleRegistry.forEach(module => {
       getQueryProps: module.getQueryProps,
       SSR:module.SSR
     };
-
+    moduleLookup[module.name.toLowerCase()]=moduleLookup[module.name];
     if (!module.excludeFromClient) {
       Mura.Module[module.name] = Mura.UI.extend({
         component: module.component,
