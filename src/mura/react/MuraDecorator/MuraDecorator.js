@@ -108,9 +108,17 @@ function MuraDecorator(props) {
   }
   
   if(isExternalModule || !isSSR){
-    return (
-      <div {...domObject}></div>
-    );
+    if(isExternalModule && props.html){
+      <div {...domObject}>
+        {label ? <MuraMeta label={label} labeltag={labeltag} dommeta={domMeta} dommetawrapper={domMetaWrapper}/> : null}
+        {label ? <div className="mura-flex-break" /> : null}
+        <div {...domContent} dangerouslySetInnerHTML={props.html}></div>
+      </div>
+    } else {
+      return (
+        <div {...domObject}></div>
+      );
+    }
   } else {
     return (
       <div {...domObject}>
