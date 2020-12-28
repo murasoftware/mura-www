@@ -13,6 +13,8 @@ import CollectionReadMoreBtn from '@mura/react/UI/Utilities/CollectionReadMoreBt
 function ResourceHub(props) {
   const objectparams = Object.assign({}, props);
   const thisTitle = 'Resource Hub';
+  //console.log('objectparams: ' + JSON.stringify(objectparams.dynamicProps, undefined, 2));
+
   if(!objectparams.dynamicProps){
     const [collection,setCollection]=useState(false);
 
@@ -23,11 +25,14 @@ function ResourceHub(props) {
     }, []);
 
     if(collection) {
-      //console.log(collection);
+      //console.log('collection: ' + JSON.stringify(collection, undefined, 2));
       return (
         <div>
           <h1>Dynamic {thisTitle}</h1>
           {/* <Collection collection={collection} layout="List" /> */}
+          <div className="row collectionLayoutCards row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-3 row-cols-xl-3">
+            <CurrentItems collection={collection} {...props} /> 
+          </div>
         </div>
       )
     }
@@ -59,7 +64,7 @@ const CurrentItems = (props) => {
   const items = collection.get('items');
   let itemsTo = items.length;
   let catAssignments = [];
-
+  // console.log('collection: ' + collection);
   for(let i = 0;i < itemsTo;i++) {
     item = items[i];
     catAssignments = item.getAll().categoryassignments;
@@ -158,7 +163,6 @@ export const getDynamicProps = async props => {
         //     collection.setSortDirection('desc');
         // }
 
-        
         
     return {
       collection:collection.getAll()
