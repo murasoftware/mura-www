@@ -112,7 +112,7 @@ function MuraDecorator(props) {
       <div {...domObject}>
         {label ? <MuraMeta label={label} labeltag={labeltag} dommeta={domMeta} dommetawrapper={domMetaWrapper}/> : null}
         {label ? <div className="mura-flex-break" /> : null}
-        <div {...domContent} dangerouslySetInnerHTML={props.html}></div>
+        <div {...domContent} dangerouslySetInnerHTML={{__html:props.html}}></div>
       </div>
     } else {
       return (
