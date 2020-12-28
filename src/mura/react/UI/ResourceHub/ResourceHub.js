@@ -8,6 +8,8 @@ import CollectionNav from '@mura/react/UI/CollectionNav/CollectionNav';
 import ItemDate from '@mura/react/UI/Utilities/ItemDate';
 import CollectionReadMoreBtn from '@mura/react/UI/Utilities/CollectionReadMoreBtn';
 
+
+
 function ResourceHub(props) {
   const objectparams = Object.assign({}, props);
   const thisTitle = 'Resource Hub';
@@ -19,6 +21,7 @@ function ResourceHub(props) {
         setCollection(new Mura.EntityCollection(dynamicProps.collection,Mura._requestcontext));
       });
     }, []);
+
     if(collection) {
       //console.log(collection);
       return (
@@ -110,6 +113,9 @@ export const getDynamicProps = async props => {
         props.content=props.content.getAll();
     }
 
+    const filterProps = await getFilterProps();//stopping dynamicProps from finishing?
+    console.log('filterprops: ' + JSON.stringify(filterProps, undefined, 2));
+
     const excludeIDList=props.content.contentid;
 
     const collection=await Mura.getFeed('content')
@@ -157,6 +163,20 @@ export const getDynamicProps = async props => {
     return {
       collection:collection.getAll()
     };
+}
+
+const getFilterProps = async props => {
+  const filterProps = await Mura.getEntity('resourcehub').invoke('processFilterArgs',{})
+  .then(function(result) {
+    //console.log(result); // "initResolve"
+    return result;
+  });
+  // console.log('filterprops: ' + filterProps);
+  // console.log('hasfilter: ' + filterProps.hasfilter);
+  // console.log('subtype: ' + filterProps.subtype);
+  // console.log('categoryid: ' + filterProps.categoryid);
+  // console.log('personaid: ' + filterProps.personaid);
+  return filterProps;
 }
 
 //for debugging only
