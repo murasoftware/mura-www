@@ -1,10 +1,10 @@
 import React from 'react';
 
-function MuraProxiedAssets(props) {
+function MuraExternalAssets(props) {
     const { externalModules } = props;
     if (typeof externalModules !== 'undefined') {
        return (
-         <div className="mura-proxied-assets">
+         <div className="mura-external-assets">
             {Object.keys(externalModules).map(key => {
                 const module = externalModules[key];
                 if(module.js && Array.isArray(module.js)){
@@ -32,8 +32,8 @@ function MuraProxiedAssets(props) {
         </div>
         )
     } else {
-        return <div className="mura-proxied-assets"/>;
+        return <div className="mura-external-assets"/>;
     }
   }
   
-  export default MuraProxiedAssets;
+  export default MuraExternalAssets;

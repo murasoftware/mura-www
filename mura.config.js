@@ -196,7 +196,6 @@ moduleRegistry.forEach(module => {
       getQueryProps: module.getQueryProps,
       SSR:module.SSR
     };
-
     if (!module.excludeFromClient) {
       Mura.Module[module.name] = Mura.UI.extend({
         component: module.component,
