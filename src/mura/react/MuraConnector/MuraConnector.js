@@ -199,7 +199,6 @@ export const getMuraProps = async (context,isEditMode) => {
     
   }
 
-  console.log(codeblocks)
   delete Mura._request;
   delete Mura.response;
   delete Mura.request;
