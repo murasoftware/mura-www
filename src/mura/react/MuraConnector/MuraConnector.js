@@ -181,23 +181,24 @@ export const getMuraProps = async (context,isEditMode) => {
     footer:[]
   };
 
-  if(connectorConfig.codeblocks){
-    const codeCollection=await Mura.getFeed('codeblock')
-      .where().prop('active').isEQ(1).getQuery();
-    
-    codeCollection.forEach((item)=>{
-      const placement=item.get('placement').toLowerCase();
-     
-      if(placement=='header'){
-        codeblocks.header.push(item.get('code'));
-      } else if (placement=='footer'){
-        codeblocks.footer.push(item.get('code'));
-      } else if (placement=='bodystart'){
-        codeblocks.bodystart.push(item.get('code'));
-      }
-    });
-    
-  }
+  try {
+    if(connectorConfig.codeblocks){
+      const codeCollection=await Mura.getFeed('codeblock')
+        .where().prop('active').isEQ(1).getQuery();
+      
+      codeCollection.forEach((item)=>{
+        const placement=item.get('placement').toLowerCase();
+      
+        if(placement=='header'){
+          codeblocks.header.push(item.get('code'));
+        } else if (placement=='footer'){
+          codeblocks.footer.push(item.get('code'));
+        } else if (placement=='bodystart'){
+          codeblocks.bodystart.push(item.get('code'));
+        }
+      });
+    }
+  } catch(e){console.log(e)}
 
   delete Mura._request;
   delete Mura.response;
