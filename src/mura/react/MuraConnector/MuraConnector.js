@@ -175,7 +175,7 @@ export const getMuraProps = async (context,isEditMode) => {
   const content = muraObject.getAll();
   const moduleStyleData = await getRegionProps(content,isEditMode);
 
-  let codeblocks={
+  const codeblocks={
     header:[],
     bodystart:[],
     footer:[]
