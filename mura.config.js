@@ -32,7 +32,8 @@ export const ConnectorConfig = {
   processMarkup: false,
   editroute: '/edit',
   sitename: 'Example Site',
-  siteidinurls:false
+  siteidinurls:false,
+  codeblocks:false
 };
 
 /*

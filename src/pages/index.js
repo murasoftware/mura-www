@@ -54,7 +54,9 @@ export default function Page(props) {
           rel="stylesheet"
           key="skin"
         />
+        <div dangerouslySetInnerHTML={{__html:props.codeblocks.header}}/>
       </Head>
+      <div dangerouslySetInnerHTML={{__html:props.codeblocks.bodystart}}/>
       {content && displayregions && header && (
         <DisplayRegion
           region={header}
@@ -76,6 +78,7 @@ export default function Page(props) {
           content={content}
         />
       )}
+      <div dangerouslySetInnerHTML={{__html:props.codeblocks.footer}}/>
     </MainLayout>
   );
 }

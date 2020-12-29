@@ -174,7 +174,32 @@ export const getMuraProps = async (context,isEditMode) => {
   const muraObject = await renderContent(context);
   const content = muraObject.getAll();
   const moduleStyleData = await getRegionProps(content,isEditMode);
-  
+
+  let codeblocks={
+    header:[],
+    bodystart:[],
+    footer:[]
+  };
+
+  if(connectorConfig.codeblocks){
+    const codeCollection=await Mura.getFeed('codeblock')
+      .where().prop('active').isEQ(1).getQuery();
+    
+    codeCollection.forEach((item)=>{
+      const placement=item.get('placement').toLowerCase();
+     
+      if(placement=='header'){
+        codeblocks.header.push(item.get('code'));
+      } else if (placement=='footer'){
+        codeblocks.footer.push(item.get('code'));
+      } else if (placement=='bodystart'){
+        codeblocks.bodystart.push(item.get('code'));
+      }
+    });
+    
+  }
+
+  console.log(codeblocks)
   delete Mura._request;
   delete Mura.response;
   delete Mura.request;
@@ -182,7 +207,8 @@ export const getMuraProps = async (context,isEditMode) => {
   const props = {
     content: content,
     moduleStyleData: moduleStyleData,
-    externalModules: ExternalModules
+    externalModules: ExternalModules,
+    codeblocks: codeblocks
   };
 
   if(isEditMode){

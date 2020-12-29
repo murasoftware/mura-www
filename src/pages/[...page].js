@@ -1,7 +1,6 @@
 import React from 'react';
 import Head from 'next/head';
 import { getMuraProps, getRootPath, getMuraPaths, getSiteName } from '@mura/react/MuraConnector';
-
 import MainLayout from '@mura/react/UI/MainLayout';
 import DisplayRegion from '@mura/react/UI/DisplayRegion';
 
@@ -70,7 +69,9 @@ export default function Page(props) {
           rel="stylesheet"
           key="skin"
         />
+        <div dangerouslySetInnerHTML={{__html:props.codeblocks.header}}/>
       </Head>
+      <div dangerouslySetInnerHTML={{__html:props.codeblocks.bodystart}}/>
       {content && displayregions && header && (
         <DisplayRegion
           region={header}
@@ -92,6 +93,7 @@ export default function Page(props) {
           content={content}
         />
       )}
+       <div dangerouslySetInnerHTML={{__html:props.codeblocks.footer}}/>
     </MainLayout>
   );
 }

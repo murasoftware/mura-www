@@ -26,8 +26,9 @@ services:
         MURA_HTMLEDITORTYPE: markdown
         MURA_EDITROUTE: "/edit"
     volumes:
-        -   ../mura/app/core:/var/www/core
-        -   ../mura/app/admin:/var/www/admin
+        #-   ../mura/app/core:/var/www/core
+        #-   ../mura/app/admin:/var/www/admin
+        #-   ../mura/app/modules/codeblocks:/var/www/modules/codeblocks
         -   sites_data:/var/www/sites
         -   themes_data:/var/www/themes
         -   plugins_data:/var/www/plugins
