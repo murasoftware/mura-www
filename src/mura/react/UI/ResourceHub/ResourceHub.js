@@ -177,6 +177,8 @@ const getFilterProps = async (subtype,categoryid,personaid) => {
     return result;
   });
 
+  //ISSUE: filterprops do not "clear" when a blank value is passed to them, they maintain their previously set value when returned from resourcehub api -- add logic to resourcehub api or other solution?
+
   //can we put these into the main dynamicProps and have them available always, then this method just updates them when a seleciton is made?
   return filterProps;
 }
@@ -246,8 +248,8 @@ const RenderFilterForm = () => {
   }
 
   return (
-    <Form>
-      <Form.Group controlId="exampleForm.SelectCustom">
+    <Form className="row row-cols-3">
+      <Form.Group controlId="exampleForm.SelectCustom" className="col">
         <Form.Label>Subtypes:</Form.Label>
         <Form.Control as="select" name="subtype" custom onChange={ handleChange }>
         <option value="" key="All Subtypes">All Subtypes</option>
@@ -257,7 +259,7 @@ const RenderFilterForm = () => {
         </Form.Control>
       </Form.Group>
 
-      <Form.Group>
+      <Form.Group className="col">
       <Form.Label>Categories:</Form.Label>
         <Form.Control as="select" name="categoryid" custom onChange={ handleChange }>
           <option value="" key="All Categories">All Categories</option>
@@ -267,7 +269,7 @@ const RenderFilterForm = () => {
         </Form.Control>
       </Form.Group>
 
-      <Form.Group>
+      <Form.Group className="col">
       <Form.Label>Personas:</Form.Label>
         <Form.Control as="select" name="personaid" custom 
           onChange={ handleChange }>
