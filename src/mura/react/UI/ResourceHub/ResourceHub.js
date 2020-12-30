@@ -14,7 +14,6 @@ import CollectionReadMoreBtn from '@mura/react/UI/Utilities/CollectionReadMoreBt
 function ResourceHub(props) {
   const objectparams = Object.assign({}, props);
   const thisTitle = 'Resource Hub';
-  //console.log('objectparams: ' + JSON.stringify(objectparams.dynamicProps, undefined, 2));
 
   if(!objectparams.dynamicProps){
     const [collection,setCollection]=useState(false);
@@ -26,7 +25,6 @@ function ResourceHub(props) {
     }, []);
 
     if(collection) {
-      //console.log('collection: ' + JSON.stringify(collection, undefined, 2));
       return (
         <div>
           <h1>Dynamic {thisTitle}</h1>
@@ -45,7 +43,6 @@ function ResourceHub(props) {
     }
   } else {
     const collection=new Mura.EntityCollection(objectparams.dynamicProps.collection,Mura._requestcontext);
-    //console.log(collection);
       return (
         <div>
           <h1>Static {thisTitle}</h1>
@@ -66,11 +63,10 @@ const CurrentItems = (props) => {
   const items = collection.get('items');
   let itemsTo = items.length;
   let catAssignments = [];
-  // console.log('collection: ' + collection);
   for(let i = 0;i < itemsTo;i++) {
     item = items[i];
     catAssignments = item.getAll().categoryassignments;
-    //console.log(catAssignments)
+
     itemsList.push(
     <div className="col mb-4" key={item.get('contentid')}>
       <Card className="mb-3 h-100 shadow">
@@ -97,7 +93,7 @@ const CurrentItems = (props) => {
 
 const CurrentCats = (props) => {
   const Categories = props.categories;
-  //console.log(Categories);
+  
   let catsList = [];
   let cat = '';
   const cats = Categories.items;
@@ -121,7 +117,6 @@ export const getDynamicProps = async props => {
     }
 
     const filterProps = await getFilterProps('','','');
-    // console.log('filterprops: ' + JSON.stringify(filterProps, undefined, 2));
 
     const excludeIDList=props.content.contentid;
 
@@ -176,24 +171,13 @@ const getFilterProps = async (subtype,categoryid,personaid) => {
   const Categoryid = categoryid;
   const Personaid = personaid;
 
-  //console.log('getFilterProps Subtype: ' + Subtype);
   const filterProps = await Mura.getEntity('resourcehub').invoke('processFilterArgs',{subtype:Subtype,categoryid:Categoryid,personaid:Personaid})
   .then(function(result) {
     console.log('filterprops: ' + JSON.stringify(result, undefined, 2));
     return result;
   });
-  // console.log('filterprops: ' + filterProps);
-  // console.log('hasfilter: ' + filterProps.hasfilter);
-  // console.log('subtype: ' + filterProps.subtype);
-  // console.log('categoryid: ' + filterProps.categoryid);
-  // console.log('personaid: ' + filterProps.personaid);
 
-  // props.resourcefilters = {};
-  // props.resourcefilters.hasfilter = filterprops.hasfilter;
-  // props.resourcefilters.subtype = filterprops.subtype;
-  // props.resourcefilters.categoryid = filterprops.categoryid;
-  // props.resourcefilters.personaid = filterprops.personaid;
-
+  //can we put these into the main dynamicProps and have them available always, then this method just updates them when a seleciton is made?
   return filterProps;
 }
 
@@ -241,15 +225,10 @@ const RenderFilterForm = () => {
     }
   ]
   
-  // console.log('rendering dropdown...');
-  // console.log(subtypesArray);
   const handleChange = (e) => {
-    //console.log('handling change...');
     let subtype = '';
     let categoryid = '';
     let personaid = '';
-
-    //console.log('field name:' + e.target.name + ', field value:' + e.target.value);
 
     switch(e.target.name) {
       case 'subtype':
