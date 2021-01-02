@@ -29,8 +29,9 @@ function contentDidChange(_content) {
   
   if (content.get('redirect')) {
     // eslint-disable-next-line
-    //location.href = content.get('redirect');
-    console.log(content.get('redirect'))
+    console.log('Redirecting to', content.get('redirect'))
+    location.href = content.get('redirect');
+    //console.log(content.get('redirect'))
     return;
   }
 
