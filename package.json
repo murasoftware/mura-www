@@ -20,7 +20,7 @@
     "@fortawesome/free-solid-svg-icons": "^5.15.1",
     "@fortawesome/react-fontawesome": "^0.1.12",
     "bootstrap": "^4.5.3",
-    "mura.js": "^1.0.271",
+    "mura.js": "^1.0.273",
     "next": "^9.5.4",
     "next-transpile-modules": "^4.1.0",
     "react": "16.13.1",
