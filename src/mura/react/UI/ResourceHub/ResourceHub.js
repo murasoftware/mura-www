@@ -7,16 +7,46 @@ import Form from 'react-bootstrap/Form';
 import ItemDate from '@mura/react/UI/Utilities/ItemDate';
 
 function ResourceHub(props) {
-  const [subtypes, setSubtypes]=useState('');
-  const [categoryids, setCategoryids]=useState('');
-  const [personaids, setPersonaids]=useState('');
 
   const objectparams = Object.assign({}, props);
   const thisTitle = 'Resource Hub';
 
-  if(!objectparams.dynamicProps){
-    const [collection,setCollection]=useState(false);
-    const [resourcefilters,setResourceFilters]=useState();
+  const updateFilter = (e) => {
+    console.log('hi');
+    let subtype = '';
+    let categoryid = '';
+    let personaid = '';
+  
+    switch(e.target.name) {
+      case 'subtype':
+        subtype = e.target.value;
+        // setSubtypes = e.target.value;
+        break
+      case 'categoryid':
+        categoryid = e.target.value;
+        break
+      case 'personaid':
+        personaid = e.target.value;
+        break
+  }
+  
+    getFilterProps(subtype,categoryid,personaid).then((filterProps) => {
+      getCollection(props,filterProps).then((collection) => {
+        setCollection(collection);
+      })
+    });
+  }
+
+  let _collection = false;
+  if(objectparams.dynamicProps){
+    _collection=new Mura.EntityCollection(objectparams.dynamicProps.collection,Mura._requestcontext);
+  }
+  
+  const [collection,setCollection]=useState(_collection);
+  
+  // const [resourcefilters,setResourceFilters]=useState();
+
+  if(!objectparams.dynamicProps){    
 
     useEffect(() => {
       getDynamicProps(objectparams).then((dynamicProps)=>{
@@ -35,7 +65,7 @@ function ResourceHub(props) {
         <div>
           <h1>Dynamic {thisTitle}</h1>
 
-          <RenderFilterForm />
+          <RenderFilterForm updateFilter={updateFilter} {...props} />
 
           {/* <Collection collection={collection} {...props} layout="List" /> */}
 
@@ -53,10 +83,10 @@ function ResourceHub(props) {
       )
     }
   } else {
-    const collection=new Mura.EntityCollection(objectparams.dynamicProps.collection,Mura._requestcontext);
       return (
         <div>
           <h1>Static {thisTitle}</h1>
+          <RenderFilterForm updateFilter={updateFilter} {...props} />
           {/* <Collection collection={collection} layout="List" /> */}
           <div className="row collectionLayoutCards row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-3 row-cols-xl-3">
             <CurrentItems collection={collection} {...props} /> 
@@ -125,62 +155,67 @@ const CurrentCats = (props) => {
 }
 
 export const getDynamicProps = async props => {
-    if(typeof props.content.getAll != 'undefined'){
-        props.content=props.content.getAll();
-    }
+  const filterProps = await getFilterProps('','','');
+  const collection = await getCollection(props,filterProps);
+  return{
+    collection:collection.getAll(),
+    filterprops:filterProps
+  }
+  return {}
+}
 
-    const filterProps = await getFilterProps('','','');
-    // console.log('filterprops: ' + JSON.stringify(filterProps, undefined, 2));
-    // console.log('filterprops.subtype: ' + filterProps.subtype);
-    const excludeIDList=props.content.contentid;
+const getCollection = async (props,filterProps) => {
+  if(typeof props.content.getAll != 'undefined'){
+      props.content=props.content.getAll();
+  }
+  
+  const excludeIDList=props.content.contentid;
 
-    const feed = Mura.getFeed('content');
+  const feed = Mura.getFeed('content');
 
-        feed.prop('type').isIn('Page,Link,File');
-        feed.andProp('path').containsValue(props.content.contentid);
-        feed.andProp('contentid').isNotIn(excludeIDList);
-        feed.expand('categoryassignments');
+      feed.prop('type').isIn('Page,Link,File');
+      feed.andProp('path').containsValue(props.content.contentid);
+      feed.andProp('contentid').isNotIn(excludeIDList);
+      feed.expand('categoryassignments');
 
-        if(filterProps.subtype.length){
-          feed.andProp('subtype').isEQ(filterProps.subtype);
-        }
-        if(filterProps.categoryid.length){
-          feed.andProp('categoryid').isIn(filterProps.categoryid);
-          feed.setUseCategoryIntersect(true);
-        }
-        if(filterProps.personaid.length){
-          feed.sort('mxpRelevance');
-        }
+      if(filterProps.subtype.length){
+        feed.andProp('subtype').isEQ(filterProps.subtype);
+      }
+      if(filterProps.categoryid.length){
+        feed.andProp('categoryid').isIn(filterProps.categoryid);
+        feed.setUseCategoryIntersect(true);
+      }
+      if(filterProps.personaid.length){
+        feed.sort('mxpRelevance');
+      }
 
-        feed.maxItems(props.maxitems);
-        feed.itemsPerPage(0); 
-        
-        // if(len(session.resourceFiltler.subtype) && listFindNoCase(props.subtypes,session.resourceFiltler.subtype)){
-        //     collection.andProp('subtype').isEQ(session.resourceFiltler.subtype);
-        // }
+      feed.maxItems(props.maxitems);
+      feed.itemsPerPage(0); 
+      
+      // if(len(session.resourceFiltler.subtype) && listFindNoCase(props.subtypes,session.resourceFiltler.subtype)){
+      //     collection.andProp('subtype').isEQ(session.resourceFiltler.subtype);
+      // }
 
-        // if(hasMXP && len(session.resourceFiltler.personaid)){
-        //     collection.sort('mxpRelevance');
-        // }
+      // if(hasMXP && len(session.resourceFiltler.personaid)){
+      //     collection.sort('mxpRelevance');
+      // }
 
-        // if(listLen(session.resourceFiltler.categoryid)){
-        //     collection.andProp('categoryid').isIn(session.resourceFiltler.categoryid);
-        //     collection.setUseCategoryIntersect(true);
-        // }
+      // if(listLen(session.resourceFiltler.categoryid)){
+      //     collection.andProp('categoryid').isIn(session.resourceFiltler.categoryid);
+      //     collection.setUseCategoryIntersect(true);
+      // }
 
-        // if(hasMXP && len(session.resourceFiltler.personaid) && listFindNoCase(props.personaids,session.resourceFiltler.personaid)){
-        //     form.personaid=session.resourceFiltler.personaid;
-        //     collection.setSortBy('mxpRelevance');
-        // } else {
-        //     collection.setSortBy('releaseDate');
-        //     collection.setSortDirection('desc');
-        // }
+      // if(hasMXP && len(session.resourceFiltler.personaid) && listFindNoCase(props.personaids,session.resourceFiltler.personaid)){
+      //     form.personaid=session.resourceFiltler.personaid;
+      //     collection.setSortBy('mxpRelevance');
+      // } else {
+      //     collection.setSortBy('releaseDate');
+      //     collection.setSortDirection('desc');
+      // }
 
-    const collection = await feed.getQuery();
+  const collection = await feed.getQuery();
 
-    return {
-      collection:collection.getAll()
-    };
+  return collection;
 }
 
 const getFilterProps = async (subtype,categoryid,personaid) => {
@@ -188,43 +223,18 @@ const getFilterProps = async (subtype,categoryid,personaid) => {
   const Categoryid = categoryid;
   const Personaid = personaid;
 
-  const filterProps = await Mura.getEntity('resourcehub').invoke('processFilterArgs',{subtype:Subtype, categoryid:Categoryid, personaid:Personaid})
-  .then(function(result) {
-    console.log('filterprops: ' + JSON.stringify(result, undefined, 2));
-    return result;
-  });
+  const filterProps = await Mura.getEntity('resourcehub').invoke('processFilterArgs',{subtype:Subtype, categoryid:Categoryid, personaid:Personaid});
 
   //ISSUE: filterprops do not "clear" when a blank value is passed to them, they maintain their previously set value when returned from resourcehub api -- add logic to resourcehub api or other solution?
 
   //POSSIBLE SOLUTION: "All" selections could have an "All" value and update the api to account for this (if form.categoryid = "All" then categoryid = "")
 
   //QUESITON: can we put these into the main dynamicProps and have them available always, then this method just updates them when a seleciton is made?
-  
+  console.log('filterProps: ' + JSON.stringify(filterProps,undefined,2));
   return filterProps;
 }
 
-const updateFilter = async (e) => {
-  let subtype = '';
-  let categoryid = '';
-  let personaid = '';
-
-  switch(e.target.name) {
-    case 'subtype':
-      subtype = e.target.value;
-      // setSubtypes = e.target.value;
-      break
-    case 'categoryid':
-      categoryid = e.target.value;
-      break
-    case 'personaid':
-      personaid = e.target.value;
-      break
-  }
-
-  return getFilterProps(subtype,categoryid,personaid);
-}
-
-const RenderFilterForm = () => {
+const RenderFilterForm = (props) => {
   const subtypesArray = [
     {
       key: 'whitepaper',
@@ -279,8 +289,8 @@ const RenderFilterForm = () => {
     <Form className="row row-cols-3">
       <Form.Group controlId="selectSubtypes" className="col">
         <Form.Label>Subtypes:</Form.Label>
-        <Form.Control as="select" name="subtype" custom onChange={ updateFilter }>
-        <option value="" key="All Subtypes">All Subtypes</option>
+        <Form.Control as="select" name="subtype" custom onChange={ props.updateFilter }>
+        <option value="*" key="All Subtypes">All Subtypes</option>
         {subtypesArray.map(option => (
           <option value={option.value} key={option.key}>{option.text}</option>
         ))}
@@ -289,8 +299,8 @@ const RenderFilterForm = () => {
 
       <Form.Group controlId="selectCategories" className="col">
       <Form.Label>Categories:</Form.Label>
-        <Form.Control as="select" name="categoryid" custom onChange={ updateFilter }>
-          <option value="" key="All Categories">All Categories</option>
+        <Form.Control as="select" name="categoryid" custom onChange={ props.updateFilter }>
+          <option value="*" key="All Categories">All Categories</option>
           {categoriesArray.map(option => (
             <option value={option.value} key={option.key}>{option.text}</option>
           ))}
@@ -300,8 +310,8 @@ const RenderFilterForm = () => {
       <Form.Group controlId="selectPersonas" className="col">
       <Form.Label>Personas:</Form.Label>
         <Form.Control as="select" name="personaid" custom 
-          onChange={ updateFilter }>
-          <option value="" key="All Personas">All Personas</option>
+          onChange={ props.updateFilter }>
+          <option value="*" key="All Personas">All Personas</option>
           {personasArray.map(option => (
             <option value={option.value} key={option.key}>{option.text}</option>
           ))}
