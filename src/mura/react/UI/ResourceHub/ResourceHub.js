@@ -1,37 +1,48 @@
 import React,{useState,useEffect} from 'react';
 import Mura from 'mura.js';
-import Collection from '@mura/react/UI/Collection';
 
 import ReactMarkdown from "react-markdown";
 import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
-import CollectionNav from '@mura/react/UI/CollectionNav/CollectionNav';
 import ItemDate from '@mura/react/UI/Utilities/ItemDate';
-import CollectionReadMoreBtn from '@mura/react/UI/Utilities/CollectionReadMoreBtn';
-
-
 
 function ResourceHub(props) {
+  const [subtypes, setSubtypes]=useState('');
+  const [categoryids, setCategoryids]=useState('');
+  const [personaids, setPersonaids]=useState('');
+
   const objectparams = Object.assign({}, props);
   const thisTitle = 'Resource Hub';
 
   if(!objectparams.dynamicProps){
     const [collection,setCollection]=useState(false);
+    const [resourcefilters,setResourceFilters]=useState();
 
     useEffect(() => {
       getDynamicProps(objectparams).then((dynamicProps)=>{
+
         setCollection(new Mura.EntityCollection(dynamicProps.collection,Mura._requestcontext));
+        //setResourceFilters(dynamicProps.resourcefilters);
+        // console.log(dynamicProps.resourcefilters);
+
       });
     }, []);
+
+
 
     if(collection) {
       return (
         <div>
           <h1>Dynamic {thisTitle}</h1>
+
           <RenderFilterForm />
+
           {/* <Collection collection={collection} {...props} layout="List" /> */}
+
           <div className="row collectionLayoutCards row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-3 row-cols-xl-3">
+
             <CurrentItems collection={collection} {...props} /> 
+
           </div>
         </div>
       )
@@ -74,7 +85,9 @@ const CurrentItems = (props) => {
 
         <Card.Body>
           <div className="mura-item-meta">
+              <Card.Text key="subtype" className="badge badge-danger">{item.get('subtype')}</Card.Text>
               <Card.Text key="categories"><CurrentCats categories={catAssignments} /></Card.Text>
+              
               <Card.Title key="title">{item.get('title')}</Card.Title>
               <div className="mura-item-meta__date" key="date">
               <ItemDate releasedate={item.get('releasedate')} lastupdate={item.get('lastupdate')}></ItemDate>
@@ -117,27 +130,30 @@ export const getDynamicProps = async props => {
     }
 
     const filterProps = await getFilterProps('','','');
-
+    // console.log('filterprops: ' + JSON.stringify(filterProps, undefined, 2));
+    // console.log('filterprops.subtype: ' + filterProps.subtype);
     const excludeIDList=props.content.contentid;
 
-    const collection=await Mura.getFeed('content')
-        .where()
-        .prop('type').isIn('Page,Link,File')
-        .andProp('path').containsValue(props.content.contentid)
-        .andProp('contentid').isNotIn(excludeIDList)
-        .expand('categoryassignments')
-        .getQuery();
-        // console.log('all items: ' + JSON.stringify(collection.getAll().items, undefined, 2));
+    const feed = Mura.getFeed('content');
 
-        //.setMaxItems(props.maxitems);
-    
-        // if(len(props.subtypes)){
-        //     collection.andProp('subtype').isIn(props.subtypes);
-        // }
+        feed.prop('type').isIn('Page,Link,File');
+        feed.andProp('path').containsValue(props.content.contentid);
+        feed.andProp('contentid').isNotIn(excludeIDList);
+        feed.expand('categoryassignments');
 
-        // if(len(excludeIDList)){
-        //     collection.andProp('contentid').isNotIn(excludeIDList)
-        // }
+        if(filterProps.subtype.length){
+          feed.andProp('subtype').isEQ(filterProps.subtype);
+        }
+        if(filterProps.categoryid.length){
+          feed.andProp('categoryid').isIn(filterProps.categoryid);
+          feed.setUseCategoryIntersect(true);
+        }
+        if(filterProps.personaid.length){
+          feed.sort('mxpRelevance');
+        }
+
+        feed.maxItems(props.maxitems);
+        feed.itemsPerPage(0); 
         
         // if(len(session.resourceFiltler.subtype) && listFindNoCase(props.subtypes,session.resourceFiltler.subtype)){
         //     collection.andProp('subtype').isEQ(session.resourceFiltler.subtype);
@@ -160,7 +176,8 @@ export const getDynamicProps = async props => {
         //     collection.setSortDirection('desc');
         // }
 
-        
+    const collection = await feed.getQuery();
+
     return {
       collection:collection.getAll()
     };
@@ -171,7 +188,7 @@ const getFilterProps = async (subtype,categoryid,personaid) => {
   const Categoryid = categoryid;
   const Personaid = personaid;
 
-  const filterProps = await Mura.getEntity('resourcehub').invoke('processFilterArgs',{subtype:Subtype,categoryid:Categoryid,personaid:Personaid})
+  const filterProps = await Mura.getEntity('resourcehub').invoke('processFilterArgs',{subtype:Subtype, categoryid:Categoryid, personaid:Personaid})
   .then(function(result) {
     console.log('filterprops: ' + JSON.stringify(result, undefined, 2));
     return result;
@@ -179,8 +196,32 @@ const getFilterProps = async (subtype,categoryid,personaid) => {
 
   //ISSUE: filterprops do not "clear" when a blank value is passed to them, they maintain their previously set value when returned from resourcehub api -- add logic to resourcehub api or other solution?
 
-  //can we put these into the main dynamicProps and have them available always, then this method just updates them when a seleciton is made?
+  //POSSIBLE SOLUTION: "All" selections could have an "All" value and update the api to account for this (if form.categoryid = "All" then categoryid = "")
+
+  //QUESITON: can we put these into the main dynamicProps and have them available always, then this method just updates them when a seleciton is made?
+  
   return filterProps;
+}
+
+const updateFilter = async (e) => {
+  let subtype = '';
+  let categoryid = '';
+  let personaid = '';
+
+  switch(e.target.name) {
+    case 'subtype':
+      subtype = e.target.value;
+      // setSubtypes = e.target.value;
+      break
+    case 'categoryid':
+      categoryid = e.target.value;
+      break
+    case 'personaid':
+      personaid = e.target.value;
+      break
+  }
+
+  return getFilterProps(subtype,categoryid,personaid);
 }
 
 const RenderFilterForm = () => {
@@ -194,6 +235,11 @@ const RenderFilterForm = () => {
       key: 'webinar',
       text: 'Webinar',
       value: 'webinar',
+    },
+    {
+      key: 'article',
+      text: 'Article',
+      value: 'article',
     }
   ]
 
@@ -227,31 +273,13 @@ const RenderFilterForm = () => {
     }
   ]
   
-  const handleChange = (e) => {
-    let subtype = '';
-    let categoryid = '';
-    let personaid = '';
-
-    switch(e.target.name) {
-      case 'subtype':
-        subtype = e.target.value;
-        break
-      case 'categoryid':
-        categoryid = e.target.value;
-        break
-      case 'personaid':
-        personaid = e.target.value;
-        break
-    }
-
-    getFilterProps(subtype,categoryid,personaid);
-  }
+  
 
   return (
     <Form className="row row-cols-3">
-      <Form.Group controlId="exampleForm.SelectCustom" className="col">
+      <Form.Group controlId="selectSubtypes" className="col">
         <Form.Label>Subtypes:</Form.Label>
-        <Form.Control as="select" name="subtype" custom onChange={ handleChange }>
+        <Form.Control as="select" name="subtype" custom onChange={ updateFilter }>
         <option value="" key="All Subtypes">All Subtypes</option>
         {subtypesArray.map(option => (
           <option value={option.value} key={option.key}>{option.text}</option>
@@ -259,9 +287,9 @@ const RenderFilterForm = () => {
         </Form.Control>
       </Form.Group>
 
-      <Form.Group className="col">
+      <Form.Group controlId="selectCategories" className="col">
       <Form.Label>Categories:</Form.Label>
-        <Form.Control as="select" name="categoryid" custom onChange={ handleChange }>
+        <Form.Control as="select" name="categoryid" custom onChange={ updateFilter }>
           <option value="" key="All Categories">All Categories</option>
           {categoriesArray.map(option => (
             <option value={option.value} key={option.key}>{option.text}</option>
@@ -269,10 +297,10 @@ const RenderFilterForm = () => {
         </Form.Control>
       </Form.Group>
 
-      <Form.Group className="col">
+      <Form.Group controlId="selectPersonas" className="col">
       <Form.Label>Personas:</Form.Label>
         <Form.Control as="select" name="personaid" custom 
-          onChange={ handleChange }>
+          onChange={ updateFilter }>
           <option value="" key="All Personas">All Personas</option>
           {personasArray.map(option => (
             <option value={option.value} key={option.key}>{option.text}</option>
