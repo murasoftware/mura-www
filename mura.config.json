@@ -220,7 +220,8 @@
 			},
 			"ResourceHub":{
 				"name":"Resource Hub",
-				"contenttypes":"*"
+				"contenttypes":"*",
+				"iconclass":"mi-archive"
 			},
 			"ArticleMeta":{
 				"name":"Article Meta",
