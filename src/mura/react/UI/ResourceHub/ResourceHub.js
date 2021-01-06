@@ -11,8 +11,11 @@ function ResourceHub(props) {
   const objectparams = Object.assign({}, props);
   const thisTitle = 'Resource Hub';
 
+  let [curSubtype, setCurSubtype]=useState('*');
+  let [curCategoryId, setCurCategoryId]=useState('*');
+  let [curPersonaId, setCurPersonaId]=useState('*');
+
   const updateFilter = (e) => {
-    console.log('hi');
     let subtype = '';
     let categoryid = '';
     let personaid = '';
@@ -20,13 +23,15 @@ function ResourceHub(props) {
     switch(e.target.name) {
       case 'subtype':
         subtype = e.target.value;
-        // setSubtypes = e.target.value;
+        setCurSubtype(e.target.value);
         break
       case 'categoryid':
         categoryid = e.target.value;
+        setCurCategoryId(e.target.value);
         break
       case 'personaid':
         personaid = e.target.value;
+        setCurPersonaId(e.target.value);
         break
   }
   
@@ -46,38 +51,30 @@ function ResourceHub(props) {
   
   // const [resourcefilters,setResourceFilters]=useState();
 
-  if(!objectparams.dynamicProps){    
+  if(!objectparams.dynamicProps){
 
     useEffect(() => {
       getDynamicProps(objectparams).then((dynamicProps)=>{
-
         setCollection(new Mura.EntityCollection(dynamicProps.collection,Mura._requestcontext));
-        //setResourceFilters(dynamicProps.resourcefilters);
-        // console.log(dynamicProps.resourcefilters);
-
       });
     }, []);
 
-
+    //TO DO -- dynamicProps.filterprops does not exist here. Do we need to add a setFilterProps() method like we have setCollection() up above?
 
     if(collection) {
       return (
         <div>
-          <h1>Dynamic {thisTitle}</h1>
+          <h1>Client Side {thisTitle}</h1>
 
-          <RenderFilterForm updateFilter={updateFilter} {...props} />
-
-          {/* <Collection collection={collection} {...props} layout="List" /> */}
+          <RenderFilterForm updateFilter={updateFilter} {...props} curSubtype={curSubtype} curCategoryId={curCategoryId} curPersonaId={curPersonaId} />
 
           <div className="row collectionLayoutCards row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-3 row-cols-xl-3">
-
-            <CurrentItems collection={collection} {...props} /> 
-
+            <CurrentItems collection={collection} {...props} />
           </div>
+
         </div>
       )
-    }
-    else {
+    } else {
       return (
        <div><h1>Empty {thisTitle}</h1></div>
       )
@@ -85,8 +82,8 @@ function ResourceHub(props) {
   } else {
       return (
         <div>
-          <h1>Static {thisTitle}</h1>
-          <RenderFilterForm updateFilter={updateFilter} {...props} />
+          <h1>Server Side {thisTitle}</h1>
+          <RenderFilterForm updateFilter={updateFilter} {...props} curSubtype={curSubtype} curCategoryId={curCategoryId} curPersonaId={curPersonaId} />
           {/* <Collection collection={collection} layout="List" /> */}
           <div className="row collectionLayoutCards row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-3 row-cols-xl-3">
             <CurrentItems collection={collection} {...props} /> 
@@ -104,37 +101,46 @@ const CurrentItems = (props) => {
   const items = collection.get('items');
   let itemsTo = items.length;
   let catAssignments = [];
-  for(let i = 0;i < itemsTo;i++) {
-    item = items[i];
-    catAssignments = item.getAll().categoryassignments;
-
+  
+  if(itemsTo){
+    for(let i = 0;i < itemsTo;i++) {
+      item = items[i];
+      catAssignments = item.getAll().categoryassignments;
+  
+      itemsList.push(
+      <div className="col mb-4" key={item.get('contentid')}>
+        <Card className="mb-3 h-100 shadow">
+           <Card.Img variant="top" src={item.get('images')['landscape']} key={item.get('fileid')} />
+  
+          <Card.Body>
+            <div className="mura-item-meta">
+                <Card.Text key="subtype" className="badge badge-danger">{item.get('subtype')}</Card.Text>
+                <Card.Text key="categories"><GetCategories categories={catAssignments} /></Card.Text>
+                
+                <Card.Title key="title">{item.get('title')}</Card.Title>
+                <div className="mura-item-meta__date" key="date">
+                <ItemDate releasedate={item.get('releasedate')} lastupdate={item.get('lastupdate')}></ItemDate>
+                </div>
+                <ReactMarkdown source={item.get('summary')} key="summary" />
+            </div>
+          </Card.Body>
+  
+        </Card>
+      </div>
+      );
+    }
+  } else {
     itemsList.push(
-    <div className="col mb-4" key={item.get('contentid')}>
-      <Card className="mb-3 h-100 shadow">
-         <Card.Img variant="top" src={item.get('images')['landscape']} key={item.get('fileid')} />
-
-        <Card.Body>
-          <div className="mura-item-meta">
-              <Card.Text key="subtype" className="badge badge-danger">{item.get('subtype')}</Card.Text>
-              <Card.Text key="categories"><CurrentCats categories={catAssignments} /></Card.Text>
-              
-              <Card.Title key="title">{item.get('title')}</Card.Title>
-              <div className="mura-item-meta__date" key="date">
-              <ItemDate releasedate={item.get('releasedate')} lastupdate={item.get('lastupdate')}></ItemDate>
-              </div>
-              <ReactMarkdown source={item.get('summary')} key="summary" />
-          </div>
-        </Card.Body>
-
-      </Card>
-    </div>
-    );
+      <div className="col" key="noItems">
+        <div className="alert alert-info w-100">No items to display.</div>
+      </div>
+    )
   }
 
   return itemsList;
 }
 
-const CurrentCats = (props) => {
+const GetCategories = (props) => {
   const Categories = props.categories;
   
   let catsList = [];
@@ -168,7 +174,10 @@ const getCollection = async (props,filterProps) => {
   if(typeof props.content.getAll != 'undefined'){
       props.content=props.content.getAll();
   }
-  
+  // console.log('subtype: ' + filterProps.subtype);
+  // console.log('categoryid: ' + filterProps.categoryid);
+  // console.log('personaid: ' + filterProps.personaid);
+
   const excludeIDList=props.content.contentid;
 
   const feed = Mura.getFeed('content');
@@ -183,7 +192,7 @@ const getCollection = async (props,filterProps) => {
       }
       if(filterProps.categoryid.length){
         feed.andProp('categoryid').isIn(filterProps.categoryid);
-        feed.setUseCategoryIntersect(true);
+        feed.useCategoryIntersect(true);
       }
       if(filterProps.personaid.length){
         feed.sort('mxpRelevance');
@@ -224,17 +233,15 @@ const getFilterProps = async (subtype,categoryid,personaid) => {
   const Personaid = personaid;
 
   const filterProps = await Mura.getEntity('resourcehub').invoke('processFilterArgs',{subtype:Subtype, categoryid:Categoryid, personaid:Personaid});
-
-  //ISSUE: filterprops do not "clear" when a blank value is passed to them, they maintain their previously set value when returned from resourcehub api -- add logic to resourcehub api or other solution?
-
-  //POSSIBLE SOLUTION: "All" selections could have an "All" value and update the api to account for this (if form.categoryid = "All" then categoryid = "")
-
-  //QUESITON: can we put these into the main dynamicProps and have them available always, then this method just updates them when a seleciton is made?
-  console.log('filterProps: ' + JSON.stringify(filterProps,undefined,2));
+  
+  //console.log('filterProps: ' + JSON.stringify(filterProps,undefined,2));
   return filterProps;
 }
 
 const RenderFilterForm = (props) => {
+  // console.log(props.dynamicProps.filterprops);
+
+  //TO DO - get these values from props after getting configurator to work
   const subtypesArray = [
     {
       key: 'whitepaper',
@@ -252,7 +259,6 @@ const RenderFilterForm = (props) => {
       value: 'article',
     }
   ]
-
   const categoriesArray = [
     {
       key: 'developers',
@@ -283,42 +289,70 @@ const RenderFilterForm = (props) => {
     }
   ]
   
+  // console.log('filterprops: ' + JSON.stringify(props, replacerFunc(), 2));
   
+  //TO DO - persist after refresh -- not sure it is necessary, reinitializing on refresh seems like a logical result
+
+  //Good discussion here about locastorage and being an anti-pattern
+  //https://stackoverflow.com/questions/28314368/how-to-maintain-state-after-a-page-refresh-in-react-js
+
+  const curSubtype = props.curSubtype;
+  const curCategoryId = props.curCategoryId;
+  const curPersonaId = props.curPersonaId;
 
   return (
     <Form className="row row-cols-3">
       <Form.Group controlId="selectSubtypes" className="col">
         <Form.Label>Subtypes:</Form.Label>
-        <Form.Control as="select" name="subtype" custom onChange={ props.updateFilter }>
-        <option value="*" key="All Subtypes">All Subtypes</option>
-        {subtypesArray.map(option => (
-          <option value={option.value} key={option.key}>{option.text}</option>
-        ))}
+        <Form.Control as="select" name="subtype" custom onChange={ props.updateFilter } value={curSubtype}>
+          <option value="*" key="All Subtypes">All Subtypes</option>
+          {subtypesArray.map(option => (
+            <RenderOption option={option} key={option.value} />
+          ))}
         </Form.Control>
       </Form.Group>
 
       <Form.Group controlId="selectCategories" className="col">
       <Form.Label>Categories:</Form.Label>
-        <Form.Control as="select" name="categoryid" custom onChange={ props.updateFilter }>
+        <Form.Control as="select" name="categoryid" custom onChange={ props.updateFilter } value={curCategoryId}>
           <option value="*" key="All Categories">All Categories</option>
           {categoriesArray.map(option => (
-            <option value={option.value} key={option.key}>{option.text}</option>
+            <RenderOption option={option} key={option.value} />
           ))}
         </Form.Control>
       </Form.Group>
 
       <Form.Group controlId="selectPersonas" className="col">
       <Form.Label>Personas:</Form.Label>
-        <Form.Control as="select" name="personaid" custom 
-          onChange={ props.updateFilter }>
+        <Form.Control as="select" name="personaid" custom onChange={ props.updateFilter } value={curPersonaId}>
           <option value="*" key="All Personas">All Personas</option>
           {personasArray.map(option => (
-            <option value={option.value} key={option.key}>{option.text}</option>
+            <RenderOption option={option} key={option.value} />
           ))}
         </Form.Control>
       </Form.Group>
     </Form>
   );
 }
+
+const RenderOption = props => {
+  return (
+    <option value={props.option.value} key={props.option.key}>{props.option.text}</option>
+  )
+}
+
+//for debugging only
+const replacerFunc = () => {
+  const visited = new WeakSet();
+  return (key, value) => {
+    if (typeof value === "object" && value !== null) {
+      if (visited.has(value)) {
+        return;
+      }
+      visited.add(value);
+    }
+    return value;
+  };
+};
 
 export default ResourceHub;
