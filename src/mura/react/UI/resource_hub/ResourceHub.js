@@ -64,7 +64,7 @@ function ResourceHub(props) {
     if(collection) {
       return (
         <div>
-          <h1>Client Side {thisTitle}</h1>
+          <h1>Dynamic {thisTitle}</h1>
 
           <RenderFilterForm updateFilter={updateFilter} {...props} curSubtype={curSubtype} curCategoryId={curCategoryId} curPersonaId={curPersonaId} />
 
@@ -82,7 +82,7 @@ function ResourceHub(props) {
   } else {
       return (
         <div>
-          <h1>Server Side {thisTitle}</h1>
+          <h1>Server Side Rendering {thisTitle}</h1>
           <RenderFilterForm updateFilter={updateFilter} {...props} curSubtype={curSubtype} curCategoryId={curCategoryId} curPersonaId={curPersonaId} />
           {/* <Collection collection={collection} layout="List" /> */}
           <div className="row collectionLayoutCards row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-3 row-cols-xl-3">
