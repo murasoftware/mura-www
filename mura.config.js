@@ -7,6 +7,7 @@ import Container from '@mura/react/UI/Container';
 import Embed from '@mura/react/UI/Embed';
 import Hr from '@mura/react/UI/Hr';
 import PrimaryNav,{getDynamicProps as getPrimaryNavProps} from '@mura/react/UI/PrimaryNav';
+import ResourceHub,{getDynamicProps as getResourceHubProps} from '@mura/react/UI/ResourceHub';
 import ArticleMeta from '@mura/react/UI/ArticleMeta';
 import CTAButton from '@mura/react/UI/CTAButton';
 
@@ -123,6 +124,11 @@ let moduleRegistry = [
     name: 'PrimaryNav',
     component: PrimaryNav,
     getDynamicProps: getPrimaryNavProps,
+  },
+  {
+    name: 'resource_hub',
+    component: ResourceHub,
+    getDynamicProps: getResourceHubProps,
   },
   {
     name: 'ArticleMeta',
