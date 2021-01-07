@@ -26,12 +26,44 @@ function contentDidChange(_content) {
   const content = Mura.getEntity('content').set(_content);
 
   getMura();
-  
+
   if (content.get('redirect')) {
-    // eslint-disable-next-line
-    console.log('Redirecting to', content.get('redirect'))
-    location.href = content.get('redirect');
-    //console.log(content.get('redirect'))
+    
+    if(Mura.editroute){
+      const pathArray=window.location.pathname.split('/').filter((item)=>{
+        if(item){
+          return true;
+        }
+      });
+      let isEditMode=(pathArray.length && '/' + pathArray[0]==Mura.editroute);
+      //console.log(isEditMode, pathArray,Mura.editroute, content.get('redirect').indexOf('lockdown'))
+      /*
+        If site is returning a lockdown redirect check if it's 
+        and edit route first.  If it's not then redirect to the dynamic edit
+        route so that it can get the dynamic content
+      */
+
+      if(!isEditMode && content.get('redirect').indexOf('lockdown')){
+        let editroute="";
+
+        if(pathArray.length){
+          editroute="/edit/" +  pathArray.join("/") + "/";
+          console.log('Redirecting to edit route',editroute)
+          location.href = editroute;
+        } else {
+          editroute="/edit/";
+          console.log('Redirecting to edit route',editroute)
+          location.href = editroute;
+        }   
+      } else {
+        console.log('Redirecting', content.get('redirect'))
+        location.href = content.get('redirect');
+      }
+    } else {
+      console.log('Redirecting', content.get('redirect'))
+      //location.href = content.get('redirect');
+    }
+
     return;
   }
 
@@ -45,6 +77,7 @@ function contentDidChange(_content) {
   setTimeout(() => {
     // console.log("timeout",_content);
     const htmlQueueContainer = Mura('#htmlqueues');
+
     if (htmlQueueContainer.length) {
       Mura('#htmlqueues').html(
         content.get('htmlheadqueue') + content.get('htmlfootqueue'),

@@ -37,7 +37,7 @@ export default function Page(props) {
     moduleStyleData
   } = props;
 
-  if(content.isnew){
+  if(content.isnew && !content.redirect){
     return <ErrorPage statusCode="404" />
   } else {
     return (

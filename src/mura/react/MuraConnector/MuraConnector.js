@@ -171,7 +171,7 @@ export const getSiteName = () => {
 export const getMuraProps = async (context,isEditMode) => {
   const Mura=getMura(context);
   
-  const muraObject = await renderContent(context);
+  const muraObject = await renderContent(context,isEditMode);
   const content = muraObject.getAll();
   const moduleStyleData = await getRegionProps(content,isEditMode);
 
@@ -224,13 +224,17 @@ export const getMuraProps = async (context,isEditMode) => {
   }
 };
 
-async function renderContent(context) {
+async function renderContent(context,isEditMode) {
   let query = {};
 
   if (context.browser) {
     query = Mura.getQueryStringParams();
   } else if (context.query) {
     query = {...context.query};
+  }
+
+  if(isEditMode){
+    query.isEditRoute=isEditMode;
   }
 
   let filename = '';
@@ -246,7 +250,7 @@ async function renderContent(context) {
     filename=filename.join("/");
   }
   
-  //console.log(filename,Mura.siteid)
+  //console.log(filename,query,isEditMode)
 
   return await Mura.renderFilename(filename, query).then(
     async rendered => {
@@ -286,6 +290,9 @@ async function renderContent(context) {
 async function getRegionProps(content,isEditMode) {
   getMura();
   let moduleStyleData = {};
+
+  content.displayregions=content.displayregions || {};
+  
   const regions=Object.values(content.displayregions);
 
   for(const regionIdx in regions){

@@ -33,7 +33,7 @@ export const ConnectorConfig = {
   editroute: '/edit',
   sitename: 'Example Site',
   siteidinurls:false,
-  codeblocks:false
+  codeblocks:true
 };
 
 /*
