@@ -19,7 +19,11 @@ export const getHref = (filename) => {
 export const getComponent = item => {
   getMura();
 
-  const objectkey = Mura.firstToUpperCase(item.object);
+  let objectkey = item.object;
+  
+  if (typeof ComponentRegistry[objectkey] == 'undefined'){
+      objectkey = Mura.firstToUpperCase(item.object);
+  }
 
   if (typeof ComponentRegistry[objectkey] != 'undefined') {
     const ComponentVariable = ComponentRegistry[objectkey].component;
@@ -333,8 +337,15 @@ async function getModuleProps(item,moduleStyleData,isEditMode,content) {
   getMura();
 
   try{
-    const objectkey = Mura.firstToUpperCase(item.object);
+
+    let objectkey = item.object;
+   
+    if (typeof ComponentRegistry[objectkey] == 'undefined'){
+       objectkey = Mura.firstToUpperCase(item.object);
+    }
+
     if (typeof ComponentRegistry[objectkey] != 'undefined') {
+     
       if(ComponentRegistry[objectkey].SSR){
         item.dynamicProps = await ComponentRegistry[objectkey].getDynamicProps({...item,content});
       }
