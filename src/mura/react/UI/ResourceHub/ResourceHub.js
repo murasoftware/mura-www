@@ -16,7 +16,6 @@ function ResourceHub(props) {
   let [curPersonaId, setCurPersonaId]=useState('*');
 
   const updateFilter = (e) => {
-    console.log('update filter');
     let subtype = '';
     let categoryid = '';
     let personaid = '';
@@ -161,18 +160,13 @@ const GetCategories = (props) => {
   return 'No Categories';
 }
 
-export const getDynamicProps = async props => {
-  console.log('hello');
-  
-  // const filterProps = await getFilterProps('','','');
-  // const collection = await getCollection(props,filterProps);
-
-  // console.log(collection.getAll());
-
-  // return{
-  //   collection:collection.getAll(),
-  //   filterprops:filterProps
-  // }
+export const getDynamicProps = async props => {  
+  const filterProps = await getFilterProps('','','');
+  const collection = await getCollection(props,filterProps);
+  return{
+    collection:collection.getAll(),
+    filterprops:filterProps
+  }
   return {}
 }
 
