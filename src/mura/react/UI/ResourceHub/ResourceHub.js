@@ -82,7 +82,7 @@ function ResourceHub(props) {
   } else {
       return (
         <div>
-          <h1>Static {thisTitle}</h1>
+          <h1>SSR {thisTitle}</h1>
           <RenderFilterForm updateFilter={updateFilter} {...props} curSubtype={curSubtype} curCategoryId={curCategoryId} curPersonaId={curPersonaId} />
           {/* <Collection collection={collection} layout="List" /> */}
           <div className="row collectionLayoutCards row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-3 row-cols-xl-3">
@@ -160,14 +160,14 @@ const GetCategories = (props) => {
   return 'No Categories';
 }
 
-export const getDynamicProps = async props => {  
+export const getDynamicProps = async props => {
   const filterProps = await getFilterProps('','','');
   const collection = await getCollection(props,filterProps);
+  
   return{
     collection:collection.getAll(),
     filterprops:filterProps
   }
-  return {}
 }
 
 const getCollection = async (props,filterProps) => {
