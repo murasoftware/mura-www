@@ -186,9 +186,6 @@ const getCollection = async (props,filterProps) => {
   if(typeof props.content.getAll != 'undefined'){
       props.content=props.content.getAll();
   }
-  // console.log('subtype: ' + filterProps.subtype);
-  // console.log('categoryid: ' + filterProps.categoryid);
-  // console.log('personaid: ' + filterProps.personaid);
 
   const excludeIDList=props.content.contentid;
 
@@ -252,10 +249,22 @@ const getFilterProps = async (subtype,categoryid,personaid) => {
 
 const RenderFilterForm = (props) => {
   const objectparams = Object.assign({}, props);
-  
+  const [categoriesArray,setCategoriesArray]=useState(false);
+
   const subtypesArray = objectparams.subtypes ? objectparams.subtypes.split(',') : [];
   
-  const categoriesArray = objectparams.categoryids ? objectparams.categoryids.split(','): [];
+  const categoryIds = objectparams.categoryids ? objectparams.categoryids.split(','): [];
+
+  useEffect(() => {
+    let isMounted = true; // note this flag denote mount status
+    getCategoriesInfo(categoryIds).then((data)=>{
+      //console.log(data);
+      if (isMounted) setCategoriesArray(data.items);
+    });
+    return () => { isMounted = false };
+  }, []);
+  
+  // console.log('returned categoriesArray: ' + categoriesArray)
 
   const personasArray = [
     {
@@ -278,8 +287,8 @@ const RenderFilterForm = (props) => {
   const curCategoryId = props.curCategoryId;
   const curPersonaId = props.curPersonaId;
 
-  console.log('subtypes: ' + subtypesArray);
-  console.log('current subtype: ' + curSubtype);
+  // console.log('subtypes: ' + subtypesArray);
+  // console.log('current subtype: ' + curSubtype);
 
   return (
     <Form className="row row-cols-3">
@@ -294,13 +303,13 @@ const RenderFilterForm = (props) => {
         </Form.Control>
       </Form.Group>
       }
-      {categoriesArray.length > 0 &&
+      {categoriesArray && categoriesArray.length > 0 &&
       <Form.Group controlId="selectCategories" className="col">
       <Form.Label>Categories:</Form.Label>
         <Form.Control as="select" name="categoryid" custom onChange={ props.updateFilter } value={curCategoryId}>
           <option value="*" key="All Categories">All Categories</option>
           {categoriesArray.map((category, index) => (
-            <option value={category} key={index}>{category}</option>
+            <option value={category.categoryid} key={index}>{category.name}</option>
           ))}
         </Form.Control>
       </Form.Group>
@@ -318,6 +327,18 @@ const RenderFilterForm = (props) => {
       }
     </Form>
   );
+}
+
+const getCategoriesInfo = async (categoryIds) => {
+  // console.log('categoryids: ' + categoryIds);
+  const feed = Mura.getFeed('category');
+        feed.prop('categoryid').isIn(categoryIds);
+
+  const query = await feed.getQuery();
+  const categories = query.getAll();
+
+  //console.log('categories getCategoriesInfo:' + JSON.stringify(categories, undefined, 2));
+  return categories
 }
 
 const RenderOption = props => {
