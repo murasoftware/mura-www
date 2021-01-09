@@ -66,7 +66,13 @@ function ResourceHub(props) {
         <div>
           <h1>Dynamic {thisTitle}</h1>
 
-          <RenderFilterForm updateFilter={updateFilter} {...props} curSubtype={curSubtype} curCategoryId={curCategoryId} curPersonaId={curPersonaId} />
+          <RenderFilterForm 
+            updateFilter={updateFilter}
+            {...props}
+            curSubtype={curSubtype}
+            curCategoryId={curCategoryId}
+            curPersonaId={curPersonaId}
+          />
 
           <div className="row collectionLayoutCards row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-3 row-cols-xl-3">
             <CurrentItems collection={collection} {...props} />
@@ -83,7 +89,13 @@ function ResourceHub(props) {
       return (
         <div>
           <h1>SSR {thisTitle}</h1>
-          <RenderFilterForm updateFilter={updateFilter} {...props} curSubtype={curSubtype} curCategoryId={curCategoryId} curPersonaId={curPersonaId} />
+          <RenderFilterForm 
+            updateFilter={updateFilter}
+            {...props}
+            curSubtype={curSubtype}
+            curCategoryId={curCategoryId}
+            curPersonaId={curPersonaId}
+          />
           {/* <Collection collection={collection} layout="List" /> */}
           <div className="row collectionLayoutCards row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-3 row-cols-xl-3">
             <CurrentItems collection={collection} {...props} /> 
@@ -239,43 +251,12 @@ const getFilterProps = async (subtype,categoryid,personaid) => {
 }
 
 const RenderFilterForm = (props) => {
-  // console.log(props.dynamicProps.filterprops);
+  const objectparams = Object.assign({}, props);
+  
+  const subtypesArray = objectparams.subtypes ? objectparams.subtypes.split(',') : [];
+  
+  const categoriesArray = objectparams.categoryids ? objectparams.categoryids.split(','): [];
 
-  //TO DO - get these values from props after getting configurator to work
-  const subtypesArray = [
-    {
-      key: 'whitepaper',
-      text: 'White Paper',
-      value: 'whitepaper',
-    },
-    {
-      key: 'webinar',
-      text: 'Webinar',
-      value: 'webinar',
-    },
-    {
-      key: 'article',
-      text: 'Article',
-      value: 'article',
-    }
-  ]
-  const categoriesArray = [
-    {
-      key: 'developers',
-      text: 'Developers',
-      value: '7EC9592C-719A-4745-B017ED8B6223178F',
-    },
-    {
-      key: 'itprofessionals',
-      text: 'IT Professionals',
-      value: 'C501C4E8-429E-408D-94721ADC3BA56E9F',
-    },
-    {
-      key: 'marketers',
-      text: 'Marketers',
-      value: '38212296-E460-4883-A1C83D49E3DAC901',
-    }
-  ]
   const personasArray = [
     {
       key: 'persona1',
@@ -291,46 +272,50 @@ const RenderFilterForm = (props) => {
   
   // console.log('filterprops: ' + JSON.stringify(props, replacerFunc(), 2));
   
-  //TO DO - persist after refresh -- not sure it is necessary, reinitializing on refresh seems like a logical result
-
-  //Good discussion here about locastorage and being an anti-pattern
-  //https://stackoverflow.com/questions/28314368/how-to-maintain-state-after-a-page-refresh-in-react-js
+  //TO DO - persist after refresh -- useState and get value from props.objectparams.filterProps
 
   const curSubtype = props.curSubtype;
   const curCategoryId = props.curCategoryId;
   const curPersonaId = props.curPersonaId;
 
+  console.log('subtypes: ' + subtypesArray);
+  console.log('current subtype: ' + curSubtype);
+
   return (
     <Form className="row row-cols-3">
+      {subtypesArray.length > 0 &&
       <Form.Group controlId="selectSubtypes" className="col">
         <Form.Label>Subtypes:</Form.Label>
         <Form.Control as="select" name="subtype" custom onChange={ props.updateFilter } value={curSubtype}>
           <option value="*" key="All Subtypes">All Subtypes</option>
-          {subtypesArray.map(option => (
-            <RenderOption option={option} key={option.value} />
+          {subtypesArray.map((subtype, index) => (
+            <option value={subtype} key={index}>{subtype}</option>
           ))}
         </Form.Control>
       </Form.Group>
-
+      }
+      {categoriesArray.length > 0 &&
       <Form.Group controlId="selectCategories" className="col">
       <Form.Label>Categories:</Form.Label>
         <Form.Control as="select" name="categoryid" custom onChange={ props.updateFilter } value={curCategoryId}>
           <option value="*" key="All Categories">All Categories</option>
-          {categoriesArray.map(option => (
-            <RenderOption option={option} key={option.value} />
+          {categoriesArray.map((category, index) => (
+            <option value={category} key={index}>{category}</option>
           ))}
         </Form.Control>
       </Form.Group>
-
+      }
+      {personasArray.length > 0 &&
       <Form.Group controlId="selectPersonas" className="col">
       <Form.Label>Personas:</Form.Label>
         <Form.Control as="select" name="personaid" custom onChange={ props.updateFilter } value={curPersonaId}>
           <option value="*" key="All Personas">All Personas</option>
           {personasArray.map(option => (
-            <RenderOption option={option} key={option.value} />
+            <RenderOption option={option} key={option.key} />
           ))}
         </Form.Control>
       </Form.Group>
+      }
     </Form>
   );
 }
