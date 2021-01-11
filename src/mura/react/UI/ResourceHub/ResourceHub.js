@@ -171,7 +171,7 @@ const GetCategories = (props) => {
       catsList.push(
         <span key={cat.categoryid}>{cat.categoryname}{hasnext && `, ` }</span>
       )
-      
+
     }
     return catsList;
   }
@@ -309,17 +309,6 @@ const RenderFilterForm = (props) => {
         </Form.Control>
       </Form.Group>
       }
-      {/* {categoriesArray && categoriesArray.length > 0 &&
-      <Form.Group controlId="selectCategories" className="col">
-      <Form.Label>Categories:</Form.Label>
-        <Form.Control as="select" name="categoryid" custom onChange={ props.updateFilter } value={curCategoryId}>
-          <option value="*" key="All Categories">All Categories</option>
-          {categoriesArray.map((category, index) => (
-            <option value={category.categoryid} key={index}>{category.name}</option>
-          ))}
-        </Form.Control>
-      </Form.Group>
-      } */}
       {categoriesArray && categoriesArray.length > 0 &&
       <>
         {categoriesArray.map((category, index) => (
@@ -369,7 +358,7 @@ const CategorySelect = props => {
 }
 const getCategoriesInfo = async (categoryIds) => {
   const feed = Mura.getFeed('category');
-        feed.prop('categoryid').isIn(categoryIds);
+        feed.findMany(categoryIds);
 
   const query = await feed.getQuery();
   const categories = query.getAll();
