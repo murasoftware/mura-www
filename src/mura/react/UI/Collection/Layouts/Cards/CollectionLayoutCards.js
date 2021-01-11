@@ -5,7 +5,7 @@ import ReactMarkdown from "react-markdown";
 import CollectionNav from '@mura/react/UI/CollectionNav/CollectionNav';
 import ItemDate from '@mura/react/UI/Utilities/ItemDate';
 import CollectionReadMoreBtn from '@mura/react/UI/Utilities/CollectionReadMoreBtn';
-import ItemCategories from '@mura/react/UI/ItemCategories';
+import ItemCategories from '@mura/react/UI/Utilities/ItemCategories';
 /*
   The link component throws an error when rerending after being 
   reconfigured in edit mode. Hence CollectionLink
