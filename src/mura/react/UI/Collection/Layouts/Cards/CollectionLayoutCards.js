@@ -5,6 +5,7 @@ import ReactMarkdown from "react-markdown";
 import CollectionNav from '@mura/react/UI/CollectionNav/CollectionNav';
 import ItemDate from '@mura/react/UI/Utilities/ItemDate';
 import CollectionReadMoreBtn from '@mura/react/UI/Utilities/CollectionReadMoreBtn';
+import ItemCategories from '@mura/react/UI/ItemCategories';
 /*
   The link component throws an error when rerending after being 
   reconfigured in edit mode. Hence CollectionLink
@@ -35,6 +36,7 @@ const CurrentItems = (props) => {
   const fieldlist = fields ? fields.toLowerCase().split(",") : [];
   const maxItems = props.maxitems;
   // console.log('fieldlist: ' + fieldlist);
+  let catAssignments = [];
 
   if (maxItems < items.length && pos+nextn > maxItems){
     itemsTo = maxItems;
@@ -42,6 +44,7 @@ const CurrentItems = (props) => {
   
   for(let i = pos;i < itemsTo;i++) {
     item = items[i];
+    catAssignments = item.getAll().categoryassignments;
     itemsList.push(
       
     <div className="col mb-4" key={item.get('contentid')}>
@@ -82,6 +85,8 @@ const CurrentItems = (props) => {
             link={Link}
             key={item.get('contentid')}
           />
+          <hr />
+          <Card.Text key="categories"><ItemCategories categories={catAssignments} /></Card.Text>
         </Card.Footer>
 
       </Card>

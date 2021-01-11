@@ -1,0 +1,27 @@
+function ItemCategories(props) {
+    const Categories = props.categories;
+    
+    let catsList = [];
+    let cat = '';
+    const cats = Categories.items;
+    let catsTo = cats.length;
+    let hasnext = false;
+  
+    // console.log('getCategories categories: ' + JSON.stringify(cats, undefined, 2));
+    
+    if (cats.length){
+        for(let i = 0;i < catsTo;i++) {
+        cat = cats[i];
+        hasnext = i+1 < catsTo;
+  
+        catsList.push(
+          <span key={cat.categoryid}>{cat.categoryname}{hasnext && `, ` }</span>
+        )
+  
+      }
+      return catsList;
+    }
+    return 'No Categories';
+}
+
+export default ItemCategories;
