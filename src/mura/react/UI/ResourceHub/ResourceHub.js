@@ -4,11 +4,13 @@ import Mura from 'mura.js';
 import ReactMarkdown from "react-markdown";
 import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
+import {getLayout,RouterlessLink,RouterLink} from '@mura/react/UI/Collection';
 import ItemDate from '@mura/react/UI/Utilities/ItemDate';
 
 function ResourceHub(props) {
-
   const objectparams = Object.assign({}, props);
+  const DynamicCollectionLayout = getLayout(objectparams.layout).component;
+
   const thisTitle = 'Resource Hub';
 
   let [curSubtype, setCurSubtype]=useState('*');
@@ -74,9 +76,7 @@ function ResourceHub(props) {
             curPersonaId={curPersonaId}
           />
 
-          <div className="row collectionLayoutCards row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-3 row-cols-xl-3">
-            <CurrentItems collection={collection} {...props} />
-          </div>
+          <DynamicCollectionLayout collection={collection} props={props} link={RouterlessLink}/>
 
         </div>
       )
@@ -96,86 +96,10 @@ function ResourceHub(props) {
             curCategoryId={curCategoryId}
             curPersonaId={curPersonaId}
           />
-          {/* <Collection collection={collection} layout="List" /> */}
-          <div className="row collectionLayoutCards row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-3 row-cols-xl-3">
-            <CurrentItems collection={collection} {...props} /> 
-          </div>
+          <DynamicCollectionLayout collection={collection} props={props} link={RouterLink}/>
         </div>
       )
   }
-}
-
-const CurrentItems = (props) => {
-  const {collection,nextn,link,pos,fields} = props;
-  let itemsList = [];
-  let item = '';
-  const Link = link;
-  const items = collection.get('items');
-  let itemsTo = items.length;
-  let catAssignments = [];
-  
-  if(itemsTo){
-    for(let i = 0;i < itemsTo;i++) {
-      item = items[i];
-      catAssignments = item.getAll().categoryassignments;
-      // console.log('cat assignments: ' + JSON.stringify(catAssignments, undefined, 2));
-      itemsList.push(
-      <div className="col mb-4" key={item.get('contentid')}>
-        <Card className="mb-3 h-100 shadow">
-           <Card.Img variant="top" src={item.get('images')['landscape']} key={item.get('fileid')} />
-  
-          <Card.Body>
-            <div className="mura-item-meta">
-                <Card.Text key="subtype" className="badge badge-danger">{item.get('subtype')}</Card.Text>
-                <Card.Text key="categories"><GetCategories categories={catAssignments} /></Card.Text>
-                
-                <Card.Title key="title">{item.get('title')}</Card.Title>
-                <div className="mura-item-meta__date" key="date">
-                <ItemDate releasedate={item.get('releasedate')} lastupdate={item.get('lastupdate')}></ItemDate>
-                </div>
-                <ReactMarkdown source={item.get('summary')} key="summary" />
-            </div>
-          </Card.Body>
-  
-        </Card>
-      </div>
-      );
-    }
-  } else {
-    itemsList.push(
-      <div className="col" key="noItems">
-        <div className="alert alert-info w-100">No items to display.</div>
-      </div>
-    )
-  }
-
-  return itemsList;
-}
-
-const GetCategories = (props) => {
-  const Categories = props.categories;
-  
-  let catsList = [];
-  let cat = '';
-  const cats = Categories.items;
-  let catsTo = cats.length;
-  let hasnext = false;
-
-  // console.log('getCategories categories: ' + JSON.stringify(cats, undefined, 2));
-  
-  if (cats.length){
-      for(let i = 0;i < catsTo;i++) {
-      cat = cats[i];
-      hasnext = i+1 < catsTo;
-
-      catsList.push(
-        <span key={cat.categoryid}>{cat.categoryname}{hasnext && `, ` }</span>
-      )
-
-    }
-    return catsList;
-  }
-  return 'No Categories';
 }
 
 export const getDynamicProps = async props => {
