@@ -118,7 +118,7 @@ const CurrentItems = (props) => {
     for(let i = 0;i < itemsTo;i++) {
       item = items[i];
       catAssignments = item.getAll().categoryassignments;
-  
+      // console.log('cat assignments: ' + JSON.stringify(catAssignments, undefined, 2));
       itemsList.push(
       <div className="col mb-4" key={item.get('contentid')}>
         <Card className="mb-3 h-100 shadow">
@@ -159,13 +159,19 @@ const GetCategories = (props) => {
   let cat = '';
   const cats = Categories.items;
   let catsTo = cats.length;
+  let hasnext = false;
+
+  // console.log('getCategories categories: ' + JSON.stringify(cats, undefined, 2));
   
   if (cats.length){
       for(let i = 0;i < catsTo;i++) {
       cat = cats[i];
+      hasnext = i+1 < catsTo;
+
       catsList.push(
-        <span key={cat.categoryid}>{cat.categoryname}</span>
+        <span key={cat.categoryid}>{cat.categoryname}{hasnext && `, ` }</span>
       )
+      
     }
     return catsList;
   }
@@ -303,7 +309,7 @@ const RenderFilterForm = (props) => {
         </Form.Control>
       </Form.Group>
       }
-      {categoriesArray && categoriesArray.length > 0 &&
+      {/* {categoriesArray && categoriesArray.length > 0 &&
       <Form.Group controlId="selectCategories" className="col">
       <Form.Label>Categories:</Form.Label>
         <Form.Control as="select" name="categoryid" custom onChange={ props.updateFilter } value={curCategoryId}>
@@ -313,6 +319,13 @@ const RenderFilterForm = (props) => {
           ))}
         </Form.Control>
       </Form.Group>
+      } */}
+      {categoriesArray && categoriesArray.length > 0 &&
+      <>
+        {categoriesArray.map((category, index) => (
+          <CategorySelect categoryid={category.categoryid} filterlabel={category.name} updateFilter={props.updateFilter} curCategoryId={curCategoryId} key={category.categoryid} />
+        ))}
+      </>
       }
       {personasArray.length > 0 &&
       <Form.Group controlId="selectPersonas" className="col">
@@ -329,8 +342,32 @@ const RenderFilterForm = (props) => {
   );
 }
 
+const CategorySelect = props => {
+  // const categoryKids = [];
+  const [categoryKids,setCategoryKids]=useState([]);
+
+  useEffect(() => {
+    let isMounted = true; // note this flag denote mount status
+    getCategoryKidsInfo(props.categoryid).then((data)=>{
+      //console.log(data);
+      if (isMounted) setCategoryKids(data.items);
+    });
+    return () => { isMounted = false };
+  }, []);
+
+  return(
+    <Form.Group controlId="selectCategories" className="col">
+      <Form.Label>{props.filterlabel}:</Form.Label>
+        <Form.Control as="select" name="categoryid" custom onChange={ props.updateFilter } value={props.curCategoryId}>
+          <option value="*" key="All Categories">All</option>
+          {categoryKids.map((category, index) => (
+            <option value={category.categoryid} key={index}>{category.name}</option>
+          ))}
+        </Form.Control>
+      </Form.Group>
+  )
+}
 const getCategoriesInfo = async (categoryIds) => {
-  // console.log('categoryids: ' + categoryIds);
   const feed = Mura.getFeed('category');
         feed.prop('categoryid').isIn(categoryIds);
 
@@ -339,6 +376,17 @@ const getCategoriesInfo = async (categoryIds) => {
 
   //console.log('categories getCategoriesInfo:' + JSON.stringify(categories, undefined, 2));
   return categories
+}
+
+const getCategoryKidsInfo = async (categoryId) => {
+  const feed = Mura.getFeed('category');
+        feed.prop('parentid').isEQ(categoryId);
+
+  const query = await feed.getQuery();
+  const categorykids = query.getAll();
+
+  //console.log('categories getCategoryKidsInfo:' + JSON.stringify(categorykids, undefined, 2));
+  return categorykids
 }
 
 const RenderOption = props => {
