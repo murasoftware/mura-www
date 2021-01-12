@@ -1,4 +1,4 @@
-import Collection, {getDynamicProps} from './Collection'
+import Collection, {getDynamicProps,getLayout,RouterlessLink,RouterLink} from './Collection'
 
-export {getDynamicProps};
+export {getDynamicProps,getLayout,RouterlessLink,RouterLink};
 export default Collection;

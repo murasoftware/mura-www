@@ -1,14 +1,12 @@
 import React,{useState,useEffect} from 'react';
 import Mura from 'mura.js';
-
-import ReactMarkdown from "react-markdown";
-import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
-import ItemDate from '@mura/react/UI/Utilities/ItemDate';
+import {getLayout,RouterlessLink,RouterLink} from '@mura/react/UI/Collection';
 
 function ResourceHub(props) {
-
   const objectparams = Object.assign({}, props);
+  const DynamicCollectionLayout = getLayout(objectparams.layout).component;
+
   const thisTitle = 'Resource Hub';
 
   let [curSubtype, setCurSubtype]=useState('*');
@@ -16,7 +14,6 @@ function ResourceHub(props) {
   let [curPersonaId, setCurPersonaId]=useState('*');
 
   const updateFilter = (e) => {
-    console.log('update filter');
     let subtype = '';
     let categoryid = '';
     let personaid = '';
@@ -67,11 +64,15 @@ function ResourceHub(props) {
         <div>
           <h1>Dynamic {thisTitle}</h1>
 
-          <RenderFilterForm updateFilter={updateFilter} {...props} curSubtype={curSubtype} curCategoryId={curCategoryId} curPersonaId={curPersonaId} />
+          <RenderFilterForm 
+            updateFilter={updateFilter}
+            {...props}
+            curSubtype={curSubtype}
+            curCategoryId={curCategoryId}
+            curPersonaId={curPersonaId}
+          />
 
-          <div className="row collectionLayoutCards row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-3 row-cols-xl-3">
-            <CurrentItems collection={collection} {...props} />
-          </div>
+          <DynamicCollectionLayout collection={collection} props={props} link={RouterlessLink}/>
 
         </div>
       )
@@ -84,81 +85,17 @@ function ResourceHub(props) {
       return (
         <div>
           <h1>SSR {thisTitle}</h1>
-          <RenderFilterForm updateFilter={updateFilter} {...props} curSubtype={curSubtype} curCategoryId={curCategoryId} curPersonaId={curPersonaId} />
-          {/* <Collection collection={collection} layout="List" /> */}
-          <div className="row collectionLayoutCards row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-3 row-cols-xl-3">
-            <CurrentItems collection={collection} {...props} /> 
-          </div>
+          <RenderFilterForm 
+            updateFilter={updateFilter}
+            {...props}
+            curSubtype={curSubtype}
+            curCategoryId={curCategoryId}
+            curPersonaId={curPersonaId}
+          />
+          <DynamicCollectionLayout collection={collection} props={props} link={RouterLink}/>
         </div>
       )
   }
-}
-
-const CurrentItems = (props) => {
-  const {collection,nextn,link,pos,fields} = props;
-  let itemsList = [];
-  let item = '';
-  const Link = link;
-  const items = collection.get('items');
-  let itemsTo = items.length;
-  let catAssignments = [];
-  
-  if(itemsTo){
-    for(let i = 0;i < itemsTo;i++) {
-      item = items[i];
-      catAssignments = item.getAll().categoryassignments;
-  
-      itemsList.push(
-      <div className="col mb-4" key={item.get('contentid')}>
-        <Card className="mb-3 h-100 shadow">
-           <Card.Img variant="top" src={item.get('images')['landscape']} key={item.get('fileid')} />
-  
-          <Card.Body>
-            <div className="mura-item-meta">
-                <Card.Text key="subtype" className="badge badge-danger">{item.get('subtype')}</Card.Text>
-                <Card.Text key="categories"><GetCategories categories={catAssignments} /></Card.Text>
-                
-                <Card.Title key="title">{item.get('title')}</Card.Title>
-                <div className="mura-item-meta__date" key="date">
-                <ItemDate releasedate={item.get('releasedate')} lastupdate={item.get('lastupdate')}></ItemDate>
-                </div>
-                <ReactMarkdown source={item.get('summary')} key="summary" />
-            </div>
-          </Card.Body>
-  
-        </Card>
-      </div>
-      );
-    }
-  } else {
-    itemsList.push(
-      <div className="col" key="noItems">
-        <div className="alert alert-info w-100">No items to display.</div>
-      </div>
-    )
-  }
-
-  return itemsList;
-}
-
-const GetCategories = (props) => {
-  const Categories = props.categories;
-  
-  let catsList = [];
-  let cat = '';
-  const cats = Categories.items;
-  let catsTo = cats.length;
-  
-  if (cats.length){
-      for(let i = 0;i < catsTo;i++) {
-      cat = cats[i];
-      catsList.push(
-        <span key={cat.categoryid}>{cat.categoryname}</span>
-      )
-    }
-    return catsList;
-  }
-  return 'No Categories';
 }
 
 export const getDynamicProps = async props => {
@@ -175,9 +112,6 @@ const getCollection = async (props,filterProps) => {
   if(typeof props.content.getAll != 'undefined'){
       props.content=props.content.getAll();
   }
-  // console.log('subtype: ' + filterProps.subtype);
-  // console.log('categoryid: ' + filterProps.categoryid);
-  // console.log('personaid: ' + filterProps.personaid);
 
   const excludeIDList=props.content.contentid;
 
@@ -240,43 +174,24 @@ const getFilterProps = async (subtype,categoryid,personaid) => {
 }
 
 const RenderFilterForm = (props) => {
-  // console.log(props.dynamicProps.filterprops);
+  const objectparams = Object.assign({}, props);
+  const [categoriesArray,setCategoriesArray]=useState(false);
 
-  //TO DO - get these values from props after getting configurator to work
-  const subtypesArray = [
-    {
-      key: 'whitepaper',
-      text: 'White Paper',
-      value: 'whitepaper',
-    },
-    {
-      key: 'webinar',
-      text: 'Webinar',
-      value: 'webinar',
-    },
-    {
-      key: 'article',
-      text: 'Article',
-      value: 'article',
-    }
-  ]
-  const categoriesArray = [
-    {
-      key: 'developers',
-      text: 'Developers',
-      value: '7EC9592C-719A-4745-B017ED8B6223178F',
-    },
-    {
-      key: 'itprofessionals',
-      text: 'IT Professionals',
-      value: 'C501C4E8-429E-408D-94721ADC3BA56E9F',
-    },
-    {
-      key: 'marketers',
-      text: 'Marketers',
-      value: '38212296-E460-4883-A1C83D49E3DAC901',
-    }
-  ]
+  const subtypesArray = objectparams.subtypes ? objectparams.subtypes.split(',') : [];
+  
+  const categoryIds = objectparams.categoryids ? objectparams.categoryids.split(','): [];
+
+  useEffect(() => {
+    let isMounted = true; // note this flag denote mount status
+    getCategoriesInfo(categoryIds).then((data)=>{
+      //console.log(data);
+      if (isMounted) setCategoriesArray(data.items);
+    });
+    return () => { isMounted = false };
+  }, []);
+  
+  // console.log('returned categoriesArray: ' + categoriesArray)
+
   const personasArray = [
     {
       key: 'persona1',
@@ -292,48 +207,95 @@ const RenderFilterForm = (props) => {
   
   // console.log('filterprops: ' + JSON.stringify(props, replacerFunc(), 2));
   
-  //TO DO - persist after refresh -- not sure it is necessary, reinitializing on refresh seems like a logical result
-
-  //Good discussion here about locastorage and being an anti-pattern
-  //https://stackoverflow.com/questions/28314368/how-to-maintain-state-after-a-page-refresh-in-react-js
+  //TO DO - persist after refresh -- useState and get value from props.objectparams.filterProps
 
   const curSubtype = props.curSubtype;
   const curCategoryId = props.curCategoryId;
   const curPersonaId = props.curPersonaId;
 
+  // console.log('subtypes: ' + subtypesArray);
+  // console.log('current subtype: ' + curSubtype);
+
   return (
     <Form className="row row-cols-3">
+      {subtypesArray.length > 0 &&
       <Form.Group controlId="selectSubtypes" className="col">
         <Form.Label>Subtypes:</Form.Label>
         <Form.Control as="select" name="subtype" custom onChange={ props.updateFilter } value={curSubtype}>
           <option value="*" key="All Subtypes">All Subtypes</option>
-          {subtypesArray.map(option => (
-            <RenderOption option={option} key={option.value} />
+          {subtypesArray.map((subtype, index) => (
+            <option value={subtype} key={index}>{subtype}</option>
           ))}
         </Form.Control>
       </Form.Group>
-
-      <Form.Group controlId="selectCategories" className="col">
-      <Form.Label>Categories:</Form.Label>
-        <Form.Control as="select" name="categoryid" custom onChange={ props.updateFilter } value={curCategoryId}>
-          <option value="*" key="All Categories">All Categories</option>
-          {categoriesArray.map(option => (
-            <RenderOption option={option} key={option.value} />
-          ))}
-        </Form.Control>
-      </Form.Group>
-
+      }
+      {categoriesArray && categoriesArray.length > 0 &&
+      <>
+        {categoriesArray.map((category, index) => (
+          <CategorySelect categoryid={category.categoryid} filterlabel={category.name} updateFilter={props.updateFilter} curCategoryId={curCategoryId} key={category.categoryid} />
+        ))}
+      </>
+      }
+      {personasArray.length > 0 &&
       <Form.Group controlId="selectPersonas" className="col">
       <Form.Label>Personas:</Form.Label>
         <Form.Control as="select" name="personaid" custom onChange={ props.updateFilter } value={curPersonaId}>
           <option value="*" key="All Personas">All Personas</option>
           {personasArray.map(option => (
-            <RenderOption option={option} key={option.value} />
+            <RenderOption option={option} key={option.key} />
           ))}
         </Form.Control>
       </Form.Group>
+      }
     </Form>
   );
+}
+
+const CategorySelect = props => {
+  // const categoryKids = [];
+  const [categoryKids,setCategoryKids]=useState([]);
+
+  useEffect(() => {
+    let isMounted = true; // note this flag denote mount status
+    getCategoryKidsInfo(props.categoryid).then((data)=>{
+      //console.log(data);
+      if (isMounted) setCategoryKids(data.items);
+    });
+    return () => { isMounted = false };
+  }, []);
+
+  return(
+    <Form.Group controlId="selectCategories" className="col">
+      <Form.Label>{props.filterlabel}:</Form.Label>
+        <Form.Control as="select" name="categoryid" custom onChange={ props.updateFilter } value={props.curCategoryId}>
+          <option value="*" key="All Categories">All</option>
+          {categoryKids.map((category, index) => (
+            <option value={category.categoryid} key={index}>{category.name}</option>
+          ))}
+        </Form.Control>
+      </Form.Group>
+  )
+}
+const getCategoriesInfo = async (categoryIds) => {
+  const feed = Mura.getFeed('category');
+        feed.findMany(categoryIds);
+
+  const query = await feed.getQuery();
+  const categories = query.getAll();
+
+  //console.log('categories getCategoriesInfo:' + JSON.stringify(categories, undefined, 2));
+  return categories
+}
+
+const getCategoryKidsInfo = async (categoryId) => {
+  const feed = Mura.getFeed('category');
+        feed.prop('parentid').isEQ(categoryId);
+
+  const query = await feed.getQuery();
+  const categorykids = query.getAll();
+
+  //console.log('categories getCategoryKidsInfo:' + JSON.stringify(categorykids, undefined, 2));
+  return categorykids
 }
 
 const RenderOption = props => {
