@@ -67,8 +67,14 @@ function contentDidChange(_content) {
     return;
   }
 
+  const remoteFooter=Mura('#mura-remote-footer');
+
+  if(remoteFooter.length){
+      remoteFooter.remove();
+  }
+
   if (typeof Mura.deInitLayoutManager !== 'undefined') {
-    // Mura.deInitLayoutManager();
+    Mura.deInitLayoutManager();
   }
 
   // Ensure edit classes are removed
@@ -76,17 +82,6 @@ function contentDidChange(_content) {
 
   setTimeout(() => {
     // console.log("timeout",_content);
-    const htmlQueueContainer = Mura('#htmlqueues');
-
-    if (htmlQueueContainer.length) {
-      Mura('#htmlqueues').html(
-        content.get('htmlheadqueue') + content.get('htmlfootqueue'),
-      );
-    }
-
-    if (typeof Mura.deInitLayoutManager !== 'undefined') {
-      // Mura.deInitLayoutManager();
-    }
 
     // Ensure edit classes are removed
     if (typeof MuraInlineEditor === 'undefined') {
@@ -106,7 +101,7 @@ function contentDidChange(_content) {
       Mura.holdReady(false);
 
       if (!htmlQueueContainerInner.length) {
-        // Mura.loader().loadjs(Mura.rootpath + "/core/modules/v1/core_assets/js/variation.js?siteid=" + Mura.siteid)
+        Mura.loader().loadjs(Mura.rootpath + "/core/modules/v1/core_assets/js/variation.js?siteid=" + Mura.siteid + '&cacheid=' + Math.random())
       }
     }, 5);
     
