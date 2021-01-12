@@ -67,6 +67,7 @@ function contentDidChange(_content) {
     return;
   }
 
+  //Remove pre-existing container
   const remoteFooter=Mura('#mura-remote-footer');
 
   if(remoteFooter.length){
@@ -90,6 +91,7 @@ function contentDidChange(_content) {
 
     setTimeout(() => {
       // console.log("timeout",_content);
+      // If edit route this will exist
       const htmlQueueContainerInner = Mura('#htmlqueues');
       if (htmlQueueContainerInner.length) {
         Mura('#htmlqueues').html(
@@ -100,6 +102,7 @@ function contentDidChange(_content) {
       Mura.init(Mura.extend({ queueObjects: false, content }));
       Mura.holdReady(false);
 
+      //This will happen on static route (IE not edit route)
       if (!htmlQueueContainerInner.length) {
         Mura.loader().loadjs(Mura.rootpath + "/core/modules/v1/core_assets/js/variation.js?siteid=" + Mura.siteid + '&cacheid=' + Math.random())
       }

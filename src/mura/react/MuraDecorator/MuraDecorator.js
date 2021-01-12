@@ -39,7 +39,7 @@ function MuraDecorator(props) {
     objectKey = Mura.firstToUpperCase(props.object);
   }
 
-  const isSSR=ComponentRegistry[objectKey] && ComponentRegistry[objectKey].SSR;
+  const isSSR=ComponentRegistry[objectKey] && (ComponentRegistry[objectKey].SSR || ComponentRegistry[objectKey].ssr);
 
   if (isEditMode || isExternalModule || !isSSR) {
     Object.keys(props).forEach(key => {

@@ -34,7 +34,8 @@ export const ConnectorConfig = {
   editroute: '/edit',
   sitename: 'Example Site',
   siteidinurls:false,
-  codeblocks:true
+  codeblocks:true,
+  variations:true
 };
 
 /*
@@ -48,13 +49,15 @@ let moduleRegistry = [
     name: 'cta',
     js:[
       ConnectorConfig.rootpath + "/core/modules/v1/cta/js/mura.displayobject.cta.min.js",
-    ]
+    ],
+    SSR: false
   },
   {
     name: 'content_gate',
     js:[
       ConnectorConfig.rootpath + "/core/modules/v1/content_gate/js/mura.displayobject.content_gate.min.js",
-    ]
+    ],
+    SSR: false
   },
   {
     name: 'pdfviewer',
@@ -63,13 +66,16 @@ let moduleRegistry = [
     ],
     css:[
       ConnectorConfig.rootpath + "/core/modules/v1/pdfviewer/assets/css/pdfviewer.css",
-    ]
+    ],
+    SSR: false
   },
   {
-    name: 'form'
+    name: 'form',
+    SSR: false
   },
   {
-    name: 'cookie_content'
+    name: 'cookie_content',
+    SSR: false
   },
   {
     name: 'Example',
