@@ -184,7 +184,7 @@ moduleRegistry.forEach(module => {
   if(typeof module.component == 'undefined'){
     externalLookup[module.name]=module;
   } else {
-    if(typeof module.SSR == 'undefined'){
+    if(typeof module.SSR == 'undefined' && typeof module.ssr == 'undefined'){
       module.SSR=true;
     }
     module.getDynamicProps =
