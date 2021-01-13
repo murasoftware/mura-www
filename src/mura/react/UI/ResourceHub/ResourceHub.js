@@ -2,16 +2,23 @@ import React,{useState,useEffect} from 'react';
 import Mura from 'mura.js';
 import Form from 'react-bootstrap/Form';
 import {getLayout,RouterlessLink,RouterLink} from '@mura/react/UI/Collection';
+/*
+  TODO: scrollpages -- not sure if this is even working at all in collection in NextJS, should test
+
+  TODO: send/set multiple categories -- now only latest selected is sent/set
+
+  TODO: Sort by persona / stage
+*/
 
 function ResourceHub(props) {
   const objectparams = Object.assign({}, props);
   const DynamicCollectionLayout = getLayout(objectparams.layout).component;
-
+  
   const thisTitle = 'Resource Hub';
 
-  let [curSubtype, setCurSubtype]=useState('*');
-  let [curCategoryId, setCurCategoryId]=useState('*');
-  let [curPersonaId, setCurPersonaId]=useState('*');
+  const [curSubtype, setCurSubtype]=useState('*');
+  const [curCategoryId, setCurCategoryId]=useState('*');
+  const [curPersonaId, setCurPersonaId]=useState('*');
 
   const updateFilter = (e) => {
     let subtype = '';
@@ -36,6 +43,7 @@ function ResourceHub(props) {
     getFilterProps(subtype,categoryid,personaid).then((filterProps) => {
       getCollection(props,filterProps).then((collection) => {
         setCollection(collection);
+        setFilterProps(filterProps);
       })
     });
   }
@@ -46,18 +54,22 @@ function ResourceHub(props) {
   }
   
   const [collection,setCollection]=useState(_collection);
-  
-  // const [resourcefilters,setResourceFilters]=useState();
+
+  let _filterprops = false;
+  if(objectparams.dynamicProps){
+    _filterprops=objectparams.dynamicProps.filterprops;
+    console.log(objectparams.dynamicProps.filterprops);
+  }
+  const [filterprops,setFilterProps]=useState(_filterprops);
 
   if(!objectparams.dynamicProps){
 
     useEffect(() => {
       getDynamicProps(objectparams).then((dynamicProps)=>{
         setCollection(new Mura.EntityCollection(dynamicProps.collection,Mura._requestcontext));
+        setFilterProps(dynamicProps.filterprops);
       });
     }, []);
-
-    //TO DO -- dynamicProps.filterprops does not exist here. Do we need to add a setFilterProps() method like we have setCollection() up above?
 
     if(collection) {
       return (
@@ -67,9 +79,9 @@ function ResourceHub(props) {
           <RenderFilterForm 
             updateFilter={updateFilter}
             {...props}
-            curSubtype={curSubtype}
-            curCategoryId={curCategoryId}
-            curPersonaId={curPersonaId}
+            curSubtype={filterprops.subtype}
+            curCategoryId={filterprops.categoryid}
+            curPersonaId={filterprops.personaid}
           />
 
           <DynamicCollectionLayout collection={collection} props={props} link={RouterlessLink}/>
@@ -88,9 +100,9 @@ function ResourceHub(props) {
           <RenderFilterForm 
             updateFilter={updateFilter}
             {...props}
-            curSubtype={curSubtype}
-            curCategoryId={curCategoryId}
-            curPersonaId={curPersonaId}
+            curSubtype={filterprops.subtype}
+            curCategoryId={filterprops.categoryid}
+            curPersonaId={filterprops.personaid}
           />
           <DynamicCollectionLayout collection={collection} props={props} link={RouterLink}/>
         </div>
@@ -130,32 +142,15 @@ const getCollection = async (props,filterProps) => {
         feed.useCategoryIntersect(true);
       }
       if(filterProps.personaid.length){
-        feed.sort('mxpRelevance');
+        // feed.sort('mxpRelevance');//no such columnn tcontent.mxpRelevance
+        // feed.setSortBy('mxpRelevance');//no such function .setSortBy
+        // feed.sort('mxpRelevance','asc');//no such columnn tcontent.mxpRelevance
+      } else {
+        feed.sort('releasedate','desc');
       }
 
       feed.maxItems(props.maxitems);
-      feed.itemsPerPage(0); 
-      
-      // if(len(session.resourceFiltler.subtype) && listFindNoCase(props.subtypes,session.resourceFiltler.subtype)){
-      //     collection.andProp('subtype').isEQ(session.resourceFiltler.subtype);
-      // }
-
-      // if(hasMXP && len(session.resourceFiltler.personaid)){
-      //     collection.sort('mxpRelevance');
-      // }
-
-      // if(listLen(session.resourceFiltler.categoryid)){
-      //     collection.andProp('categoryid').isIn(session.resourceFiltler.categoryid);
-      //     collection.setUseCategoryIntersect(true);
-      // }
-
-      // if(hasMXP && len(session.resourceFiltler.personaid) && listFindNoCase(props.personaids,session.resourceFiltler.personaid)){
-      //     form.personaid=session.resourceFiltler.personaid;
-      //     collection.setSortBy('mxpRelevance');
-      // } else {
-      //     collection.setSortBy('releaseDate');
-      //     collection.setSortDirection('desc');
-      // }
+      feed.itemsPerPage(0);
 
   const collection = await feed.getQuery();
 
@@ -169,50 +164,38 @@ const getFilterProps = async (subtype,categoryid,personaid) => {
 
   const filterProps = await Mura.getEntity('resourcehub').invoke('processFilterArgs',{subtype:Subtype, categoryid:Categoryid, personaid:Personaid});
   
-  //console.log('filterProps: ' + JSON.stringify(filterProps,undefined,2));
+  console.log('filterProps: ' + JSON.stringify(filterProps,undefined,2));
   return filterProps;
 }
 
 const RenderFilterForm = (props) => {
   const objectparams = Object.assign({}, props);
   const [categoriesArray,setCategoriesArray]=useState(false);
+  const [personasArray,setPersonasArray]=useState(false);
 
   const subtypesArray = objectparams.subtypes ? objectparams.subtypes.split(',') : [];
-  
   const categoryIds = objectparams.categoryids ? objectparams.categoryids.split(','): [];
+  const personaIds = objectparams.personaids ? objectparams.personaids.split(','): [];
+  // console.log('personas: ' + objectparams.personaids);
 
   useEffect(() => {
     let isMounted = true; // note this flag denote mount status
     getCategoriesInfo(categoryIds).then((data)=>{
-      //console.log(data);
       if (isMounted) setCategoriesArray(data.items);
+    });
+    getPersonasInfo(personaIds).then((data)=>{
+      if (isMounted) setPersonasArray(data.items);
+      
     });
     return () => { isMounted = false };
   }, []);
   
-  // console.log('returned categoriesArray: ' + categoriesArray)
-
-  const personasArray = [
-    {
-      key: 'persona1',
-      text: 'Persona 1',
-      value: 'persona1-id',
-    },
-    {
-      key: 'persona2',
-      text: 'Persona 2',
-      value: 'persona2-id',
-    }
-  ]
-  
-  // console.log('filterprops: ' + JSON.stringify(props, replacerFunc(), 2));
-  
+  // console.log('filterprops: ' + JSON.stringify(props, replacerFunc(), 2));  
   //TO DO - persist after refresh -- useState and get value from props.objectparams.filterProps
 
-  const curSubtype = props.curSubtype;
-  const curCategoryId = props.curCategoryId;
-  const curPersonaId = props.curPersonaId;
-
+  console.log('current subtype: ' + props.curSubtype);
+  console.log('current categories: ' + props.curCategoryId);
+  console.log('current personaid: ' + props.curPersonaId);
   // console.log('subtypes: ' + subtypesArray);
   // console.log('current subtype: ' + curSubtype);
 
@@ -221,7 +204,7 @@ const RenderFilterForm = (props) => {
       {subtypesArray.length > 0 &&
       <Form.Group controlId="selectSubtypes" className="col">
         <Form.Label>Subtypes:</Form.Label>
-        <Form.Control as="select" name="subtype" custom onChange={ props.updateFilter } value={curSubtype}>
+        <Form.Control as="select" name="subtype" custom onChange={ props.updateFilter } value={props.curSubtype}>
           <option value="*" key="All Subtypes">All Subtypes</option>
           {subtypesArray.map((subtype, index) => (
             <option value={subtype} key={index}>{subtype}</option>
@@ -232,17 +215,17 @@ const RenderFilterForm = (props) => {
       {categoriesArray && categoriesArray.length > 0 &&
       <>
         {categoriesArray.map((category, index) => (
-          <CategorySelect categoryid={category.categoryid} filterlabel={category.name} updateFilter={props.updateFilter} curCategoryId={curCategoryId} key={category.categoryid} />
+          <CategorySelect categoryid={category.categoryid} filterlabel={category.name} updateFilter={props.updateFilter} curCategoryId={props.curCategoryId} key={category.categoryid} />
         ))}
       </>
       }
       {personasArray.length > 0 &&
       <Form.Group controlId="selectPersonas" className="col">
       <Form.Label>Personas:</Form.Label>
-        <Form.Control as="select" name="personaid" custom onChange={ props.updateFilter } value={curPersonaId}>
+        <Form.Control as="select" name="personaid" custom onChange={ props.updateFilter } value={props.curPersonaId}>
           <option value="*" key="All Personas">All Personas</option>
           {personasArray.map(option => (
-            <RenderOption option={option} key={option.key} />
+            <option value={option.personaid} key={option.personaid}>{option.name}</option>
           ))}
         </Form.Control>
       </Form.Group>
@@ -273,9 +256,10 @@ const CategorySelect = props => {
             <option value={category.categoryid} key={index}>{category.name}</option>
           ))}
         </Form.Control>
-      </Form.Group>
+    </Form.Group>
   )
 }
+
 const getCategoriesInfo = async (categoryIds) => {
   const feed = Mura.getFeed('category');
         feed.findMany(categoryIds);
@@ -285,6 +269,16 @@ const getCategoriesInfo = async (categoryIds) => {
 
   //console.log('categories getCategoriesInfo:' + JSON.stringify(categories, undefined, 2));
   return categories
+}
+
+const getPersonasInfo = async (personaIds) => {
+  const feed = Mura.getFeed('persona');
+        feed.findMany(personaIds);
+
+  const query = await feed.getQuery();
+  const personas = query.getAll();
+
+  return personas
 }
 
 const getCategoryKidsInfo = async (categoryId) => {
@@ -298,11 +292,7 @@ const getCategoryKidsInfo = async (categoryId) => {
   return categorykids
 }
 
-const RenderOption = props => {
-  return (
-    <option value={props.option.value} key={props.option.key}>{props.option.text}</option>
-  )
-}
+
 
 //for debugging only
 const replacerFunc = () => {
