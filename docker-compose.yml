@@ -26,6 +26,7 @@ services:
         MURA_HTMLEDITORTYPE: markdown
         MURA_EDITROUTE: "/edit"
         MURA_AUTODISCOVERPLUGINS: "true"
+        MURA_VARIATIONS: "true"
     volumes:
         -   ../mura/app/core:/var/www/core
         -   ../mura/app/admin:/var/www/admin

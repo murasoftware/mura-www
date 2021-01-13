@@ -227,10 +227,12 @@
 			},
 			"HR":{
 				"name":"HR",
+				"external":false,
 				"contenttypes":"*"
 			},
 			"Embed":{
 				"name":"Embed",
+				"external":false,
 				"contenttypes":"*"
 			}
 	},
