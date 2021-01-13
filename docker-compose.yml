@@ -25,13 +25,14 @@ services:
         MURA_DEFAULTTHEMEURL: "https://github.com/murasoftware/mura-minimal/archive/master.zip"
         MURA_HTMLEDITORTYPE: markdown
         MURA_EDITROUTE: "/edit"
+        MURA_AUTODISCOVERPLUGINS: "true"
     volumes:
         -   ../mura/app/core:/var/www/core
         -   ../mura/app/admin:/var/www/admin
         -   ../mura/app/modules/codeblocks:/var/www/modules/codeblocks
+        -   ../MXP:/var/www/plugins/MXP
         -   sites_data:/var/www/sites
         -   themes_data:/var/www/themes
-        -   plugins_data:/var/www/plugins
     ports:
         - "8888:8888"
 
@@ -50,4 +51,3 @@ volumes:
     mysql_data:
     sites_data:
     themes_data:
-    plugins_data:
