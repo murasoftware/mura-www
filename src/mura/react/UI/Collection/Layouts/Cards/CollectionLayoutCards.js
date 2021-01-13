@@ -86,7 +86,9 @@ const CurrentItems = (props) => {
             key={item.get('contentid')}
           />
           <hr />
-          <Card.Text key="categories"><ItemCategories categories={catAssignments} /></Card.Text>
+          {catAssignments &&
+            <Card.Text key="categories"><ItemCategories categories={catAssignments} /></Card.Text>
+          }
         </Card.Footer>
 
       </Card>
