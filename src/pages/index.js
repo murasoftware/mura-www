@@ -2,7 +2,7 @@ import React from 'react';
 import Head from 'next/head';
 import MainLayout from '@mura/react/UI/MainLayout';
 import DisplayRegion from '@mura/react/UI/DisplayRegion';
-import { getMuraProps, getRootPath, getSiteName } from '@mura/react/MuraConnector';
+import { MuraJSRefPlaceholder, getMuraProps, getRootPath, getSiteName } from '@mura/react/MuraConnector';
 
 
 
@@ -57,7 +57,7 @@ export default function Page(props) {
           rel="stylesheet"
           key="skin"
         />
-        <script dangerouslySetInnerHTML={{__html:'"undefined"!=typeof window&&function(u){u.queuedMuraCmds=[],u.queuedMuraPreInitCmds=[],"function"!=typeof u.Mura&&(u.Mura=u.mura=u.Mura=function(e){u.queuedMuraCmds.push(e)},u.Mura.preInit=function(e){u.queuedMuraPreInitCmds.push(e)})}(window);'}}/>
+        <script dangerouslySetInnerHTML={{__html:MuraJSRefPlaceholder}}/>
        
       </Head>
       <div dangerouslySetInnerHTML={{__html:props.codeblocks.header}}/>
