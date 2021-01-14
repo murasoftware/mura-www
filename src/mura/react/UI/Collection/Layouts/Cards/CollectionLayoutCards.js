@@ -41,7 +41,11 @@ const CurrentItems = (props) => {
   if (maxItems < items.length && pos+nextn > maxItems){
     itemsTo = maxItems;
   }
-  
+  if (!items.length){
+    itemsList.push(
+      <div className="alert alert-info" key="no-items-message">No items in collection.</div>
+    )
+  }
   for(let i = pos;i < itemsTo;i++) {
     item = items[i];
     catAssignments = item.getAll().categoryassignments;
