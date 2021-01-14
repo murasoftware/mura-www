@@ -17,18 +17,6 @@ function Edit(props) {
 
   return (
     <EditLayout {...props}>
-      <Head>
-        <link
-          href={`${getRootPath()}/core/modules/v1/core_assets/css/mura.10.min.css`}
-          rel="stylesheet"
-          key="min"
-        />
-        <link
-          href={`${getRootPath()}/core/modules/v1/core_assets/css/mura.10.skin.css`}
-          rel="stylesheet"
-          key="skin"
-        />
-      </Head>
       <Page {...props} route={`/${router.query.page}`} />
     </EditLayout>
   );

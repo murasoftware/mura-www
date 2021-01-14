@@ -4,6 +4,8 @@ import MainLayout from '@mura/react/UI/MainLayout';
 import DisplayRegion from '@mura/react/UI/DisplayRegion';
 import { getMuraProps, getRootPath, getSiteName } from '@mura/react/MuraConnector';
 
+
+
 export async function getStaticProps(context) {
   // console.log("CON",context);
   const props = await getMuraProps(context,false);
@@ -21,6 +23,7 @@ export default function Page(props) {
     moduleStyleData
   } = props;
   //console.log('content: ' + content);
+
   return (
     <MainLayout {...props}>
       <Head>
@@ -54,8 +57,10 @@ export default function Page(props) {
           rel="stylesheet"
           key="skin"
         />
-        <div dangerouslySetInnerHTML={{__html:props.codeblocks.header}}/>
+        <script dangerouslySetInnerHTML={{__html:'"undefined"!=typeof window&&function(u){u.queuedMuraCmds=[],u.queuedMuraPreInitCmds=[],"function"!=typeof u.Mura&&(u.Mura=u.mura=u.Mura=function(e){u.queuedMuraCmds.push(e)},u.Mura.preInit=function(e){u.queuedMuraPreInitCmds.push(e)})}(window);'}}/>
+       
       </Head>
+      <div dangerouslySetInnerHTML={{__html:props.codeblocks.header}}/>
       <div dangerouslySetInnerHTML={{__html:props.codeblocks.bodystart}}/>
       {content && displayregions && header && (
         <DisplayRegion
