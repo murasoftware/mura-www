@@ -26,16 +26,20 @@ function ResourceHub(props) {
   const _curSubtype = objectparams.dynamicProps ? objectparams.dynamicProps.filterprops.subtype : '*';
   const _curCategoryIds = objectparams.dynamicProps ? objectparams.dynamicProps.filterprops.categoryid : '*';
   const _curPersonaId = objectparams.dynamicProps ? objectparams.dynamicProps.filterprops.personaid : '*';
+  const _curCategoriesArray = objectparams.dynamicProps ? objectparams.dynamicProps.filterprops.selectedcats : [];
   
+  console.log(objectparams.dynamicProps);
+  console.log('selected cats: ', _curCategoriesArray);
+
   const [curSubtype, setCurSubtype]=useState(_curSubtype);
-  const [curCategoriesArray, setCurCategoriesArray]=useState([]);
+  const [curCategoriesArray, setCurCategoriesArray]=useState(_curCategoriesArray);
   const [curCategoryIds, setCurCategoryIds]=useState(_curCategoryIds);
   const [curPersonaId, setCurPersonaId]=useState(_curPersonaId);
 
   //UPDATE COLLECTION & FILTERPROPS WHEN FILTERS ARE UPDATED
   useEffect(() => {
     let isMounted = true;
-    if (isMounted) getFilterProps(curSubtype,curCategoryIds,curPersonaId).then((filterProps) => {      
+    if (isMounted) getFilterProps(curSubtype,curCategoryIds,curPersonaId,curCategoriesArray).then((filterProps) => {      
       getCollection(props,filterProps).then((collection) => {
         setCollection(collection);
       })
@@ -48,6 +52,7 @@ function ResourceHub(props) {
     switch(e.target.name) {
       case 'subtype':
         let subtype = e.target.value;
+        //todo: check that values have changed before setting
         setCurSubtype(subtype);
         break
       case 'personaid':
@@ -81,6 +86,7 @@ function ResourceHub(props) {
             curSubtype={curSubtype}
             curCategoryId={curCategoryIds}
             curPersonaId={curPersonaId}
+            curCategoriesArray={curCategoriesArray}
           />
 
           <DynamicCollectionLayout collection={collection} props={props} link={RouterlessLink}/>
@@ -103,6 +109,7 @@ function ResourceHub(props) {
             curSubtype={curSubtype}
             curCategoryId={curCategoryIds}
             curPersonaId={curPersonaId}
+            curCategoriesArray={curCategoriesArray}
           />
           <DynamicCollectionLayout collection={collection} props={props} link={RouterLink}/>
         </div>
@@ -129,9 +136,15 @@ const getCategoryIds = categories => {
 }
 
 export const getDynamicProps = async props => {
-  const filterProps = await getFilterProps('','','');
+  const filterProps = await getFilterProps('','','','');
   const collection = await getCollection(props,filterProps);
-  
+  if(!Array.isArray(filterProps.selectedcats)){
+    try{
+      filterProps.selectedcats = JSON.parse(filterProps.selectedcats);
+    }catch(e){
+      filterProps.selectedcats = [];
+    }
+  }
   return{
     collection:collection.getAll(),
     filterprops:filterProps
@@ -173,12 +186,15 @@ const getCollection = async (props,filterProps) => {
   return collection;
 }
 
-const getFilterProps = async (subtype,categoryid,personaid) => {
+const getFilterProps = async (subtype,categoryid,personaid,selectedcategories) => {
   const Subtype = subtype;
   const Categoryid = categoryid;
   const Personaid = personaid;
+  const CurSelectedCats = selectedcategories;
 
-  const filterProps = await Mura.getEntity('resourcehub').invoke('processFilterArgs',{subtype:Subtype, categoryid:Categoryid, personaid:Personaid});
+  console.log('CurSelectedCats: ' + CurSelectedCats);
+
+  const filterProps = await Mura.getEntity('resourcehub').invoke('processFilterArgs',{subtype:Subtype, categoryid:Categoryid, personaid:Personaid, selectedcats:CurSelectedCats});
   
   console.log('filterProps: ' + JSON.stringify(filterProps,undefined,2));
   return filterProps;
@@ -206,7 +222,7 @@ const RenderFilterForm = (props) => {
     }    
     return () => { isMounted = false };
   }, []);
-
+  // console.log(props.curCategoryId);
   return (
     <Form className="row row-cols-3" id="filterForm">
       {subtypesArray.length > 0 &&
@@ -223,7 +239,7 @@ const RenderFilterForm = (props) => {
       {categoriesArray && categoriesArray.length > 0 &&
       <>
         {categoriesArray.map((category, index) => (
-          <CategorySelect categoryid={category.categoryid} filterlabel={category.name} updateFilter={props.updateFilter} curCategoryId={props.curCategoryIds} key={category.categoryid} />
+          <CategorySelect categoryid={category.categoryid} filterlabel={category.name} updateFilter={props.updateFilter} curCategoryId={props.curCategoryId} key={category.categoryid} curCategoriesArray={props.curCategoriesArray} />
         ))}
       </>
       }
@@ -252,11 +268,22 @@ const CategorySelect = props => {
     });
     return () => { isMounted = false };
   }, []);
+  let curSelectValue = '*';
+  
+  for (let i=0; i < categoryKids.length; i++){
+    // console.log(categoryKids[i].categoryid);    
+      if (props.curCategoryId.includes(categoryKids[i].categoryid)){
+        console.log('match! ' + categoryKids[i].name + ' : ' + categoryKids[i].categoryid);
+        curSelectValue = categoryKids[i].categoryid;
+        break
+      }
+  }
 
+  console.log('current selected value: ' + curSelectValue);
   return(
     <Form.Group controlId={`selectCategories${props.filterlabel}`} className="col">
       <Form.Label>{props.filterlabel}:</Form.Label>
-        <Form.Control as="select" name={`categoryid${props.filterlabel}`} custom onChange={ props.updateFilter } value={props.curCategoryIds}>
+        <Form.Control as="select" name={`categoryid${props.filterlabel}`} custom onChange={ props.updateFilter } value={curSelectValue}>
           <option value="*" key="All Categories">All</option>
           {categoryKids.map((category, index) => (
             <option value={category.categoryid} key={index}>{category.name}</option>
@@ -299,19 +326,23 @@ const getCategoryKidsInfo = async (categoryId) => {
 const updateCategoryIds = (name,value,curCategoriesArray) => {
   let match = 0;
 
-  for (let i = 0; i < curCategoriesArray.length; i++) {
-    if (curCategoriesArray[i].name === name) {
-          curCategoriesArray[i].value = value;
-        match = 1;
-        break;
+  // if (!Array.isArray(curCategoriesArray)){
+  //   curCategoriesArray = [];
+  // }
+    for (let i = 0; i < curCategoriesArray.length; i++) {
+      if (curCategoriesArray[i].name === name) {
+            curCategoriesArray[i].value = value;
+          match = 1;
+          break;
+      }
     }
-  }
-  if (!match){
-    curCategoriesArray.push({ 
-      name:name,
-      value:value 
-    });
-  }
+    if (!match){
+      curCategoriesArray.push({ 
+        name:name,
+        value:value 
+      });
+    }
+  
   return curCategoriesArray;
 }
 
