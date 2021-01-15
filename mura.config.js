@@ -35,7 +35,8 @@ export const ConnectorConfig = {
   sitename: 'Example Site',
   siteidinurls:false,
   codeblocks:true,
-  variations:true
+  variations:true,
+  MXP: false
 };
 
 /*
