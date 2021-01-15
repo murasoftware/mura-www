@@ -1,11 +1,14 @@
 import React from 'react';
 import ItemDate from '@mura/react/UI/Utilities/ItemDate';
 import Badge from 'react-bootstrap/Badge';
+import ItemCategories from '@mura/react/UI/Utilities/ItemCategories';
 
 function ArticleMeta(props){
     const fields = props.fields;
     const fieldlist = fields ? fields.toLowerCase().split(",") : [];
-    console.log(fieldlist);
+    const item = props.content;
+    // const catAssignments = item.getAll().categoryassignments;
+    console.log(item);
     return (
         <div className="pb-4">
             {
@@ -30,6 +33,12 @@ function ArticleMeta(props){
                     }
                 })
             }
+            {item.categoryid &&
+                
+                    <span className="badge">Categories would go here.</span>
+            }
+
+                {/* <ItemCategories categories={catAssignments} /> */}
         </div>
     )
 }
