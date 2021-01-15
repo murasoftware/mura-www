@@ -6,12 +6,19 @@ import CollectionNav from '@mura/react/UI/CollectionNav/CollectionNav';
 import ItemDate from '@mura/react/UI/Utilities/ItemDate';
 import CollectionReadMoreBtn from '@mura/react/UI/Utilities/CollectionReadMoreBtn';
 import ItemCategories from '@mura/react/UI/Utilities/ItemCategories';
+import NoItemsMessage from '@mura/react/UI/Utilities/NoItemsMessage';
 /*
   The link component throws an error when rerending after being 
   reconfigured in edit mode. Hence CollectionLink
 */
 const Cards = ({props,collection,link}) => {
   const [pos, setPos] = useState(0);
+  if (!collection.properties.totalpages){
+    return(
+      <NoItemsMessage />
+    )
+  }  
+
   return (
     <>
       <div className={`row collectionLayoutCards row-cols-1 row-cols-sm-${props.rowcolssm} row-cols-md-${props.rowcolsmd} row-cols-lg-${props.rowcolslg} row-cols-xl-${props.rowcolsxl}`}>
@@ -40,11 +47,6 @@ const CurrentItems = (props) => {
 
   if (maxItems < items.length && pos+nextn > maxItems){
     itemsTo = maxItems;
-  }
-  if (!items.length){
-    itemsList.push(
-      <div className="alert alert-info" key="no-items-message">No items in collection.</div>
-    )
   }
   for(let i = pos;i < itemsTo;i++) {
     item = items[i];
