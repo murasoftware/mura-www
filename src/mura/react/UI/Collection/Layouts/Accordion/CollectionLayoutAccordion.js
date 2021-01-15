@@ -60,7 +60,7 @@ const CurrentItems = (props) => {
     item = items[i];
     itemsList.push(
       <Card key={item.get('contentid')}>
-        <Accordion.Toggle as={Card.Header} variant="link" eventKey={item.get('contentid')} className={activeId === i ? 'open' : 'not-open'} onClick={() => toggleActive(i)}>
+        <Accordion.Toggle as={Card.Header} variant="link" eventKey={item.get('contentid')} className={activeId === i ? 'open' : 'not-open'} onClick={() => toggleActive(i)} role="button">
           {item.get('title')}
         </Accordion.Toggle>
         <Accordion.Collapse eventKey={item.get('contentid')}>

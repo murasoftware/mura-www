@@ -4,10 +4,6 @@ import Form from 'react-bootstrap/Form';
 import {getLayout,RouterlessLink,RouterLink} from '@mura/react/UI/Collection';
 /*
   TODO: scrollpages -- not sure if this is even working at all in collection in NextJS, should test
-
-  TODO: send/set multiple categories -- now only latest selected is sent/set
-
-  TODO: Sort by persona / stage
 */
 
 function ResourceHub(props) {
@@ -16,59 +12,71 @@ function ResourceHub(props) {
   
   const thisTitle = 'Resource Hub';
 
-  const [curSubtype, setCurSubtype]=useState('*');
-  const [curCategoryId, setCurCategoryId]=useState('*');
-  const [curPersonaId, setCurPersonaId]=useState('*');
-
-  const updateFilter = (e) => {
-    let subtype = '';
-    let categoryid = '';
-    let personaid = '';
-  
-    switch(e.target.name) {
-      case 'subtype':
-        subtype = e.target.value;
-        setCurSubtype(e.target.value);
-        break
-      case 'categoryid':
-        categoryid = e.target.value;
-        setCurCategoryId(e.target.value);
-        break
-      case 'personaid':
-        personaid = e.target.value;
-        setCurPersonaId(e.target.value);
-        break
-  }
-  
-    getFilterProps(subtype,categoryid,personaid).then((filterProps) => {
-      getCollection(props,filterProps).then((collection) => {
-        setCollection(collection);
-        setFilterProps(filterProps);
-      })
-    });
-  }
-
   let _collection = false;
   if(objectparams.dynamicProps){
     _collection=new Mura.EntityCollection(objectparams.dynamicProps.collection,Mura._requestcontext);
   }
-  
   const [collection,setCollection]=useState(_collection);
 
-  let _filterprops = false;
-  if(objectparams.dynamicProps){
-    _filterprops=objectparams.dynamicProps.filterprops;
-    console.log(objectparams.dynamicProps.filterprops);
-  }
-  const [filterprops,setFilterProps]=useState(_filterprops);
+  //SET DEFAULTS FOR CURRENT FILTER PARAMETERS
+  const _curSubtype = objectparams.dynamicProps ? objectparams.dynamicProps.filterprops.subtype : '*';
+  const _curCategoryIds = objectparams.dynamicProps ? objectparams.dynamicProps.filterprops.categoryid : '*';
+  const _curPersonaId = objectparams.dynamicProps ? objectparams.dynamicProps.filterprops.personaid : '*';
+  const _curCategoriesArray = objectparams.dynamicProps ? objectparams.dynamicProps.filterprops.selectedcats : [];
+  const _hasMXP = objectparams.dynamicProps ? objectparams.dynamicProps.filterprops.hasmxp : false;
 
-  if(!objectparams.dynamicProps){
+  const [curSubtype, setCurSubtype]=useState(_curSubtype);
+  const [curCategoriesArray, setCurCategoriesArray]=useState(_curCategoriesArray);
+  const [curCategoryIds, setCurCategoryIds]=useState(_curCategoryIds);
+  const [curPersonaId, setCurPersonaId]=useState(_curPersonaId);
+  const [hasMXP, setHasMXP]=useState(_hasMXP);
 
-    useEffect(() => {
-      getDynamicProps(objectparams).then((dynamicProps)=>{
-        setCollection(new Mura.EntityCollection(dynamicProps.collection,Mura._requestcontext));
-        setFilterProps(dynamicProps.filterprops);
+  //UPDATE COLLECTION & FILTERPROPS WHEN FILTERS ARE UPDATED
+  useEffect(() => {
+    let isMounted = true;
+    if (isMounted) {
+      getFilterProps(curSubtype,curCategoryIds,curPersonaId,curCategoriesArray).then((filterProps) => {      
+        getCollection(props,filterProps).then((collection) => {
+          setCollection(collection);
+        })
       });
+    }
+    return () => { isMounted = false };
+  }, [curSubtype,curCategoryIds,curPersonaId])
+
+  const updateFilter = (e) => {
+    switch(e.target.name) {
+      case 'subtype':
+        let subtype = e.target.value;
+        //todo: check that values have changed before setting
+        if (subtype != curSubtype) {
+          setCurSubtype(subtype);
+        }
+        break
+      case 'personaid':
+        let personaid = e.target.value;
+        if (personaid != curPersonaId){
+          setCurPersonaId(personaid);
+        }
+        break
+      default:
+        if (!curCategoryIds.includes(e.target.value)){
+          setCurCategoriesArray(updateCategoryIds(e.target.name,e.target.value,curCategoriesArray));
+          setCurCategoryIds(getCategoryIds(curCategoriesArray));
+        }        
+    }//switch    
+  }
+  
+  if(!objectparams.dynamicProps){
+    useEffect(() => {
+      let isMounted = true;
+      if (isMounted) {
+        getDynamicProps(objectparams).then((dynamicProps)=>{
+          setCollection(new Mura.EntityCollection(dynamicProps.collection,Mura._requestcontext));
+          // setCurSubtype(dynamicProps.filterprops.subtype);
+        });
+      }
+      return () => { isMounted = false };
     }, []);
 
     if(collection) {
@@ -79,9 +87,11 @@ function ResourceHub(props) {
           <RenderFilterForm 
             updateFilter={updateFilter}
             {...props}
-            curSubtype={filterprops.subtype}
-            curCategoryId={filterprops.categoryid}
-            curPersonaId={filterprops.personaid}
+            curSubtype={curSubtype}
+            curCategoryId={curCategoryIds}
+            curPersonaId={curPersonaId}
+            curCategoriesArray={curCategoriesArray}
+            hasMXP={hasMXP}
           />
 
           <DynamicCollectionLayout collection={collection} props={props} link={RouterlessLink}/>
@@ -94,15 +104,19 @@ function ResourceHub(props) {
       )
     }
   } else {
+      // setCurSubtype(objectparams.dynamicProps.filterprops.subtype);
+
       return (
         <div>
           <h1>SSR {thisTitle}</h1>
           <RenderFilterForm 
             updateFilter={updateFilter}
             {...props}
-            curSubtype={filterprops.subtype}
-            curCategoryId={filterprops.categoryid}
-            curPersonaId={filterprops.personaid}
+            curSubtype={curSubtype}
+            curCategoryId={curCategoryIds}
+            curPersonaId={curPersonaId}
+            curCategoriesArray={curCategoriesArray}
+            hasMXP={hasMXP}
           />
           <DynamicCollectionLayout collection={collection} props={props} link={RouterLink}/>
         </div>
@@ -110,10 +124,34 @@ function ResourceHub(props) {
   }
 }
 
-export const getDynamicProps = async props => {
-  const filterProps = await getFilterProps('','','');
-  const collection = await getCollection(props,filterProps);
+const getCategoryIds = categories => {
+  let categoriesList;
+  for (let i = 0; i < categories.length; i++){
+    if (categories[i].value != '*'){
+      if (i < 1){
+        categoriesList = categories[i].value;
+      } else {
+        categoriesList = categoriesList + ',' + categories[i].value;
+      }
+    }
+  }
   
+  if (categoriesList == undefined){
+    categoriesList = '*';
+  }
+  return categoriesList
+}
+
+export const getDynamicProps = async props => {
+  const filterProps = await getFilterProps('','','','');
+  const collection = await getCollection(props,filterProps);
+  if(!Array.isArray(filterProps.selectedcats)){
+    try{
+      filterProps.selectedcats = JSON.parse(filterProps.selectedcats);
+    }catch(e){
+      filterProps.selectedcats = [];
+    }
+  }
   return{
     collection:collection.getAll(),
     filterprops:filterProps
@@ -141,30 +179,29 @@ const getCollection = async (props,filterProps) => {
         feed.andProp('categoryid').isIn(filterProps.categoryid);
         feed.useCategoryIntersect(true);
       }
-      if(filterProps.personaid.length){
-        // feed.sort('mxpRelevance');//no such columnn tcontent.mxpRelevance
-        // feed.setSortBy('mxpRelevance');//no such function .setSortBy
-        // feed.sort('mxpRelevance','asc');//no such columnn tcontent.mxpRelevance
-      } else {
-        feed.sort('releasedate','desc');
-      }
-
       feed.maxItems(props.maxitems);
       feed.itemsPerPage(0);
 
-  const collection = await feed.getQuery();
+      let collection;
 
+      if(filterProps.personaid.length){
+        collection = await feed.getQuery({sortBy:"mxpRelevance"});
+      } else {
+        collection = await feed.sort('releasedate','desc').getQuery();
+      }  
+  console.log('collection: ', collection);
   return collection;
 }
 
-const getFilterProps = async (subtype,categoryid,personaid) => {
+const getFilterProps = async (subtype,categoryid,personaid,selectedcategories) => {
   const Subtype = subtype;
   const Categoryid = categoryid;
   const Personaid = personaid;
+  const CurSelectedCats = selectedcategories;
 
-  const filterProps = await Mura.getEntity('resourcehub').invoke('processFilterArgs',{subtype:Subtype, categoryid:Categoryid, personaid:Personaid});
+  const filterProps = await Mura.getEntity('resourcehub').invoke('processFilterArgs',{subtype:Subtype, categoryid:Categoryid, personaid:Personaid, selectedcats:CurSelectedCats});
   
-  console.log('filterProps: ' + JSON.stringify(filterProps,undefined,2));
+  console.log('filterProps: ', filterProps);
   return filterProps;
 }
 
@@ -174,33 +211,26 @@ const RenderFilterForm = (props) => {
   const [personasArray,setPersonasArray]=useState(false);
 
   const subtypesArray = objectparams.subtypes ? objectparams.subtypes.split(',') : [];
-  const categoryIds = objectparams.categoryids ? objectparams.categoryids.split(','): [];
-  const personaIds = objectparams.personaids ? objectparams.personaids.split(','): [];
-  // console.log('personas: ' + objectparams.personaids);
+  const categoryIds = objectparams.categoryids ? objectparams.categoryids.split(',') : [];
+  const personaIds = objectparams.personaids ? objectparams.personaids.split(',') : [];
 
   useEffect(() => {
-    let isMounted = true; // note this flag denote mount status
-    getCategoriesInfo(categoryIds).then((data)=>{
-      if (isMounted) setCategoriesArray(data.items);
-    });
-    getPersonasInfo(personaIds).then((data)=>{
-      if (isMounted) setPersonasArray(data.items);
-      
-    });
+    let isMounted = true;
+    if (isMounted){
+      getCategoriesInfo(categoryIds).then((data)=>{
+        setCategoriesArray(data.items);
+      });
+      if(personaIds.length){
+        getPersonasInfo(personaIds).then((data)=>{
+          setPersonasArray(data.items);        
+        });
+      }
+    }    
     return () => { isMounted = false };
   }, []);
   
-  // console.log('filterprops: ' + JSON.stringify(props, replacerFunc(), 2));  
-  //TO DO - persist after refresh -- useState and get value from props.objectparams.filterProps
-
-  console.log('current subtype: ' + props.curSubtype);
-  console.log('current categories: ' + props.curCategoryId);
-  console.log('current personaid: ' + props.curPersonaId);
-  // console.log('subtypes: ' + subtypesArray);
-  // console.log('current subtype: ' + curSubtype);
-
   return (
-    <Form className="row row-cols-3">
+    <Form className="row row-cols-3" id="filterForm">
       {subtypesArray.length > 0 &&
       <Form.Group controlId="selectSubtypes" className="col">
         <Form.Label>Subtypes:</Form.Label>
@@ -215,11 +245,11 @@ const RenderFilterForm = (props) => {
       {categoriesArray && categoriesArray.length > 0 &&
       <>
         {categoriesArray.map((category, index) => (
-          <CategorySelect categoryid={category.categoryid} filterlabel={category.name} updateFilter={props.updateFilter} curCategoryId={props.curCategoryId} key={category.categoryid} />
+          <CategorySelect categoryid={category.categoryid} filterlabel={category.name} updateFilter={props.updateFilter} curCategoryId={props.curCategoryId} key={category.categoryid} curCategoriesArray={props.curCategoriesArray} />
         ))}
       </>
       }
-      {personasArray.length > 0 &&
+      {props.hasMXP && personasArray.length > 0 &&
       <Form.Group controlId="selectPersonas" className="col">
       <Form.Label>Personas:</Form.Label>
         <Form.Control as="select" name="personaid" custom onChange={ props.updateFilter } value={props.curPersonaId}>
@@ -235,22 +265,30 @@ const RenderFilterForm = (props) => {
 }
 
 const CategorySelect = props => {
-  // const categoryKids = [];
   const [categoryKids,setCategoryKids]=useState([]);
+  let curSelectValue = '*';
 
   useEffect(() => {
-    let isMounted = true; // note this flag denote mount status
-    getCategoryKidsInfo(props.categoryid).then((data)=>{
-      //console.log(data);
-      if (isMounted) setCategoryKids(data.items);
-    });
+    let isMounted = true;
+    if (isMounted) {
+      getCategoryKidsInfo(props.categoryid).then((data)=>{
+        setCategoryKids(data.items);
+      });
+    }
     return () => { isMounted = false };
-  }, []);
+  }, []);  
+  
+  for (let i=0; i < categoryKids.length; i++){
+      if (props.curCategoryId.includes(categoryKids[i].categoryid)){
+        curSelectValue = categoryKids[i].categoryid;
+        break
+      }
+  }
 
   return(
-    <Form.Group controlId="selectCategories" className="col">
+    <Form.Group controlId={`selectCategories${props.filterlabel}`} className="col">
       <Form.Label>{props.filterlabel}:</Form.Label>
-        <Form.Control as="select" name="categoryid" custom onChange={ props.updateFilter } value={props.curCategoryId}>
+        <Form.Control as="select" name={`categoryid${props.filterlabel}`} custom onChange={ props.updateFilter } value={curSelectValue}>
           <option value="*" key="All Categories">All</option>
           {categoryKids.map((category, index) => (
             <option value={category.categoryid} key={index}>{category.name}</option>
@@ -267,7 +305,6 @@ const getCategoriesInfo = async (categoryIds) => {
   const query = await feed.getQuery();
   const categories = query.getAll();
 
-  //console.log('categories getCategoriesInfo:' + JSON.stringify(categories, undefined, 2));
   return categories
 }
 
@@ -288,10 +325,31 @@ const getCategoryKidsInfo = async (categoryId) => {
   const query = await feed.getQuery();
   const categorykids = query.getAll();
 
-  //console.log('categories getCategoryKidsInfo:' + JSON.stringify(categorykids, undefined, 2));
   return categorykids
 }
 
+const updateCategoryIds = (name,value,curCategoriesArray) => {
+  let match = 0;
+
+  // if (!Array.isArray(curCategoriesArray)){
+  //   curCategoriesArray = [];
+  // }
+    for (let i = 0; i < curCategoriesArray.length; i++) {
+      if (curCategoriesArray[i].name === name) {
+            curCategoriesArray[i].value = value;
+          match = 1;
+          break;
+      }
+    }
+    if (!match){
+      curCategoriesArray.push({ 
+        name:name,
+        value:value 
+      });
+    }
+  
+  return curCategoriesArray;
+}
 
 
 //for debugging only
