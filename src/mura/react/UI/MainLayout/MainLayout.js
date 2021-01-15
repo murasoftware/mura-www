@@ -106,6 +106,9 @@ function contentDidChange(_content) {
       if (!htmlQueueContainerInner.length) {
         Mura.loader().loadjs(Mura.rootpath + "/core/modules/v1/core_assets/js/variation.js?siteid=" + Mura.siteid + '&cacheid=' + Math.random())
       }
+      if(Mura.MXP){
+        Mura.loader().loadjs(Mura.rootpath + "/plugins/MXP/remote/native/?siteid=" + Mura.siteid + "&contenthistid=" + Mura.contenthistid + "&contentid=" + Mura.contentid + "&cacheid=" + Math.random());
+      }
     }, 5);
     
     Mura.init(Mura.extend({ queueObjects: false, content }));
