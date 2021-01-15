@@ -4,10 +4,6 @@ import Form from 'react-bootstrap/Form';
 import {getLayout,RouterlessLink,RouterLink} from '@mura/react/UI/Collection';
 /*
   TODO: scrollpages -- not sure if this is even working at all in collection in NextJS, should test
-
-  TODO: send/set multiple categories -- now only latest selected is sent/set
-
-  TODO: Sort by persona / stage
 */
 
 function ResourceHub(props) {
@@ -27,51 +23,59 @@ function ResourceHub(props) {
   const _curCategoryIds = objectparams.dynamicProps ? objectparams.dynamicProps.filterprops.categoryid : '*';
   const _curPersonaId = objectparams.dynamicProps ? objectparams.dynamicProps.filterprops.personaid : '*';
   const _curCategoriesArray = objectparams.dynamicProps ? objectparams.dynamicProps.filterprops.selectedcats : [];
-  
-  console.log(objectparams.dynamicProps);
-  console.log('selected cats: ', _curCategoriesArray);
+  const _hasMXP = objectparams.dynamicProps ? objectparams.dynamicProps.filterprops.hasmxp : false;
 
   const [curSubtype, setCurSubtype]=useState(_curSubtype);
   const [curCategoriesArray, setCurCategoriesArray]=useState(_curCategoriesArray);
   const [curCategoryIds, setCurCategoryIds]=useState(_curCategoryIds);
   const [curPersonaId, setCurPersonaId]=useState(_curPersonaId);
+  const [hasMXP, setHasMXP]=useState(_hasMXP);
 
   //UPDATE COLLECTION & FILTERPROPS WHEN FILTERS ARE UPDATED
   useEffect(() => {
     let isMounted = true;
-    if (isMounted) getFilterProps(curSubtype,curCategoryIds,curPersonaId,curCategoriesArray).then((filterProps) => {      
-      getCollection(props,filterProps).then((collection) => {
-        setCollection(collection);
-      })
-    });
+    if (isMounted) {
+      getFilterProps(curSubtype,curCategoryIds,curPersonaId,curCategoriesArray).then((filterProps) => {      
+        getCollection(props,filterProps).then((collection) => {
+          setCollection(collection);
+        })
+      });
+    }
     return () => { isMounted = false };
   }, [curSubtype,curCategoryIds,curPersonaId])
 
   const updateFilter = (e) => {
-    console.log('submitted values: ' + e.target.name + ', ' + e.target.value);
     switch(e.target.name) {
       case 'subtype':
         let subtype = e.target.value;
         //todo: check that values have changed before setting
-        setCurSubtype(subtype);
+        if (subtype != curSubtype) {
+          setCurSubtype(subtype);
+        }
         break
       case 'personaid':
         let personaid = e.target.value;
-        setCurPersonaId(personaid);
+        if (personaid != curPersonaId){
+          setCurPersonaId(personaid);
+        }
         break
       default:
-        setCurCategoriesArray(updateCategoryIds(e.target.name,e.target.value,curCategoriesArray));
-        setCurCategoryIds(getCategoryIds(curCategoriesArray));
+        if (!curCategoryIds.includes(e.target.value)){
+          setCurCategoriesArray(updateCategoryIds(e.target.name,e.target.value,curCategoriesArray));
+          setCurCategoryIds(getCategoryIds(curCategoriesArray));
+        }        
     }//switch    
   }
   
   if(!objectparams.dynamicProps){
     useEffect(() => {
       let isMounted = true;
-      if (isMounted) getDynamicProps(objectparams).then((dynamicProps)=>{
-        setCollection(new Mura.EntityCollection(dynamicProps.collection,Mura._requestcontext));
-        setCurSubtype(dynamicProps.filterprops.subtype);
-      });
+      if (isMounted) {
+        getDynamicProps(objectparams).then((dynamicProps)=>{
+          setCollection(new Mura.EntityCollection(dynamicProps.collection,Mura._requestcontext));
+          // setCurSubtype(dynamicProps.filterprops.subtype);
+        });
+      }
       return () => { isMounted = false };
     }, []);
 
@@ -87,6 +91,7 @@ function ResourceHub(props) {
             curCategoryId={curCategoryIds}
             curPersonaId={curPersonaId}
             curCategoriesArray={curCategoriesArray}
+            hasMXP={hasMXP}
           />
 
           <DynamicCollectionLayout collection={collection} props={props} link={RouterlessLink}/>
@@ -100,6 +105,7 @@ function ResourceHub(props) {
     }
   } else {
       // setCurSubtype(objectparams.dynamicProps.filterprops.subtype);
+
       return (
         <div>
           <h1>SSR {thisTitle}</h1>
@@ -110,6 +116,7 @@ function ResourceHub(props) {
             curCategoryId={curCategoryIds}
             curPersonaId={curPersonaId}
             curCategoriesArray={curCategoriesArray}
+            hasMXP={hasMXP}
           />
           <DynamicCollectionLayout collection={collection} props={props} link={RouterLink}/>
         </div>
@@ -182,7 +189,7 @@ const getCollection = async (props,filterProps) => {
       } else {
         collection = await feed.sort('releasedate','desc').getQuery();
       }  
-
+  console.log('collection: ', collection);
   return collection;
 }
 
@@ -192,11 +199,9 @@ const getFilterProps = async (subtype,categoryid,personaid,selectedcategories) =
   const Personaid = personaid;
   const CurSelectedCats = selectedcategories;
 
-  console.log('CurSelectedCats: ' + CurSelectedCats);
-
   const filterProps = await Mura.getEntity('resourcehub').invoke('processFilterArgs',{subtype:Subtype, categoryid:Categoryid, personaid:Personaid, selectedcats:CurSelectedCats});
   
-  console.log('filterProps: ' + JSON.stringify(filterProps,undefined,2));
+  console.log('filterProps: ', filterProps);
   return filterProps;
 }
 
@@ -208,21 +213,22 @@ const RenderFilterForm = (props) => {
   const subtypesArray = objectparams.subtypes ? objectparams.subtypes.split(',') : [];
   const categoryIds = objectparams.categoryids ? objectparams.categoryids.split(',') : [];
   const personaIds = objectparams.personaids ? objectparams.personaids.split(',') : [];
-  
+
   useEffect(() => {
     let isMounted = true;
-    getCategoriesInfo(categoryIds).then((data)=>{
-      if (isMounted) setCategoriesArray(data.items);
-    });
-    if(personaIds.lenth){
-      getPersonasInfo(personaIds).then((data)=>{
-        if (isMounted) setPersonasArray(data.items);
-        
+    if (isMounted){
+      getCategoriesInfo(categoryIds).then((data)=>{
+        setCategoriesArray(data.items);
       });
+      if(personaIds.length){
+        getPersonasInfo(personaIds).then((data)=>{
+          setPersonasArray(data.items);        
+        });
+      }
     }    
     return () => { isMounted = false };
   }, []);
-  // console.log(props.curCategoryId);
+  
   return (
     <Form className="row row-cols-3" id="filterForm">
       {subtypesArray.length > 0 &&
@@ -243,7 +249,7 @@ const RenderFilterForm = (props) => {
         ))}
       </>
       }
-      {personasArray.length > 0 &&
+      {props.hasMXP && personasArray.length > 0 &&
       <Form.Group controlId="selectPersonas" className="col">
       <Form.Label>Personas:</Form.Label>
         <Form.Control as="select" name="personaid" custom onChange={ props.updateFilter } value={props.curPersonaId}>
@@ -260,26 +266,25 @@ const RenderFilterForm = (props) => {
 
 const CategorySelect = props => {
   const [categoryKids,setCategoryKids]=useState([]);
+  let curSelectValue = '*';
 
   useEffect(() => {
     let isMounted = true;
-    getCategoryKidsInfo(props.categoryid).then((data)=>{
-      if (isMounted) setCategoryKids(data.items);
-    });
+    if (isMounted) {
+      getCategoryKidsInfo(props.categoryid).then((data)=>{
+        setCategoryKids(data.items);
+      });
+    }
     return () => { isMounted = false };
-  }, []);
-  let curSelectValue = '*';
+  }, []);  
   
   for (let i=0; i < categoryKids.length; i++){
-    // console.log(categoryKids[i].categoryid);    
       if (props.curCategoryId.includes(categoryKids[i].categoryid)){
-        console.log('match! ' + categoryKids[i].name + ' : ' + categoryKids[i].categoryid);
         curSelectValue = categoryKids[i].categoryid;
         break
       }
   }
 
-  console.log('current selected value: ' + curSelectValue);
   return(
     <Form.Group controlId={`selectCategories${props.filterlabel}`} className="col">
       <Form.Label>{props.filterlabel}:</Form.Label>
