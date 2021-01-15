@@ -135,11 +135,11 @@ let moduleRegistry = [
   {
     name: 'resource_hub',
     component: ResourceHub,
-    getDynamicProps: getResourceHubProps,
+    SSR:false
   },
   {
     name: 'ArticleMeta',
-    component: ArticleMeta,
+    component: ArticleMeta
   },
   {
     name: 'Cards',

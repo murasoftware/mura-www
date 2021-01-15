@@ -35,7 +35,8 @@ function ResourceHub(props) {
   useEffect(() => {
     let isMounted = true;
     if (isMounted) {
-      getFilterProps(curSubtype,curCategoryIds,curPersonaId,curCategoriesArray).then((filterProps) => {      
+      getFilterProps(curSubtype,curCategoryIds,curPersonaId,curCategoriesArray,true).then((filterProps) => {
+        setHasMXP(filterProps.hasmxp);
         getCollection(props,filterProps).then((collection) => {
           setCollection(collection);
         })
@@ -80,6 +81,7 @@ function ResourceHub(props) {
     }, []);
 
     if(collection) {
+      console.log(hasMXP);
       return (
         <div>
           <h1>Dynamic {thisTitle}</h1>
@@ -143,7 +145,7 @@ const getCategoryIds = categories => {
 }
 
 export const getDynamicProps = async props => {
-  const filterProps = await getFilterProps('','','','');
+  const filterProps = await getFilterProps('','','','',false);
   const collection = await getCollection(props,filterProps);
   if(!Array.isArray(filterProps.selectedcats)){
     try{
@@ -193,13 +195,14 @@ const getCollection = async (props,filterProps) => {
   return collection;
 }
 
-const getFilterProps = async (subtype,categoryid,personaid,selectedcategories) => {
+const getFilterProps = async (subtype,categoryid,personaid,selectedcategories,newfilter) => {
   const Subtype = subtype;
   const Categoryid = categoryid;
   const Personaid = personaid;
   const CurSelectedCats = selectedcategories;
+  const NewFilter = newfilter;
 
-  const filterProps = await Mura.getEntity('resourcehub').invoke('processFilterArgs',{subtype:Subtype, categoryid:Categoryid, personaid:Personaid, selectedcats:CurSelectedCats});
+  const filterProps = await Mura.getEntity('resourcehub').invoke('processFilterArgs',{subtype:Subtype, categoryid:Categoryid, personaid:Personaid, selectedcats:CurSelectedCats, newfilter:NewFilter});
   
   console.log('filterProps: ', filterProps);
   return filterProps;
