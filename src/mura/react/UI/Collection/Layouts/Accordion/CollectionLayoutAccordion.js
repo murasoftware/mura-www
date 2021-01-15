@@ -15,7 +15,7 @@ const AccordionLayout = ({props,collection,link}) => {
   const [pos, setPos] = useState(0);
   return (
     <>
-      <Accordion className={`collectionLayoutAccordion ${props.accordionpadding}-spacing ${props.collapseindicators} ${props.collapseindicatorslocation}-indicator`} role="button">
+      <Accordion className={`collectionLayoutAccordion ${props.accordionpadding}-spacing ${props.collapseindicators} ${props.collapseindicatorslocation}-indicator`}>
         <CurrentItems collection={collection} pos={pos} link={link} {...props} /> 
       </Accordion>
 
@@ -60,7 +60,7 @@ const CurrentItems = (props) => {
     item = items[i];
     itemsList.push(
       <Card key={item.get('contentid')}>
-        <Accordion.Toggle as={Card.Header} variant="link" eventKey={item.get('contentid')} className={activeId === i ? 'open' : 'not-open'} onClick={() => toggleActive(i)}>
+        <Accordion.Toggle as={Card.Header} variant="link" eventKey={item.get('contentid')} className={activeId === i ? 'open' : 'not-open'} onClick={() => toggleActive(i)} role="button">
           {item.get('title')}
         </Accordion.Toggle>
         <Accordion.Collapse eventKey={item.get('contentid')}>
