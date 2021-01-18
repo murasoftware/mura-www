@@ -31,22 +31,28 @@ function ResourceHub(props) {
   const [curPersonaId, setCurPersonaId]=useState(_curPersonaId);
   const [hasMXP, setHasMXP]=useState(_hasMXP);
   const [newFilter, setNewFilter]=useState(false);
+  const [filterUpdated, setFilterUpdated]=useState(new Date().toString());
 
   // console.log(curSubtype);
   //UPDATE COLLECTION & FILTERPROPS WHEN FILTERS ARE UPDATED
-  //THIS IS CAUSING MULTIPLE RENDERS ON INITIAL LOAD
   useEffect(() => {
     let isMounted = true;
     if (isMounted) {
       getFilterProps(curSubtype,curCategoryIds,curPersonaId,curCategoriesArray,newFilter).then((filterProps) => {
         setHasMXP(filterProps.hasmxp);
+        setCurSubtype(filterProps.subtype);
+        setCurCategoryIds(filterProps.categoryid);
+        setCurPersonaId(filterProps.personaid);
+        setCurCategoriesArray(filterProps.selectedcats);
+
         getCollection(props,filterProps).then((collection) => {
           setCollection(collection);
-        })
+        });
+        
       });
     }
     return () => { isMounted = false };
-  }, [curSubtype,curCategoryIds,curPersonaId])
+  }, [filterUpdated])
 
   
 
@@ -58,6 +64,7 @@ function ResourceHub(props) {
         if (subtype != curSubtype) {
           setCurSubtype(subtype);
           setNewFilter(true);
+          setFilterUpdated(new Date().toString());
         }
         break
       case 'personaid':
@@ -65,6 +72,7 @@ function ResourceHub(props) {
         if (personaid != curPersonaId){
           setCurPersonaId(personaid);
           setNewFilter(true);
+          setFilterUpdated(new Date().toString());
         }
         break
       default:
@@ -72,25 +80,10 @@ function ResourceHub(props) {
           setCurCategoriesArray(updateCategoryIds(e.target.name,e.target.value,curCategoriesArray));
           setCurCategoryIds(getCategoryIds(curCategoriesArray));
           setNewFilter(true);
+          setFilterUpdated(new Date().toString());
         }        
     }//switch    
   }
-  
-  if(!objectparams.dynamicProps){
-    useEffect(() => {
-      let isMounted = true;
-      if (isMounted) {
-        getDynamicProps(objectparams).then((dynamicProps)=>{
-          setCollection(new Mura.EntityCollection(dynamicProps.collection,Mura._requestcontext));
-          //THIS PERSISTS FROM THE SESSION ON RELOAD AFTER FILTERS APPLIED
-          setCurSubtype(dynamicProps.filterprops.subtype);
-          setCurCategoryIds(dynamicProps.filterprops.categoryid);
-          setCurPersonaId(dynamicProps.filterprops.personaid);
-          setCurCategoriesArray(dynamicProps.filterprops.selectedcats);
-        });
-      }
-      return () => { isMounted = false };
-    }, []);
 
     if(collection) {
       return (
@@ -113,29 +106,10 @@ function ResourceHub(props) {
       )
     } else {
       return (
-       <div><h1>Empty {thisTitle}</h1></div>
+       <div>{/* EMPTY COLLECTION */}</div>
       )
     }
-  } else {
-      // setCurSubtype(objectparams.dynamicProps.filterprops.subtype);
-
-      return (
-        <div>
-          <h1>SSR {thisTitle}</h1>
-          <RenderFilterForm 
-            updateFilter={updateFilter}
-            {...props}
-            curSubtype={curSubtype}
-            curCategoryId={curCategoryIds}
-            curPersonaId={curPersonaId}
-            curCategoriesArray={curCategoriesArray}
-            hasMXP={hasMXP}
-          />
-          <DynamicCollectionLayout collection={collection} props={props} link={RouterLink}/>
-        </div>
-      )
   }
-}
 
 const getCategoryIds = categories => {
   let categoriesList;
@@ -347,7 +321,9 @@ const updateCategoryIds = (name,value,curCategoriesArray) => {
   // if (!Array.isArray(curCategoriesArray)){
   //   curCategoriesArray = [];
   // }
+  console.log(curCategoriesArray);
     for (let i = 0; i < curCategoriesArray.length; i++) {
+      console.log('names: ' + curCategoriesArray[i].name + ', ' + name);
       if (curCategoriesArray[i].name === name) {
             curCategoriesArray[i].value = value;
           match = 1;
@@ -355,10 +331,11 @@ const updateCategoryIds = (name,value,curCategoriesArray) => {
       }
     }
     if (!match){
-      curCategoriesArray.push({ 
-        name:name,
-        value:value 
-      });
+      // console.log(name + ', ' + value + ', ' + curCategoriesArray);
+        curCategoriesArray.push({ 
+          name:name,
+          value:value 
+        });
     }
   
   return curCategoriesArray;
