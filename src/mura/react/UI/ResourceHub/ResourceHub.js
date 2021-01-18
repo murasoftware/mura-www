@@ -30,12 +30,15 @@ function ResourceHub(props) {
   const [curCategoryIds, setCurCategoryIds]=useState(_curCategoryIds);
   const [curPersonaId, setCurPersonaId]=useState(_curPersonaId);
   const [hasMXP, setHasMXP]=useState(_hasMXP);
+  const [newFilter, setNewFilter]=useState(false);
 
+  // console.log(curSubtype);
   //UPDATE COLLECTION & FILTERPROPS WHEN FILTERS ARE UPDATED
+  //THIS IS CAUSING MULTIPLE RENDERS ON INITIAL LOAD
   useEffect(() => {
     let isMounted = true;
     if (isMounted) {
-      getFilterProps(curSubtype,curCategoryIds,curPersonaId,curCategoriesArray,true).then((filterProps) => {
+      getFilterProps(curSubtype,curCategoryIds,curPersonaId,curCategoriesArray,newFilter).then((filterProps) => {
         setHasMXP(filterProps.hasmxp);
         getCollection(props,filterProps).then((collection) => {
           setCollection(collection);
@@ -45,6 +48,8 @@ function ResourceHub(props) {
     return () => { isMounted = false };
   }, [curSubtype,curCategoryIds,curPersonaId])
 
+  
+
   const updateFilter = (e) => {
     switch(e.target.name) {
       case 'subtype':
@@ -52,18 +57,21 @@ function ResourceHub(props) {
         //todo: check that values have changed before setting
         if (subtype != curSubtype) {
           setCurSubtype(subtype);
+          setNewFilter(true);
         }
         break
       case 'personaid':
         let personaid = e.target.value;
         if (personaid != curPersonaId){
           setCurPersonaId(personaid);
+          setNewFilter(true);
         }
         break
       default:
         if (!curCategoryIds.includes(e.target.value)){
           setCurCategoriesArray(updateCategoryIds(e.target.name,e.target.value,curCategoriesArray));
           setCurCategoryIds(getCategoryIds(curCategoriesArray));
+          setNewFilter(true);
         }        
     }//switch    
   }
@@ -74,14 +82,17 @@ function ResourceHub(props) {
       if (isMounted) {
         getDynamicProps(objectparams).then((dynamicProps)=>{
           setCollection(new Mura.EntityCollection(dynamicProps.collection,Mura._requestcontext));
-          // setCurSubtype(dynamicProps.filterprops.subtype);
+          //THIS PERSISTS FROM THE SESSION ON RELOAD AFTER FILTERS APPLIED
+          setCurSubtype(dynamicProps.filterprops.subtype);
+          setCurCategoryIds(dynamicProps.filterprops.categoryid);
+          setCurPersonaId(dynamicProps.filterprops.personaid);
+          setCurCategoriesArray(dynamicProps.filterprops.selectedcats);
         });
       }
       return () => { isMounted = false };
     }, []);
 
     if(collection) {
-      console.log(hasMXP);
       return (
         <div>
           <h1>Dynamic {thisTitle}</h1>
@@ -190,8 +201,7 @@ const getCollection = async (props,filterProps) => {
         collection = await feed.getQuery({sortBy:"mxpRelevance"});
       } else {
         collection = await feed.sort('releasedate','desc').getQuery();
-      }  
-  console.log('collection: ', collection);
+      }
   return collection;
 }
 
@@ -201,7 +211,7 @@ const getFilterProps = async (subtype,categoryid,personaid,selectedcategories,ne
   const Personaid = personaid;
   const CurSelectedCats = selectedcategories;
   const NewFilter = newfilter;
-
+  // console.log('New Filter: ' + NewFilter);
   const filterProps = await Mura.getEntity('resourcehub').invoke('processFilterArgs',{subtype:Subtype, categoryid:Categoryid, personaid:Personaid, selectedcats:CurSelectedCats, newfilter:NewFilter});
   
   console.log('filterProps: ', filterProps);
