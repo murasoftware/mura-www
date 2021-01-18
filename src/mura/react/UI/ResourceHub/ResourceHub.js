@@ -4,6 +4,8 @@ import Form from 'react-bootstrap/Form';
 import {getLayout,RouterlessLink,RouterLink} from '@mura/react/UI/Collection';
 /*
   TODO: scrollpages -- not sure if this is even working at all in collection in NextJS, should test
+
+  TODO: ADD SSR if/condition back in, useEffect moved into each matching condition
 */
 
 function ResourceHub(props) {
@@ -32,30 +34,7 @@ function ResourceHub(props) {
   const [hasMXP, setHasMXP]=useState(_hasMXP);
   const [newFilter, setNewFilter]=useState(false);
   const [filterUpdated, setFilterUpdated]=useState(new Date().toString());
-
-  // console.log(curSubtype);
-  //UPDATE COLLECTION & FILTERPROPS WHEN FILTERS ARE UPDATED
-  useEffect(() => {
-    let isMounted = true;
-    if (isMounted) {
-      getFilterProps(curSubtype,curCategoryIds,curPersonaId,curCategoriesArray,newFilter).then((filterProps) => {
-        setHasMXP(filterProps.hasmxp);
-        setCurSubtype(filterProps.subtype);
-        setCurCategoryIds(filterProps.categoryid);
-        setCurPersonaId(filterProps.personaid);
-        setCurCategoriesArray(filterProps.selectedcats);
-
-        getCollection(props,filterProps).then((collection) => {
-          setCollection(collection);
-        });
-        
-      });
-    }
-    return () => { isMounted = false };
-  }, [filterUpdated])
-
   
-
   const updateFilter = (e) => {
     switch(e.target.name) {
       case 'subtype':
@@ -85,6 +64,27 @@ function ResourceHub(props) {
     }//switch    
   }
 
+  if(!objectparams.dynamicProps){
+
+    useEffect(() => {
+      let isMounted = true;
+      if (isMounted) {
+        getFilterProps(curSubtype,curCategoryIds,curPersonaId,curCategoriesArray,newFilter).then((filterProps) => {
+          setHasMXP(filterProps.hasmxp);
+          setCurSubtype(filterProps.subtype);
+          setCurCategoryIds(filterProps.categoryid);
+          setCurPersonaId(filterProps.personaid);
+          setCurCategoriesArray(filterProps.selectedcats);
+  
+          getCollection(props,filterProps).then((collection) => {
+            setCollection(collection);
+          });
+          
+        });
+      }
+      return () => { isMounted = false };
+    }, [filterUpdated])
+
     if(collection) {
       return (
         <div>
@@ -109,7 +109,43 @@ function ResourceHub(props) {
        <div>{/* EMPTY COLLECTION */}</div>
       )
     }
+
+  } else {
+
+    useEffect(() => {
+      let isMounted = true;
+      if (isMounted) {
+        getFilterProps(curSubtype,curCategoryIds,curPersonaId,curCategoriesArray,newFilter).then((filterProps) => {
+          setHasMXP(filterProps.hasmxp);
+          getCollection(props,filterProps).then((collection) => {
+            setCollection(collection);
+          })
+        });
+      }
+      return () => { isMounted = false };
+    }, [filterUpdated])
+
+    return (
+      <div>
+        <h1>SSR {thisTitle}</h1>
+
+        <RenderFilterForm 
+          updateFilter={updateFilter}
+          {...props}
+          curSubtype={curSubtype}
+          curCategoryId={curCategoryIds}
+          curPersonaId={curPersonaId}
+          curCategoriesArray={curCategoriesArray}
+          hasMXP={hasMXP}
+        />
+
+        <DynamicCollectionLayout collection={collection} props={props} link={RouterlessLink}/>
+
+      </div>
+    )
+
   }
+}
 
 const getCategoryIds = categories => {
   let categoriesList;
@@ -185,7 +221,6 @@ const getFilterProps = async (subtype,categoryid,personaid,selectedcategories,ne
   const Personaid = personaid;
   const CurSelectedCats = selectedcategories;
   const NewFilter = newfilter;
-  // console.log('New Filter: ' + NewFilter);
   const filterProps = await Mura.getEntity('resourcehub').invoke('processFilterArgs',{subtype:Subtype, categoryid:Categoryid, personaid:Personaid, selectedcats:CurSelectedCats, newfilter:NewFilter});
   
   console.log('filterProps: ', filterProps);
@@ -318,12 +353,7 @@ const getCategoryKidsInfo = async (categoryId) => {
 const updateCategoryIds = (name,value,curCategoriesArray) => {
   let match = 0;
 
-  // if (!Array.isArray(curCategoriesArray)){
-  //   curCategoriesArray = [];
-  // }
-  console.log(curCategoriesArray);
     for (let i = 0; i < curCategoriesArray.length; i++) {
-      console.log('names: ' + curCategoriesArray[i].name + ', ' + name);
       if (curCategoriesArray[i].name === name) {
             curCategoriesArray[i].value = value;
           match = 1;
@@ -331,7 +361,6 @@ const updateCategoryIds = (name,value,curCategoriesArray) => {
       }
     }
     if (!match){
-      // console.log(name + ', ' + value + ', ' + curCategoriesArray);
         curCategoriesArray.push({ 
           name:name,
           value:value 
