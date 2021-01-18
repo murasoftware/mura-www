@@ -4,8 +4,6 @@ import Form from 'react-bootstrap/Form';
 import {getLayout,RouterlessLink,RouterLink} from '@mura/react/UI/Collection';
 /*
   TODO: scrollpages -- not sure if this is even working at all in collection in NextJS, should test
-
-  TODO: ADD SSR if/condition back in, useEffect moved into each matching condition
 */
 
 function ResourceHub(props) {
@@ -39,7 +37,6 @@ function ResourceHub(props) {
     switch(e.target.name) {
       case 'subtype':
         let subtype = e.target.value;
-        //todo: check that values have changed before setting
         if (subtype != curSubtype) {
           setCurSubtype(subtype);
           setNewFilter(true);
@@ -139,7 +136,7 @@ function ResourceHub(props) {
           hasMXP={hasMXP}
         />
 
-        <DynamicCollectionLayout collection={collection} props={props} link={RouterlessLink}/>
+        <DynamicCollectionLayout collection={collection} props={props} link={RouterLink}/>
 
       </div>
     )
