@@ -35,8 +35,7 @@ export const ConnectorConfig = {
   sitename: 'Example Site',
   siteidinurls:false,
   codeblocks:true,
-  variations:true,
-  MXP: false
+  variations:true
 };
 
 /*
@@ -130,11 +129,13 @@ let moduleRegistry = [
   {
     name: 'PrimaryNav',
     component: PrimaryNav,
-    getDynamicProps: getPrimaryNavProps,
+    getDynamicProps: getPrimaryNavProps
   },
   {
     name: 'resource_hub',
     component: ResourceHub,
+    //getDynamicProps: getResourceHubProps,
+    //SSR: true
     SSR:false
   },
   {
