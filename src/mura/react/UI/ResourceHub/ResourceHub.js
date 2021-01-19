@@ -114,6 +114,11 @@ function ResourceHub(props) {
       if (isMounted) {
         getFilterProps(curSubtype,curCategoryIds,curPersonaId,curCategoriesArray,newFilter).then((filterProps) => {
           setHasMXP(filterProps.hasmxp);
+          setCurSubtype(filterProps.subtype);
+          setCurCategoryIds(filterProps.categoryid);
+          setCurPersonaId(filterProps.personaid);
+          setCurCategoriesArray(filterProps.selectedcats);
+          
           getCollection(props,filterProps).then((collection) => {
             setCollection(collection);
           })
