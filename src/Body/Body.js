@@ -1,9 +1,7 @@
 import React from 'react';
-import DisplayRegion from '@mura/react/UI/DisplayRegion';
 import Article from '../Body/ContentTypes/Article';
 import Default from '../Body/ContentTypes/Default';
 function Body({content,moduleStyleData,header,primarycontent,footer,displayregions}){
-    console.log(content);
     switch(content.subtype){
         case 'Article':
         case 'Blog':
