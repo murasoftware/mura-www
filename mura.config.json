@@ -234,6 +234,11 @@
 				"name":"Embed",
 				"external":false,
 				"contenttypes":"*"
+			},
+			"Login":{
+				"name":"Login",
+				"external":false,
+				"contenttypes":"*"
 			}
 	},
 	"sites":{
