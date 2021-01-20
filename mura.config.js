@@ -134,8 +134,7 @@ let moduleRegistry = [
   {
     name: 'resource_hub',
     component: ResourceHub,
-    //getDynamicProps: getResourceHubProps,
-    //SSR: true
+    //getDynamicProps: getResourceHubProps
     SSR:false
   },
   {

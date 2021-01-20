@@ -7,6 +7,7 @@ import {getLayout,RouterlessLink,RouterLink} from '@mura/react/UI/Collection';
 */
 
 function ResourceHub(props) {
+  // return('This is the resource hub');
   const objectparams = Object.assign({}, props);
   const DynamicCollectionLayout = getLayout(objectparams.layout).component;
   
