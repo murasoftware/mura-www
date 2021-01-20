@@ -7,6 +7,7 @@ import {getLayout,RouterlessLink,RouterLink} from '@mura/react/UI/Collection';
 */
 
 function ResourceHub(props) {
+  // return('This is the resource hub');
   const objectparams = Object.assign({}, props);
   const DynamicCollectionLayout = getLayout(objectparams.layout).component;
   
@@ -30,58 +31,59 @@ function ResourceHub(props) {
   const [curCategoryIds, setCurCategoryIds]=useState(_curCategoryIds);
   const [curPersonaId, setCurPersonaId]=useState(_curPersonaId);
   const [hasMXP, setHasMXP]=useState(_hasMXP);
-
-  //UPDATE COLLECTION & FILTERPROPS WHEN FILTERS ARE UPDATED
-  useEffect(() => {
-    let isMounted = true;
-    if (isMounted) {
-      getFilterProps(curSubtype,curCategoryIds,curPersonaId,curCategoriesArray,true).then((filterProps) => {
-        setHasMXP(filterProps.hasmxp);
-        getCollection(props,filterProps).then((collection) => {
-          setCollection(collection);
-        })
-      });
-    }
-    return () => { isMounted = false };
-  }, [curSubtype,curCategoryIds,curPersonaId])
-
+  const [newFilter, setNewFilter]=useState(false);
+  const [filterUpdated, setFilterUpdated]=useState(new Date().toString());
+  
   const updateFilter = (e) => {
     switch(e.target.name) {
       case 'subtype':
         let subtype = e.target.value;
-        //todo: check that values have changed before setting
         if (subtype != curSubtype) {
           setCurSubtype(subtype);
+          setNewFilter(true);
+          setFilterUpdated(new Date().toString());
         }
         break
       case 'personaid':
         let personaid = e.target.value;
         if (personaid != curPersonaId){
           setCurPersonaId(personaid);
+          setNewFilter(true);
+          setFilterUpdated(new Date().toString());
         }
         break
       default:
         if (!curCategoryIds.includes(e.target.value)){
           setCurCategoriesArray(updateCategoryIds(e.target.name,e.target.value,curCategoriesArray));
           setCurCategoryIds(getCategoryIds(curCategoriesArray));
+          setNewFilter(true);
+          setFilterUpdated(new Date().toString());
         }        
     }//switch    
   }
-  
+
   if(!objectparams.dynamicProps){
+
     useEffect(() => {
       let isMounted = true;
       if (isMounted) {
-        getDynamicProps(objectparams).then((dynamicProps)=>{
-          setCollection(new Mura.EntityCollection(dynamicProps.collection,Mura._requestcontext));
-          // setCurSubtype(dynamicProps.filterprops.subtype);
+        getFilterProps(curSubtype,curCategoryIds,curPersonaId,curCategoriesArray,newFilter).then((filterProps) => {
+          setHasMXP(filterProps.hasmxp);
+          setCurSubtype(filterProps.subtype);
+          setCurCategoryIds(filterProps.categoryid);
+          setCurPersonaId(filterProps.personaid);
+          setCurCategoriesArray(filterProps.selectedcats);
+  
+          getCollection(props,filterProps).then((collection) => {
+            setCollection(collection);
+          });
+          
         });
       }
       return () => { isMounted = false };
-    }, []);
+    }, [filterUpdated])
 
     if(collection) {
-      console.log(hasMXP);
       return (
         <div>
           <h1>Dynamic {thisTitle}</h1>
@@ -102,27 +104,49 @@ function ResourceHub(props) {
       )
     } else {
       return (
-       <div><h1>Empty {thisTitle}</h1></div>
+       <div>{/* EMPTY COLLECTION */}</div>
       )
     }
-  } else {
-      // setCurSubtype(objectparams.dynamicProps.filterprops.subtype);
 
-      return (
-        <div>
-          <h1>SSR {thisTitle}</h1>
-          <RenderFilterForm 
-            updateFilter={updateFilter}
-            {...props}
-            curSubtype={curSubtype}
-            curCategoryId={curCategoryIds}
-            curPersonaId={curPersonaId}
-            curCategoriesArray={curCategoriesArray}
-            hasMXP={hasMXP}
-          />
-          <DynamicCollectionLayout collection={collection} props={props} link={RouterLink}/>
-        </div>
-      )
+  } else {
+
+    useEffect(() => {
+      let isMounted = true;
+      if (isMounted) {
+        getFilterProps(curSubtype,curCategoryIds,curPersonaId,curCategoriesArray,newFilter).then((filterProps) => {
+          setHasMXP(filterProps.hasmxp);
+          setCurSubtype(filterProps.subtype);
+          setCurCategoryIds(filterProps.categoryid);
+          setCurPersonaId(filterProps.personaid);
+          setCurCategoriesArray(filterProps.selectedcats);
+          
+          getCollection(props,filterProps).then((collection) => {
+            setCollection(collection);
+          })
+        });
+      }
+      return () => { isMounted = false };
+    }, [filterUpdated])
+
+    return (
+      <div>
+        <h1>SSR {thisTitle}</h1>
+
+        <RenderFilterForm 
+          updateFilter={updateFilter}
+          {...props}
+          curSubtype={curSubtype}
+          curCategoryId={curCategoryIds}
+          curPersonaId={curPersonaId}
+          curCategoriesArray={curCategoriesArray}
+          hasMXP={hasMXP}
+        />
+
+        <DynamicCollectionLayout collection={collection} props={props} link={RouterLink}/>
+
+      </div>
+    )
+
   }
 }
 
@@ -190,8 +214,7 @@ const getCollection = async (props,filterProps) => {
         collection = await feed.getQuery({sortBy:"mxpRelevance"});
       } else {
         collection = await feed.sort('releasedate','desc').getQuery();
-      }  
-  console.log('collection: ', collection);
+      }
   return collection;
 }
 
@@ -201,7 +224,6 @@ const getFilterProps = async (subtype,categoryid,personaid,selectedcategories,ne
   const Personaid = personaid;
   const CurSelectedCats = selectedcategories;
   const NewFilter = newfilter;
-
   const filterProps = await Mura.getEntity('resourcehub').invoke('processFilterArgs',{subtype:Subtype, categoryid:Categoryid, personaid:Personaid, selectedcats:CurSelectedCats, newfilter:NewFilter});
   
   console.log('filterProps: ', filterProps);
@@ -334,9 +356,6 @@ const getCategoryKidsInfo = async (categoryId) => {
 const updateCategoryIds = (name,value,curCategoriesArray) => {
   let match = 0;
 
-  // if (!Array.isArray(curCategoriesArray)){
-  //   curCategoriesArray = [];
-  // }
     for (let i = 0; i < curCategoriesArray.length; i++) {
       if (curCategoriesArray[i].name === name) {
             curCategoriesArray[i].value = value;
@@ -345,10 +364,10 @@ const updateCategoryIds = (name,value,curCategoriesArray) => {
       }
     }
     if (!match){
-      curCategoriesArray.push({ 
-        name:name,
-        value:value 
-      });
+        curCategoriesArray.push({ 
+          name:name,
+          value:value 
+        });
     }
   
   return curCategoriesArray;

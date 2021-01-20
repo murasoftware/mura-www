@@ -3,7 +3,7 @@ import Head from 'next/head';
 import MainLayout from '@mura/react/UI/MainLayout';
 import DisplayRegion from '@mura/react/UI/DisplayRegion';
 import { MuraJSRefPlaceholder, getMuraProps, getRootPath, getSiteName } from '@mura/react/MuraConnector';
-
+import Body from '../Body';
 
 
 export async function getStaticProps(context) {
@@ -22,8 +22,7 @@ export default function Page(props) {
     },
     moduleStyleData
   } = props;
-  //console.log('content: ' + content);
-
+  console.log('content: ', content);
   return (
     <MainLayout {...props}>
       <Head>
@@ -62,27 +61,15 @@ export default function Page(props) {
       </Head>
       <div dangerouslySetInnerHTML={{__html:props.codeblocks.header}}/>
       <div dangerouslySetInnerHTML={{__html:props.codeblocks.bodystart}}/>
-      {content && displayregions && header && (
-        <DisplayRegion
-          region={header}
-          moduleStyleData={moduleStyleData}
-          content={content}
-        />
-      )}
-      {content && displayregions && primarycontent && (
-        <DisplayRegion
-          region={primarycontent}
-          moduleStyleData={moduleStyleData}
-          content={content}
-        />
-      )}
-      {content && displayregions && footer && (
-        <DisplayRegion
-          region={footer}
-          moduleStyleData={moduleStyleData}
-          content={content}
-        />
-      )}
+      <Body
+        content={content}
+        moduleStyleData={moduleStyleData}
+        header={header}
+        primarycontent={primarycontent}
+        footer={footer}
+        displayregions={displayregions}
+        props={props}
+      />
       <div dangerouslySetInnerHTML={{__html:props.codeblocks.footer}}/>
     </MainLayout>
   );

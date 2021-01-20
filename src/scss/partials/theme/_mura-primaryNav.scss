@@ -1,6 +1,7 @@
 .mura-object-PrimaryNav,
 [data-object="PrimaryNav"]{
     .nav-link{
+        white-space: nowrap;
         svg{
             margin-top:-2px;
         }
