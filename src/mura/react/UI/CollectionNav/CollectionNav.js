@@ -80,7 +80,7 @@ const CollectionNav = (props) => {
 	
 	return (
 	  <li className="page-item">
-	  	<a onClick={_onClick} className="page-link"><NavButtonLabel label={props.label} /></a>
+	  	<a onClick={_onClick} className="page-link" aria-label={props.label}><NavButtonLabel label={props.label} /></a>
 	  </li>
 	)
   }

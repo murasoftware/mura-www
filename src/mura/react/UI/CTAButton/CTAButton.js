@@ -16,7 +16,7 @@ function CTAButton({buttontext,buttoncolor,buttonsize,buttonlink,buttontarget,bu
   return (
     <>
         <Link href={buttonlink||'https://www.murasoftware.com'} passHref>
-          <a target={buttontarget||'_self'} className={btnclass}>{buttontext || 'Press Me'} <FontAwesomeIcon icon={faChevronRight} /></a>
+          <a target={buttontarget||'_self'} className={btnclass} role="button">{buttontext || 'Press Me'} <FontAwesomeIcon icon={faChevronRight} /></a>
         </Link>
     </>
   );

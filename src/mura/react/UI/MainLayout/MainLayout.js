@@ -103,7 +103,7 @@ function contentDidChange(_content) {
       Mura.holdReady(false);
 
       //This will happen on static route (IE not edit route)
-      if (!htmlQueueContainerInner.length) {
+      if (!htmlQueueContainerInner.length && Mura.variations) {
         Mura.loader().loadjs(Mura.rootpath + "/core/modules/v1/core_assets/js/variation.js?siteid=" + Mura.siteid + '&cacheid=' + Math.random())
       }
       if(Mura.MXP){

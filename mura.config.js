@@ -10,6 +10,7 @@ import PrimaryNav,{getDynamicProps as getPrimaryNavProps} from '@mura/react/UI/P
 import ResourceHub,{getDynamicProps as getResourceHubProps} from '@mura/react/UI/ResourceHub';//
 import ArticleMeta from '@mura/react/UI/ArticleMeta';
 import CTAButton from '@mura/react/UI/CTAButton';
+//import Login from '@mura/react/UI/Login';
 
 import DefaultLayout from '@mura/react/UI/Collection/Layouts/DefaultLayout';
 import CollectionLayout,{getQueryProps as getCollectionLayoutProps} from '@mura/react/UI/Collection/Layouts/CollectionLayout';
@@ -76,6 +77,10 @@ let moduleRegistry = [
   },
   {
     name: 'cookie_content',
+    SSR: false
+  },
+  {
+    name: 'Login',
     SSR: false
   },
   {
