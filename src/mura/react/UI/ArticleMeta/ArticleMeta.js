@@ -33,12 +33,9 @@ function ArticleMeta(props){
                     }
                 })
             }
-            {item.categoryid.length &&
-                <>
-                <span className="badge"></span>
-                {/* <ItemCategories categories={catAssignments} /> */}
-                </>
-            }
+            {/* {item.categoryid.length &&
+                <ItemCategories categories={catAssignments} />
+            } */}
         </div>
     )
 }
