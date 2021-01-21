@@ -8,7 +8,7 @@ function ArticleMeta(props){
     const fieldlist = fields ? fields.toLowerCase().split(",") : [];
     const item = props.content;
     // const catAssignments = item.getAll().categoryassignments;
-    console.log(item);
+    // console.log(item);
     return (
         <div className="pb-4">
             {
@@ -33,12 +33,12 @@ function ArticleMeta(props){
                     }
                 })
             }
-            {item.categoryid &&
-                
-                    <span className="badge">Categories would go here.</span>
-            }
-
+            {item.categoryid.length &&
+                <>
+                <span className="badge"></span>
                 {/* <ItemCategories categories={catAssignments} /> */}
+                </>
+            }
         </div>
     )
 }
