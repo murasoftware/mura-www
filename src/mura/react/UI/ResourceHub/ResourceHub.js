@@ -10,8 +10,6 @@ function ResourceHub(props) {
   // return('This is the resource hub');
   const objectparams = Object.assign({}, props);
   const DynamicCollectionLayout = getLayout(objectparams.layout).component;
-  
-  const thisTitle = 'Resource Hub';
 
   let _collection = false;
   if(objectparams.dynamicProps){
@@ -84,10 +82,9 @@ function ResourceHub(props) {
     }, [filterUpdated])
 
     if(collection) {
+      console.log('dynamic');
       return (
         <div>
-          <h1>Dynamic {thisTitle}</h1>
-
           <RenderFilterForm 
             updateFilter={updateFilter}
             {...props}
@@ -103,13 +100,14 @@ function ResourceHub(props) {
         </div>
       )
     } else {
+      console.log('empty');
       return (
-       <div>{/* EMPTY COLLECTION */}</div>
+        <div>{/* EMPTY COLLECTION */}</div>
       )
     }
 
   } else {
-
+    console.log('ssr');
     useEffect(() => {
       let isMounted = true;
       if (isMounted) {
@@ -130,8 +128,6 @@ function ResourceHub(props) {
 
     return (
       <div>
-        <h1>SSR {thisTitle}</h1>
-
         <RenderFilterForm 
           updateFilter={updateFilter}
           {...props}
@@ -141,9 +137,7 @@ function ResourceHub(props) {
           curCategoriesArray={curCategoriesArray}
           hasMXP={hasMXP}
         />
-
         <DynamicCollectionLayout collection={collection} props={props} link={RouterLink}/>
-
       </div>
     )
 
@@ -255,12 +249,12 @@ const RenderFilterForm = (props) => {
   }, []);
   
   return (
-    <Form className="row row-cols-3" id="filterForm">
+    <Form className="row row-cols-1 row-cols-sm-2 row-cols-lg-3" id="resource-filter-form">
       {subtypesArray.length > 0 &&
-      <Form.Group controlId="selectSubtypes" className="col">
-        <Form.Label>Subtypes:</Form.Label>
+      <Form.Group controlId="selectSubtypes" className="col type">
+        <Form.Label>Content Types:</Form.Label>
         <Form.Control as="select" name="subtype" custom onChange={ props.updateFilter } value={props.curSubtype}>
-          <option value="*" key="All Subtypes">All Subtypes</option>
+          <option value="*" key="All Subtypes">All</option>
           {subtypesArray.map((subtype, index) => (
             <option value={subtype} key={index}>{subtype}</option>
           ))}
@@ -275,10 +269,10 @@ const RenderFilterForm = (props) => {
       </>
       }
       {props.hasMXP && personasArray.length > 0 &&
-      <Form.Group controlId="selectPersonas" className="col">
-      <Form.Label>Personas:</Form.Label>
+      <Form.Group controlId="selectPersonas" className="col topic">
+      <Form.Label>Audience:</Form.Label>
         <Form.Control as="select" name="personaid" custom onChange={ props.updateFilter } value={props.curPersonaId}>
-          <option value="*" key="All Personas">All Personas</option>
+          <option value="*" key="All Personas">All</option>
           {personasArray.map(option => (
             <option value={option.personaid} key={option.personaid}>{option.name}</option>
           ))}
@@ -311,7 +305,7 @@ const CategorySelect = props => {
   }
 
   return(
-    <Form.Group controlId={`selectCategories${props.filterlabel}`} className="col">
+    <Form.Group controlId={`selectCategories${props.filterlabel}`} className="col topic">
       <Form.Label>{props.filterlabel}:</Form.Label>
         <Form.Control as="select" name={`categoryid${props.filterlabel}`} custom onChange={ props.updateFilter } value={curSelectValue}>
           <option value="*" key="All Categories">All</option>
