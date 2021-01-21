@@ -51,8 +51,9 @@ const CurrentItems = (props) => {
   for(let i = pos;i < itemsTo;i++) {
     item = items[i];
     catAssignments = item.getAll().categoryassignments;
-    itemsList.push(
-      
+    // console.log('category assignments Cards: ', catAssignments);
+    
+    itemsList.push(    
     <div className="col mb-4" key={item.get('contentid')}>
       <Card className="mb-3 h-100 shadow">
         {
@@ -70,6 +71,7 @@ const CurrentItems = (props) => {
                     <Card.Title key={field}>{item.get('title')}</Card.Title>
                   )
                 case "date":
+                case "releasedate":
                     return (
                       <div className="mura-item-meta__date" key="date">
                         <ItemDate releasedate={item.get('releasedate')} lastupdate={item.get('lastupdate')}></ItemDate>
@@ -91,9 +93,12 @@ const CurrentItems = (props) => {
             link={Link}
             key={item.get('contentid')}
           />
-          <hr />
+          
           {catAssignments &&
-            <Card.Text key="categories"><ItemCategories categories={catAssignments} /></Card.Text>
+            <>
+              <hr />
+              <Card.Text key="categories"><ItemCategories categories={catAssignments} /></Card.Text>
+            </>
           }
         </Card.Footer>
 
@@ -101,7 +106,6 @@ const CurrentItems = (props) => {
     </div>
     );
   }
-
   return itemsList;
 }
 
