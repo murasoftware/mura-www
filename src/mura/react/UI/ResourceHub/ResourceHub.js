@@ -16,6 +16,8 @@ function ResourceHub(props) {
     _collection=new Mura.EntityCollection(objectparams.dynamicProps.collection,Mura._requestcontext);
   }
   const [collection,setCollection]=useState(_collection);
+  
+  console.log(objectparams.dynamicProps);
 
   //SET DEFAULTS FOR CURRENT FILTER PARAMETERS
   const _curSubtype = objectparams.dynamicProps ? objectparams.dynamicProps.filterprops.subtype : '*';
