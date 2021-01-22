@@ -80,7 +80,7 @@ const CurrentItems = (props) => {
                     case "date":
                     case "releasedate":
                         return (
-                          <div className="mura-item-meta__date" key="date">
+                          <div className="mura-item-meta__date" key={field}>
                             <ItemDate releasedate={item.get('releasedate')} lastupdate={item.get('lastupdate')}></ItemDate>
                           </div>
                         );
