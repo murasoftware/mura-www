@@ -226,7 +226,20 @@ const getFilterProps = async (subtype,categoryid,personaid,selectedcategories,ne
   const Personaid = personaid;
   const CurSelectedCats = selectedcategories;
   const NewFilter = newfilter;
-  const filterProps = await Mura.getEntity('resourcehub').invoke('processFilterArgs',{subtype:Subtype, categoryid:Categoryid, personaid:Personaid, selectedcats:CurSelectedCats, newfilter:NewFilter});
+
+  
+  const filterProps = await Mura
+    .getEntity('resourcehub')
+    .invoke(
+      'processFilterArgs',
+      {
+        subtype:Subtype, 
+        categoryid:Categoryid, 
+        personaid:Personaid, 
+        selectedcats:CurSelectedCats, 
+        newfilter: NewFilter?1:0
+      }
+    );
   
   console.log('filterProps: ', filterProps);
   return filterProps;
