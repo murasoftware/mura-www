@@ -102,6 +102,7 @@ const ListMeta = (props) => {
                     </div>
                   )
                 case "date":
+                case "releasedate":
                     return (
                       <div className="mura-item-meta__date" key="date">
                         <ItemDate releasedate={item.get('releasedate')} lastupdate={item.get('lastupdate')}></ItemDate>

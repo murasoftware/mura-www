@@ -51,6 +51,7 @@ const CurrentItems = (props) => {
               </h1>
             )
           case "date":
+          case "releasedate":
               return (item.get('releasedate') || item.get('lastupdate'));
           case "image":
             return  <CollectImage key={field} imageurl={item.get('images')}/>

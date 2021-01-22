@@ -164,6 +164,7 @@ const SliderItem = (props) => {
                         <div className="mura-item-meta__title" key={field}>{item.get('title')}</div>
                       )
                     case "date":
+                    case "releasedate":
                         return (
                           <div className="mura-item-meta__date" key={item.get('releasedate')}>
                             <ItemDate releasedate={item.get('releasedate')} lastupdate={item.get('lastupdate')}></ItemDate>
@@ -209,6 +210,7 @@ const SliderItem = (props) => {
                         <Card.Title key={field}>{item.get('title')}</Card.Title>
                       )
                     case "date":
+                    case "releasedate":
                         return (
                           <div className="mura-item-meta__date" key="date">
                             <ItemDate releasedate={item.get('releasedate')} lastupdate={item.get('lastupdate')}></ItemDate>

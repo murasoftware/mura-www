@@ -1,6 +1,6 @@
 function ItemCategories(props) {
     const Categories = props.categories;
-    
+    // console.log('category assignments ItemCategories: ', Categories);
     let catsList = [];
     let cat = '';
     const cats = Categories.items;
@@ -21,7 +21,9 @@ function ItemCategories(props) {
       }
       return catsList;
     }
-    return 'No Categories';
+    return (
+      <span>No Categories</span>
+    )
 }
 
 export default ItemCategories;
