@@ -50,8 +50,9 @@ const CurrentItems = (props) => {
   }
   for(let i = pos;i < itemsTo;i++) {
     item = items[i];
+    //categoryassignments require the feed to be expanded to include them
+    //the feed in resource hub is expanded but collection is not
     catAssignments = item.getAll().categoryassignments;
-    // console.log('category assignments Cards: ', catAssignments);
     
     itemsList.push(    
     <div className="col mb-4" key={item.get('contentid')}>
@@ -73,7 +74,7 @@ const CurrentItems = (props) => {
                 case "date":
                 case "releasedate":
                     return (
-                      <div className="mura-item-meta__date" key="date">
+                      <div className="mura-item-meta__date" key={`date${item.get('contentid')}`}>
                         <ItemDate releasedate={item.get('releasedate')} lastupdate={item.get('lastupdate')}></ItemDate>
                       </div>
                     );
