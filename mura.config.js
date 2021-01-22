@@ -37,7 +37,7 @@ export const ConnectorConfig = {
   siteidinurls:false,
   codeblocks:true,
   variations:true,
-  MXP:false
+  MXP:true
 };
 
 /*
