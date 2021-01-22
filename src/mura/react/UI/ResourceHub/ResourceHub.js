@@ -17,7 +17,7 @@ function ResourceHub(props) {
   }
   const [collection,setCollection]=useState(_collection);
   
-  console.log(objectparams.dynamicProps);
+  //console.log(objectparams.dynamicProps);
 
   //SET DEFAULTS FOR CURRENT FILTER PARAMETERS
   const _curSubtype = objectparams.dynamicProps ? objectparams.dynamicProps.filterprops.subtype : '*';

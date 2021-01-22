@@ -32,12 +32,12 @@ export const ConnectorConfig = {
   rootpath: 'http://localhost:8888',
   siteid: process.env.MURA_SITEID || ['default'],
   processMarkup: false,
-  editroute: '/edit',
+  editroute: typeof process.env.MURA_EDITROUTE != 'undefined' ? process.env.MURA_EDITROUTE : '/edit',
   sitename: 'Example Site',
-  siteidinurls: process.env.MURA_SITEIDINURLS || false,
-  codeblocks: process.env.MURA_CODEBLOCKS || false,
-  variations: process.env.MURA_VARIATIONS || false,
-  MXP: process.env.MURA_MXP || false
+  siteidinurls: process.env.MURA_SITEIDINURLS,
+  codeblocks: process.env.MURA_CODEBLOCKS,
+  variations: process.env.MURA_VARIATIONS,
+  MXP: process.env.MURA_MXP
 };
 
 /*
