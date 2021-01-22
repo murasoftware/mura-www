@@ -17,7 +17,7 @@ function ResourceHub(props) {
   }
   const [collection,setCollection]=useState(_collection);
   
-  console.log(objectparams.dynamicProps);
+  //console.log(objectparams.dynamicProps);
 
   //SET DEFAULTS FOR CURRENT FILTER PARAMETERS
   const _curSubtype = objectparams.dynamicProps ? objectparams.dynamicProps.filterprops.subtype : '*';
@@ -68,16 +68,18 @@ function ResourceHub(props) {
       let isMounted = true;
       if (isMounted) {
         getFilterProps(curSubtype,curCategoryIds,curPersonaId,curCategoriesArray,newFilter).then((filterProps) => {
-          setHasMXP(filterProps.hasmxp);
-          setCurSubtype(filterProps.subtype);
-          setCurCategoryIds(filterProps.categoryid);
-          setCurPersonaId(filterProps.personaid);
-          setCurCategoriesArray(filterProps.selectedcats);
-  
-          getCollection(props,filterProps).then((collection) => {
-            setCollection(collection);
-          });
-          
+          if (isMounted) {
+            setHasMXP(filterProps.hasmxp);
+            setCurSubtype(filterProps.subtype);
+            setCurCategoryIds(filterProps.categoryid);
+            setCurPersonaId(filterProps.personaid);
+            setCurCategoriesArray(filterProps.selectedcats);
+            if(isMounted){
+              getCollection(props,filterProps).then((collection) => {
+                setCollection(collection);
+              });
+            }
+          }
         });
       }
       return () => { isMounted = false };
@@ -114,15 +116,19 @@ function ResourceHub(props) {
       let isMounted = true;
       if (isMounted) {
         getFilterProps(curSubtype,curCategoryIds,curPersonaId,curCategoriesArray,newFilter).then((filterProps) => {
-          setHasMXP(filterProps.hasmxp);
-          setCurSubtype(filterProps.subtype);
-          setCurCategoryIds(filterProps.categoryid);
-          setCurPersonaId(filterProps.personaid);
-          setCurCategoriesArray(filterProps.selectedcats);
-          
-          getCollection(props,filterProps).then((collection) => {
-            setCollection(collection);
-          })
+          if(isMounted){
+            setHasMXP(filterProps.hasmxp);
+            setCurSubtype(filterProps.subtype);
+            setCurCategoryIds(filterProps.categoryid);
+            setCurPersonaId(filterProps.personaid);
+            setCurCategoriesArray(filterProps.selectedcats);
+            
+            getCollection(props,filterProps).then((collection) => {
+              if(isMounted){
+                setCollection(collection);
+              }
+            })
+          }
         });
       }
       return () => { isMounted = false };
@@ -220,7 +226,20 @@ const getFilterProps = async (subtype,categoryid,personaid,selectedcategories,ne
   const Personaid = personaid;
   const CurSelectedCats = selectedcategories;
   const NewFilter = newfilter;
-  const filterProps = await Mura.getEntity('resourcehub').invoke('processFilterArgs',{subtype:Subtype, categoryid:Categoryid, personaid:Personaid, selectedcats:CurSelectedCats, newfilter:NewFilter});
+
+  
+  const filterProps = await Mura
+    .getEntity('resourcehub')
+    .invoke(
+      'processFilterArgs',
+      {
+        subtype:Subtype, 
+        categoryid:Categoryid, 
+        personaid:Personaid, 
+        selectedcats:CurSelectedCats, 
+        newfilter: NewFilter?1:0
+      }
+    );
   
   console.log('filterProps: ', filterProps);
   return filterProps;
@@ -237,16 +256,20 @@ const RenderFilterForm = (props) => {
 
   useEffect(() => {
     let isMounted = true;
-    if (isMounted){
+    if(isMounted && personaIds.length){
       getCategoriesInfo(categoryIds).then((data)=>{
-        setCategoriesArray(data.items);
+        if(isMounted && data.items.length){
+          setCategoriesArray(data.items);
+        }
       });
-      if(personaIds.length){
-        getPersonasInfo(personaIds).then((data)=>{
-          setPersonasArray(data.items);        
-        });
-      }
-    }    
+     }
+    if(isMounted && personaIds.length){
+      getPersonasInfo(personaIds).then((data)=>{
+        if(isMounted && data.items.length){
+          setPersonasArray(data.items);  
+        }      
+      });
+    }   
     return () => { isMounted = false };
   }, []);
   
@@ -291,11 +314,12 @@ const CategorySelect = props => {
 
   useEffect(() => {
     let isMounted = true;
-    if (isMounted) {
-      getCategoryKidsInfo(props.categoryid).then((data)=>{
+    getCategoryKidsInfo(props.categoryid).then((data)=>{
+      if (isMounted) {
         setCategoryKids(data.items);
-      });
-    }
+      }
+    });
+
     return () => { isMounted = false };
   }, []);  
   

@@ -7,7 +7,7 @@ import Container from '@mura/react/UI/Container';
 import Embed from '@mura/react/UI/Embed';
 import Hr from '@mura/react/UI/Hr';
 import PrimaryNav,{getDynamicProps as getPrimaryNavProps} from '@mura/react/UI/PrimaryNav';
-import ResourceHub,{getDynamicProps as getResourceHubProps} from '@mura/react/UI/ResourceHub';//
+import ResourceHub,{getDynamicProps as getResourceHubProps} from '@mura/react/UI/ResourceHub';
 import ArticleMeta from '@mura/react/UI/ArticleMeta';
 import CTAButton from '@mura/react/UI/CTAButton';
 //import Login from '@mura/react/UI/Login';
@@ -30,14 +30,14 @@ import Example from 'src/Example';
 
 export const ConnectorConfig = {
   rootpath: 'http://localhost:8888',
-  siteid: ['default'],
+  siteid: process.env.MURA_SITEID || ['default'],
   processMarkup: false,
-  editroute: '/edit',
+  editroute: typeof process.env.MURA_EDITROUTE != 'undefined' ? process.env.MURA_EDITROUTE : '/edit',
   sitename: 'Example Site',
-  siteidinurls:false,
-  codeblocks:true,
-  variations:true,
-  MXP:true
+  siteidinurls: process.env.MURA_SITEIDINURLS,
+  codeblocks: process.env.MURA_CODEBLOCKS,
+  variations: process.env.MURA_VARIATIONS,
+  MXP: process.env.MURA_MXP
 };
 
 /*
@@ -140,8 +140,8 @@ let moduleRegistry = [
   {
     name: 'resource_hub',
     component: ResourceHub,
-    getDynamicProps: getResourceHubProps
-    // SSR:false
+    //getDynamicProps: getResourceHubProps,
+    SSR: false
   },
   {
     name: 'ArticleMeta',

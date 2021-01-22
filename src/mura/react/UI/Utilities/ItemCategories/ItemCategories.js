@@ -22,7 +22,7 @@ function ItemCategories(props) {
       return catsList;
     }
     return (
-      <p>No Categories</p>
+      <span>No Categories</span>
     )
 }
 
