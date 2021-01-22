@@ -4,7 +4,8 @@ import ItemCredits from '@mura/react/UI/Utilities/ItemCredits';
 import ItemTags from '@mura/react/UI/Utilities/ItemTags';
 
 function ArticleMeta(props){
-    console.log('fields ArticleMeta: ' + props.fields);
+    // console.log('fields ArticleMeta: ' + props.fields);
+    
     const fields = props.fields ? props.fields : 'Date,Credits,Tags';
     const fieldlist = fields ? fields.toLowerCase().split(",") : [];
     const item = props.content;
