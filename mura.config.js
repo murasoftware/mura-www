@@ -30,14 +30,14 @@ import Example from 'src/Example';
 
 export const ConnectorConfig = {
   rootpath: 'http://localhost:8888',
-  siteid: ['default'],
+  siteid: process.env.MURA_SITEID || ['default'],
   processMarkup: false,
   editroute: '/edit',
   sitename: 'Example Site',
-  siteidinurls:false,
-  codeblocks:true,
-  variations:true,
-  MXP:false
+  siteidinurls: process.env.MURA_SITEIDINURLS || false,
+  codeblocks: process.env.MURA_CODEBLOCKS || false,
+  variations: process.env.MURA_VARIATIONS || false,
+  MXP: process.env.MURA_MXP || false
 };
 
 /*
