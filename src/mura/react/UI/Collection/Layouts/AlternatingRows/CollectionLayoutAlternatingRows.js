@@ -5,6 +5,8 @@ import ReactMarkdown from "react-markdown";
 import CollectionNav from '@mura/react/UI/CollectionNav/CollectionNav';
 import ItemDate from '@mura/react/UI/Utilities/ItemDate';
 import CollectionReadMoreBtn from '@mura/react/UI/Utilities/CollectionReadMoreBtn';
+import ItemCredits from '@mura/react/UI/Utilities/ItemCredits';
+import ItemTags from '@mura/react/UI/Utilities/ItemTags';
 /*
   The link component throws an error when rerending after being 
   reconfigured in edit mode. Hence CollectionLink
@@ -78,6 +80,21 @@ const CurrentItems = (props) => {
                           key={item.get('contentid')}
                         />
                       );
+                    case "credits":
+                        if(item.get('credits').length){
+                          return (
+                            <div className="mura-item-meta__credits">
+                              <ItemCredits credits={item.get('credits')} key="credits" />
+                            </div>
+                          );
+                        }
+                        return null;
+                    case "tags":
+                        return (
+                            <div className="mura-item-meta__tags pb-2" key="tags">
+                              <ItemTags tags={item.get('tags')} />
+                            </div>
+                        );
                     default:
                       return <div className={`mura-item-meta__${field}`} key={field} data-value={item.get(field)}>{item.get(field)}</div>
                   }        

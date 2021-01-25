@@ -141,8 +141,8 @@ let moduleRegistry = [
   {
     name: 'resource_hub',
     component: ResourceHub,
-    //getDynamicProps: getResourceHubProps,
-    SSR: false
+    getDynamicProps: getResourceHubProps,
+    //SSR: false
   },
   {
     name: 'ArticleMeta',
