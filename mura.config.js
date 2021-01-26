@@ -48,9 +48,8 @@ export const ConnectorConfig = {
   sitename: 'Example Site',
   siteidinurls:  handleBooleanProperty(process.env.MURA_SITEIDINURLS),
   codeblocks: handleBooleanProperty(process.env.MURA_CODEBLOCKS),
-  variations:  handleBooleanProperty(process.env.MURA_VARIATIONS),
+  hasvariations: handleBooleanProperty(true),
   MXP: handleBooleanProperty(process.env.MURA_MXP),
-  MXP: process.env.MURA_MXP,
   htmleditortype: typeof process.env.MURA_HTMLEDITORTYPE != 'undefined' ? process.env.MURA_HTMLEDITORTYPE : 'markdown'
 };
 

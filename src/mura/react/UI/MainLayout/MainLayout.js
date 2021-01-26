@@ -77,7 +77,7 @@ function contentDidChange(_content) {
   if (typeof Mura.deInitLayoutManager !== 'undefined') {
     Mura.deInitLayoutManager();
   }
-  
+
   setTimeout(() => {
     // console.log("timeout",_content);
     // If edit route this will exist
@@ -92,7 +92,7 @@ function contentDidChange(_content) {
     Mura.holdReady(false);
 
     //This will happen on static route (IE not edit route)
-    if (!htmlQueueContainerInner.length && Mura.variations) {
+    if (!htmlQueueContainerInner.length && Mura.hasvariations) {
       Mura.loader().loadjs(Mura.rootpath + "/core/modules/v1/core_assets/js/variation.js?siteid=" + Mura.siteid + '&cacheid=' + Math.random())
     }
     if(Mura.MXP){
