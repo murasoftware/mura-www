@@ -28,19 +28,32 @@ import ReactDOM from 'react-dom';
 //Example Custom Module
 import Example from 'src/Example';
 
+function handleBooleanProperty(variable){
+  if(typeof variable === 'undefined'){
+    return false;
+  } else if(typeof variable === 'boolean'){
+    return variable;
+  } else if(typeof variable === 'string'){
+    return (variable.toLocaleLowerCase()==='true');
+  } else {
+    return false;
+  }
+}
+
 export const ConnectorConfig = {
   rootpath: typeof process.env.MURA_ROOTPATH != 'undefined' ? process.env.MURA_ROOTPATH : 'http://localhost:8888',
   siteid: process.env.MURA_SITEID || ['default'],
   processMarkup: false,
   editroute: typeof process.env.MURA_EDITROUTE != 'undefined' ? process.env.MURA_EDITROUTE : '/edit',
   sitename: 'Example Site',
-  siteidinurls: process.env.MURA_SITEIDINURLS,
-  codeblocks: process.env.MURA_CODEBLOCKS,
-  variations: process.env.MURA_VARIATIONS,
-  MXP: process.env.MURA_MXP,
-  htmleditortype: typeof process.env.MURA_HTMLEDITORTYPE != 'undefined' ? process.env.MURA_HTMLEDITORTYPE : 'markdown',
+  siteidinurls:  handleBooleanProperty(process.env.MURA_SITEIDINURLS),
+  codeblocks: handleBooleanProperty(process.env.MURA_CODEBLOCKS),
+  variations:  handleBooleanProperty(process.env.MURA_VARIATIONS),
+  MXP: handleBooleanProperty(process.env.MURA_MXP),
+  htmleditortype: typeof process.env.MURA_HTMLEDITORTYPE != 'undefined' ? process.env.MURA_HTMLEDITORTYPE : 'markdown'
 };
 
+console.log('var',ConnectorConfig)
 /*
   These module are also registered with Mura via the mura.config.json
 
