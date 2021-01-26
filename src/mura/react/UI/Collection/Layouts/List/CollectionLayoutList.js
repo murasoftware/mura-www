@@ -1,11 +1,12 @@
 import { useState } from "react";
 import React from 'react';
-import ReactMarkdown from "react-markdown";
+import OutputMarkup from "@mura/react/UI/Utilities/OutputMarkup";
 import CollectionNav from '@mura/react/UI/CollectionNav/CollectionNav';
 import ItemDate from '@mura/react/UI/Utilities/ItemDate';
 import CollectionReadMoreBtn from '@mura/react/UI/Utilities/CollectionReadMoreBtn';
 import ItemCredits from '@mura/react/UI/Utilities/ItemCredits';
 import ItemTags from '@mura/react/UI/Utilities/ItemTags';
+import ItemImage from '@mura/react/UI/Utilities/ItemImage';
 
 /*
   The link component throws an error when rerending after being 
@@ -65,12 +66,8 @@ const ListImage = (props) => {
   }
   if(hasImage) {
     return(
-      <div className="col-12 col-md-3 mb-3 pr-md-0">        
-          <img
-            src={item.get('images')[props.imagesize]}
-            alt={item.get('title')}
-            className="img-fluid"
-          />      
+      <div className="col-12 col-md-3 mb-3 pr-md-0">
+          <ItemImage image={item.get('images')[props.imagesize]} className="img-fluid" alt={item.get('title')} key="image" />
       </div>
     )  
   }
@@ -112,7 +109,7 @@ const ListMeta = (props) => {
                       </div>
                     );
                 case "summary":
-                  return <ReactMarkdown source={item.get('summary')} key={field} />
+                  return <OutputMarkup source={item.get('summary')} key={field} />
                 case "readmore":
                       return (
                         <div className="mura-item-meta__readmore" key={field}>

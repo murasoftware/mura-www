@@ -1,5 +1,5 @@
 import { useEffect,useState } from "react";
-import ReactMarkdown from "react-markdown";
+import OutputMarkup from "@mura/react/UI/Utilities/OutputMarkup";
 import CollectionNav from '@mura/react/UI/CollectionNav/CollectionNav';
 
 const CollectionLayout = ({props,collection,link}) => {
@@ -38,7 +38,7 @@ const CurrentItems = (props) => {
             {item.get('title')}
           </Link>
         </h1>
-        <ReactMarkdown source={item.get('summary')}/>
+        <OutputMarkup source={item.get('summary')}/>
     </li>
     );
   }

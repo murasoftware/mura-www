@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactMarkdown from "react-markdown";
+import OutputMarkup from "@mura/react/UI/Utilities/OutputMarkup";
 import DisplayRegion from '@mura/react/UI/DisplayRegion';
 import ArticleMeta from '@mura/react/UI/ArticleMeta';
 
@@ -34,7 +34,7 @@ function Article({content,moduleStyleData,header,footer,displayregions}){
             <div className="row justify-content-center">
                 <div className="col-12 col-lg-10 col-xl-9">
                     <h1>{content.title}</h1>
-                    <ReactMarkdown source={content.body} />
+                    <OutputMarkup source={content.body} />
                 </div>
             </div>
         </div>

@@ -50,6 +50,7 @@ export const ConnectorConfig = {
   codeblocks: handleBooleanProperty(process.env.MURA_CODEBLOCKS),
   variations:  handleBooleanProperty(process.env.MURA_VARIATIONS),
   MXP: handleBooleanProperty(process.env.MURA_MXP),
+  MXP: process.env.MURA_MXP,
   htmleditortype: typeof process.env.MURA_HTMLEDITORTYPE != 'undefined' ? process.env.MURA_HTMLEDITORTYPE : 'markdown'
 };
 

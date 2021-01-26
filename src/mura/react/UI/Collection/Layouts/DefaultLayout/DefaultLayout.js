@@ -1,6 +1,7 @@
 import {useState,useEffect} from "react";
 import CollectionNav from '@mura/react/UI/CollectionNav/CollectionNav';
-import ReactMarkdown from "react-markdown";
+import OutputMarkup from "@mura/react/UI/Utilities/OutputMarkup";
+import ItemImage from '@mura/react/UI/Utilities/ItemImage';
 
 const DefaultLayout = ({props,collection,link}) => {
   const {nextn} = props;
@@ -54,9 +55,9 @@ const CurrentItems = (props) => {
           case "releasedate":
               return (item.get('releasedate') || item.get('lastupdate'));
           case "image":
-            return  <CollectImage key={field} imageurl={item.get('images')}/>
+            return  <ItemImage image={item.get('images')[props.imagesize]} className="img-fluid" alt={item.get('title')} key="image" />
           case "summary":
-            return <ReactMarkdown source={item.get('summary')} key={field} />
+            return <OutputMarkup source={item.get('summary')} key={field} />
           case "readmore":
             return (<Link key={field} href={`/${item.get('filename')}`}>
               Read More
@@ -71,17 +72,6 @@ const CurrentItems = (props) => {
   }
 
   return itemsList;
-}
-
-const CollectImage = (images) => {
-  //console.log(images)
-  if(images && images.medium){
-    return (
-    <p><img src={`${images.medium}`}/></p>
-    );
-  } else {
-     return '';
-  }
 }
 
 export default DefaultLayout;

@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactMarkdown from "react-markdown";
+import OutputMarkup from "@mura/react/UI/Utilities/OutputMarkup";
 
 function Image(props) {
   let objectparams = Object.assign({},props);
@@ -38,7 +38,7 @@ function Image(props) {
 const FigCaption = ({caption}) => {
   if(caption && caption != '<p></p>'){
     return (
-      <figcaption><ReactMarkdown source={caption} /></figcaption>
+      <figcaption><OutputMarkup source={caption} /></figcaption>
     );
   } else {
     return '';

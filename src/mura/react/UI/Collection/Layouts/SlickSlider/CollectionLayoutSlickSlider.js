@@ -1,7 +1,7 @@
 import { useState } from "react";
 import React from 'react';
 import Card from 'react-bootstrap/Card';
-import ReactMarkdown from "react-markdown";
+import OutputMarkup from "@mura/react/UI/Utilities/OutputMarkup";
 import ItemDate from '@mura/react/UI/Utilities/ItemDate';
 import CollectionReadMoreBtn from '@mura/react/UI/Utilities/CollectionReadMoreBtn';
 import ItemCredits from '@mura/react/UI/Utilities/ItemCredits';
@@ -173,7 +173,7 @@ const SliderItem = (props) => {
                           </div>
                         );
                     case "summary":
-                      return <ReactMarkdown className="mura-item-meta__summary" source={item.get('summary')} key={field} />
+                      return <OutputMarkup className="mura-item-meta__summary" source={item.get('summary')} key={field} />
                     case "readmore":
                       return(
                         <div className="mura-item-meta__readmore" key={item.get('contentid')}>
@@ -234,7 +234,7 @@ const SliderItem = (props) => {
                           </div>
                         );
                     case "summary":
-                      return <ReactMarkdown source={item.get('summary')} key={field} />
+                      return <OutputMarkup source={item.get('summary')} key={field} />
                     case "readmore":
                       return(
                         <CollectionReadMoreBtn
