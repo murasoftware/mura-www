@@ -78,8 +78,14 @@ function contentDidChange(_content) {
     Mura.deInitLayoutManager();
   }
 
+  Mura('html,body').attr('class', '');
+  
   setTimeout(() => {
-    // console.log("timeout",_content);
+    // Ensure edit classes are removed
+    if (typeof MuraInlineEditor === 'undefined') {
+      Mura('html,body').attr('class', '');
+    }
+
     // If edit route this will exist
     const htmlQueueContainerInner = Mura('#htmlqueues');
     if (htmlQueueContainerInner.length) {
@@ -98,7 +104,7 @@ function contentDidChange(_content) {
     if(Mura.MXP){
       Mura.loader().loadjs(Mura.rootpath + "/plugins/MXP/remote/native/?siteid=" + Mura.siteid + "&contenthistid=" + Mura.contenthistid + "&contentid=" + Mura.contentid + "&cacheid=" + Math.random());
     }
-  });
+  },5);
   
 }
 
