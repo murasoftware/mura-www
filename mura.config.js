@@ -36,7 +36,7 @@ export const ConnectorConfig = {
   sitename: 'Example Site',
   siteidinurls: process.env.MURA_SITEIDINURLS,
   codeblocks: process.env.MURA_CODEBLOCKS,
-  variations: true,
+  variations: process.env.MURA_VARIATIONS,
   MXP: process.env.MURA_MXP,
   htmleditortype: typeof process.env.MURA_HTMLEDITORTYPE != 'undefined' ? process.env.MURA_HTMLEDITORTYPE : 'markdown'
 };
