@@ -241,7 +241,7 @@ const getFilterProps = async (subtype,categoryid,personaid,selectedcategories,ne
       }
     );
   
-  console.log('filterProps: ', filterProps);
+  // console.log('filterProps: ', filterProps);
   return filterProps;
 }
 
