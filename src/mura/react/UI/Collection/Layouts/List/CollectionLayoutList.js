@@ -1,6 +1,6 @@
 import { useState } from "react";
 import React from 'react';
-import ReactMarkdown from "react-markdown";
+import OutputMarkup from "@mura/react/UI/Utilities/OutputMarkup";
 import CollectionNav from '@mura/react/UI/CollectionNav/CollectionNav';
 import ItemDate from '@mura/react/UI/Utilities/ItemDate';
 import CollectionReadMoreBtn from '@mura/react/UI/Utilities/CollectionReadMoreBtn';
@@ -112,7 +112,7 @@ const ListMeta = (props) => {
                       </div>
                     );
                 case "summary":
-                  return <ReactMarkdown source={item.get('summary')} key={field} />
+                  return <OutputMarkup source={item.get('summary')} key={field} />
                 case "readmore":
                       return (
                         <div className="mura-item-meta__readmore" key={field}>

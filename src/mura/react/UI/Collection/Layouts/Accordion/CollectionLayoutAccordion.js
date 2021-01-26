@@ -1,6 +1,6 @@
 import { useState } from "react";
 import React from 'react';
-import ReactMarkdown from "react-markdown";
+import OutputMarkup from "@mura/react/UI/Utilities/OutputMarkup";
 import CollectionNav from '@mura/react/UI/CollectionNav/CollectionNav';
 import ItemDate from '@mura/react/UI/Utilities/ItemDate';
 import Accordion from "react-bootstrap/Accordion";
@@ -88,7 +88,7 @@ const CurrentItems = (props) => {
                           </div>
                         );
                     case "summary":
-                      return <ReactMarkdown source={item.get('summary')} key={field} />
+                      return <OutputMarkup source={item.get('summary')} key={field} />
                     case "readmore":
                           return (
                             <CollectionReadMoreBtn

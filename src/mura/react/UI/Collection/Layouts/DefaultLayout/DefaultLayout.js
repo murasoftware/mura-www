@@ -1,6 +1,6 @@
 import {useState,useEffect} from "react";
 import CollectionNav from '@mura/react/UI/CollectionNav/CollectionNav';
-import ReactMarkdown from "react-markdown";
+import OutputMarkup from "@mura/react/UI/Utilities/OutputMarkup";
 
 const DefaultLayout = ({props,collection,link}) => {
   const {nextn} = props;
@@ -56,7 +56,7 @@ const CurrentItems = (props) => {
           case "image":
             return  <CollectImage key={field} imageurl={item.get('images')}/>
           case "summary":
-            return <ReactMarkdown source={item.get('summary')} key={field} />
+            return <OutputMarkup source={item.get('summary')} key={field} />
           case "readmore":
             return (<Link key={field} href={`/${item.get('filename')}`}>
               Read More

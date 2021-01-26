@@ -1,6 +1,6 @@
 import React,{useState,useEffect} from 'react';
 import Mura from 'mura.js';
-import ReactMarkdown from "react-markdown";
+import OutputMarkup from "@mura/react/UI/Utilities/OutputMarkup";
 
 function Text(props) {
   const objectparams = Object.assign({}, props);
@@ -16,7 +16,7 @@ function Text(props) {
 
     if(source){
       return (
-        <ReactMarkdown source={source} />
+        <OutputMarkup source={source} />
       );
     } else {
       return (
@@ -32,7 +32,7 @@ function Text(props) {
     }
     if(source && source !== 'unconfigured'){
       return (
-        <ReactMarkdown source={source} />
+        <OutputMarkup source={source} />
       );
     } else {
       return (

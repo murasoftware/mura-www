@@ -36,9 +36,9 @@ export const ConnectorConfig = {
   sitename: 'Example Site',
   siteidinurls: process.env.MURA_SITEIDINURLS,
   codeblocks: process.env.MURA_CODEBLOCKS,
-  variations: process.env.MURA_VARIATIONS,
+  variations: true,
   MXP: process.env.MURA_MXP,
-  htmleditortype: typeof process.env.MURA_HTMLEDITORTYPE != 'undefined' ? process.env.MURA_HTMLEDITORTYPE : 'markdown',
+  htmleditortype: typeof process.env.MURA_HTMLEDITORTYPE != 'undefined' ? process.env.MURA_HTMLEDITORTYPE : 'markdown'
 };
 
 /*
