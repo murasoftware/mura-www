@@ -8,7 +8,7 @@ import Card from "react-bootstrap/Card";
 import CollectionReadMoreBtn from "@mura/react/UI/Utilities/CollectionReadMoreBtn";
 import ItemCredits from '@mura/react/UI/Utilities/ItemCredits';
 import ItemTags from '@mura/react/UI/Utilities/ItemTags';
-
+import ItemImage from '@mura/react/UI/Utilities/ItemImage';
 /*
   The link component throws an error when rerending after being 
   reconfigured in edit mode. Hence CollectionLink
@@ -72,13 +72,8 @@ const CurrentItems = (props) => {
                 fieldlist.map(field => {
                   switch(field) {
                     case "image":
-                        return (
-                          <img
-                            src={item.get('images')[props.imagesize]}
-                            alt={item.get('title')}
-                            className="img-fluid"
-                            key={item.get('contentid')}
-                          />
+                        return(
+                          <ItemImage image={item.get('images')[props.imagesize]} className="img-fluid" alt={item.get('title')} key="image" />
                         );
                     case "date":
                     case "releasedate":
