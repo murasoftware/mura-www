@@ -42,7 +42,6 @@ export const ConnectorConfig = {
   htmleditortype: process.env.htmleditortype
 };
 
-console.log('var',ConnectorConfig,process.env.MURA_VARIATIONS)
 /*
   These module are also registered with Mura via the mura.config.json
 
