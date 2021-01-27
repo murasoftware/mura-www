@@ -28,32 +28,21 @@ import ReactDOM from 'react-dom';
 //Example Custom Module
 import Example from 'src/Example';
 
-function handleBooleanProperty(variable){
-  if(typeof variable === 'undefined'){
-    return false;
-  } else if(typeof variable === 'boolean'){
-    return variable;
-  } else if(typeof variable === 'string'){
-    return (variable.toLocaleLowerCase()==='true');
-  } else {
-    return false;
-  }
-}
 
 export const ConnectorConfig = {
-  rootpath: typeof process.env.MURA_ROOTPATH != 'undefined' ? process.env.MURA_ROOTPATH : 'http://localhost:8888',
-  siteid: process.env.MURA_SITEID || ['default'],
-  processMarkup: false,
-  editroute: typeof process.env.MURA_EDITROUTE != 'undefined' ? process.env.MURA_EDITROUTE : '/edit',
+  rootpath: process.env.rootpath,
+  siteid: process.env.siteid,
+  processMarkup: process.env.processMarkup,
+  editroute: process.env.editroute,
   sitename: 'Example Site',
-  siteidinurls:  handleBooleanProperty(process.env.MURA_SITEIDINURLS),
-  codeblocks: handleBooleanProperty(process.env.MURA_CODEBLOCKS),
-  hasvariations: handleBooleanProperty(true),
-  MXP: handleBooleanProperty(process.env.MURA_MXP),
-  htmleditortype: typeof process.env.MURA_HTMLEDITORTYPE != 'undefined' ? process.env.MURA_HTMLEDITORTYPE : 'markdown'
+  siteidinurls:  process.env.siteidinurls,
+  codeblocks: process.env.codeblocks,
+  variations: process.env.variations,
+  MXP: process.env.MXP,
+  htmleditortype: process.env.htmleditortype
 };
 
-console.log('var',ConnectorConfig)
+console.log('var',ConnectorConfig,process.env.MURA_VARIATIONS)
 /*
   These module are also registered with Mura via the mura.config.json
 
