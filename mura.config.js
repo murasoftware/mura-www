@@ -34,7 +34,7 @@ export const ConnectorConfig = {
   siteid: process.env.siteid,
   processMarkup: process.env.processMarkup,
   editroute: process.env.editroute,
-  sitename: 'Example Site',
+  sitename: process.env.sitename,
   siteidinurls:  process.env.siteidinurls,
   codeblocks: process.env.codeblocks,
   variations: process.env.variations,

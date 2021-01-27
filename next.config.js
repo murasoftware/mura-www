@@ -19,7 +19,7 @@ module.exports = withTM(
         siteid: process.env.MURA_SITEID || ['default'],
         processMarkup: false,
         editroute: typeof process.env.MURA_EDITROUTE != 'undefined' ? process.env.MURA_EDITROUTE : '/edit',
-        sitename: 'Example Site',
+        sitename: typeof process.env.MURA_SITENAME != 'undefined' ? process.env.MURA_SITENAME :'Example Site',
         siteidinurls:  handleBooleanProperty(process.env.MURA_SITEIDINURLS),
         codeblocks: handleBooleanProperty(process.env.MURA_CODEBLOCKS),
         variations: handleBooleanProperty(process.env.MURA_VARIATIONS),
