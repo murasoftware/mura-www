@@ -31,7 +31,9 @@
             }
         }
     }
-    &__date{
+    &__date,
+    &__credits,
+    &__tags{
         @extend .text-uppercase, .text-muted, .small, .mb-2;
     }
     &__readmore{

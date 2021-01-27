@@ -14,30 +14,31 @@ function Article({content,moduleStyleData,header,footer,displayregions}){
             content={content}
             />
         }
+        <section className="article">
+            {/* Article Image */}
+            <div className="container-fluid px-0 article__image">
+                <img src={content.images.hero} className="hero-article img-fluid w-100" />
+            </div>
 
-        {/* Article Image */}
-        <div className="container-fluid px-0">
-            <img src={content.images.hero} className="img-fluid w-100" />
-        </div>
-
-        {/* Article Meta */}
-        <div className="container my-4">
-            <div className="row justify-content-center">
-                <div className="col-12 col-lg-10 col-xl-9">
-                    <ArticleMeta content={content} fields="Title,Summary,Date,Credits,Tags" />
+            {/* Article Meta */}
+            <div className="container article__meta">
+                <div className="row justify-content-center">
+                    <div className="col-12 col-md-10 col-lg-9 col-xl-8">
+                        <ArticleMeta content={content} fields="Title,Summary,Date,Credits,Tags" />
+                    </div>
                 </div>
             </div>
-        </div>
 
-        {/* Article Body */}
-        <div className="container my-4">
-            <div className="row justify-content-center">
-                <div className="col-12 col-lg-10 col-xl-9">
-                    <h1>{content.title}</h1>
-                    <OutputMarkup source={content.body} />
+            {/* Article Body */}
+            <div className="container article__body">
+                <div className="row justify-content-center">
+                    <div className="col-12 col-md-10 col-lg-9 col-xl-8">
+                        {/* <h1>{content.title}</h1> */}
+                        <OutputMarkup source={content.body} />
+                    </div>
                 </div>
             </div>
-        </div>
+        </section>
 
         {/* Article Footer */}
         {content && displayregions && footer &&

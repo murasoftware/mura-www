@@ -1,0 +1,16 @@
+.article{
+    &__image{
+        img{
+            max-height:60vh;
+            object-fit: cover;
+            object-position: center;
+        }
+    }
+    &__meta{
+        margin-top:4rem;
+        margin-bottom:1rem;
+    }
+    &__body{
+        margin-bottom:4rem;
+    }
+}
