@@ -32,7 +32,7 @@ import Example from 'src/Example';
 export const ConnectorConfig = {
   rootpath: process.env.rootpath,
   siteid: process.env.siteid,
-  processMarkup: process.env.processMarkup,
+  processMarkup: false,
   editroute: process.env.editroute,
   sitename: process.env.sitename,
   siteidinurls:  process.env.siteidinurls,
