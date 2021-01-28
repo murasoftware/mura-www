@@ -1,7 +1,6 @@
 import React from 'react';
 import Head from 'next/head';
 import MainLayout from '@mura/react/UI/MainLayout';
-import DisplayRegion from '@mura/react/UI/DisplayRegion';
 import { MuraJSRefPlaceholder, getMuraProps, getRootPath, getSiteName } from '@mura/react/MuraConnector';
 import Body from '../Body';
 
