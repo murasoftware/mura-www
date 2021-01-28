@@ -65,9 +65,10 @@ const ListImage = (props) => {
     hasImage = true;
   }
   if(hasImage) {
+    const imagesize= props.imagesize || 'medium';
     return(
       <div className="col-12 col-md-3 mb-3 pr-md-0">
-          <ItemImage image={item.get('images')[props.imagesize]} className="img-fluid" alt={item.get('title')} key="image" />
+          <ItemImage image={item.get('images')[imagesize]} className="img-fluid" alt={item.get('title')} key="image" />
       </div>
     )  
   }
@@ -150,7 +151,7 @@ const ListMeta = (props) => {
 */
 export const getQueryProps = () => {
   const data = {};
-  data['fields'] = "title,summary";
+  data['fields'] = "";
 
   return data;
 };
