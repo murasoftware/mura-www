@@ -201,8 +201,7 @@ export const getMuraProps = async (context,isEditMode,params) => {
     bodystart:[],
     footer:[]
   };
-  console.log(content.categoryassignments);
-  
+
   try {
     if(connectorConfig.codeblocks){
       const codeCollection=await Mura.getFeed('codeblock')
