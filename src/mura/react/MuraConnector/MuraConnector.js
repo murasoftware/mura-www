@@ -56,9 +56,6 @@ export const getMuraPaths = async () => {
 
   for (let index = 0; index < siteids.length; index++) {
     getMura(siteids[index]);
-
-    Mura.renderMode='static';
-
     const items=await Mura.getFeed('content')
     .maxItems(0)
     .itemsPerPage(0)
@@ -69,12 +66,6 @@ export const getMuraPaths = async () => {
       siteid:siteids[index],
       filename: "" 
     });
-
-    delete Mura._request;
-    delete Mura.response;
-    delete Mura.request;
-    delete Mura.renderMode;
-
   }
 
   const paths = pathList
