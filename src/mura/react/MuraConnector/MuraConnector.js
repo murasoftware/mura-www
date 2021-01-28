@@ -184,7 +184,7 @@ export const getSiteName = () => {
   return getMura().sitename;
 };
 
-export const getMuraProps = async (context,isEditMode) => {
+export const getMuraProps = async (context,isEditMode,params) => {
   const Mura=getMura(context);
   
   Mura.renderMode='dynamic';
@@ -193,7 +193,7 @@ export const getMuraProps = async (context,isEditMode) => {
     Mura.renderMode='static';
   }
 
-  const muraObject = await renderContent(context,isEditMode);
+  const muraObject = await renderContent(context,isEditMode,params);
   const content = muraObject.getAll();
   const moduleStyleData = await getRegionProps(content,isEditMode);
   const codeblocks={
@@ -201,7 +201,8 @@ export const getMuraProps = async (context,isEditMode) => {
     bodystart:[],
     footer:[]
   };
-
+  console.log(content.categoryassignments);
+  
   try {
     if(connectorConfig.codeblocks){
       const codeCollection=await Mura.getFeed('codeblock')
@@ -246,7 +247,7 @@ export const getMuraProps = async (context,isEditMode) => {
   }
 };
 
-async function renderContent(context,isEditMode) {
+async function renderContent(context,isEditMode,params) {
   let query = {};
 
   if (context.browser) {
@@ -273,6 +274,7 @@ async function renderContent(context,isEditMode) {
   }
   
   //console.log(filename,query,isEditMode)
+  query=Object.assign(query,params);
 
   return await Mura.renderFilename(filename, query).then(
     async rendered => {

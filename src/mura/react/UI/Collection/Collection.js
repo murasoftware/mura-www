@@ -16,11 +16,20 @@ export const getLayout=(layout) => {
   }
 }
 
+
+function getDefaultQueryPropsFromLayout(layout,item){
+  if(layout){
+    return layout.getQueryProps ? layout.getQueryProps(item) : {fields:''};
+  } else {
+    return  {fields:''};
+  }
+}
+
 function Collection(props) {
   const objectparams = Object.assign({}, props);
   const DynamicCollectionLayout = getLayout(objectparams.layout).component;
 
-  objectparams.fields=objectparams.fields || getSelectFields(objectparams) || 'Image,ReleaseDate,Title,Summary,Credits,Tags';
+  objectparams.fields=objectparams.fields || getDefaultQueryPropsFromLayout(DynamicCollectionLayout,objectparams).fields || 'Image,Date,Title,Summary,Credits,Tags';
 
   if(!objectparams.dynamicProps){
     const [collection,setCollection]=useState(false);
