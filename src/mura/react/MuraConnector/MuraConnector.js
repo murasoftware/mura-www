@@ -187,10 +187,15 @@ export const getSiteName = () => {
 export const getMuraProps = async (context,isEditMode) => {
   const Mura=getMura(context);
   
+  Mura.renderMode='dynamic';
+
+  if(!isEditMode){
+    Mura.renderMode='static';
+  }
+
   const muraObject = await renderContent(context,isEditMode);
   const content = muraObject.getAll();
   const moduleStyleData = await getRegionProps(content,isEditMode);
-
   const codeblocks={
     header:[],
     bodystart:[],
@@ -219,7 +224,8 @@ export const getMuraProps = async (context,isEditMode) => {
   delete Mura._request;
   delete Mura.response;
   delete Mura.request;
- 
+  delete Mura.renderMode;
+
   const props = {
     content: content,
     moduleStyleData: moduleStyleData,
