@@ -10,6 +10,7 @@ import PrimaryNav,{getDynamicProps as getPrimaryNavProps} from '@mura/react/UI/P
 import ResourceHub,{getDynamicProps as getResourceHubProps} from '@mura/react/UI/ResourceHub';
 import ArticleMeta from '@mura/react/UI/ArticleMeta';
 import CTAButton from '@mura/react/UI/CTAButton';
+import PrivacyTools from '@mura/react/UI/PrivacyTools';
 //import Login from '@mura/react/UI/Login';
 
 import DefaultLayout from '@mura/react/UI/Collection/Layouts/DefaultLayout';
@@ -144,6 +145,11 @@ let moduleRegistry = [
     component: ResourceHub,
     getDynamicProps: getResourceHubProps,
     //SSR: false
+  },
+  {
+    name: 'privacy_tools',
+    component: PrivacyTools,
+    SSR: false
   },
   {
     name: 'ArticleMeta',
