@@ -8,7 +8,7 @@ import Body from '../Body';
 
 export async function getStaticProps(context) {
   // console.log("CON",context);
-  const props = await getMuraProps(context,false);
+  const props = await getMuraProps(context,false,{expand:'categoryassignments'});
   return props;
 }
 

@@ -6,7 +6,7 @@ import Page from '../[...page]';
 import { getMuraProps, getRootPath } from '@mura/react/MuraConnector';
 
 export async function getServerSideProps(context) {
-  const props = await getMuraProps(context,true,{expand:'crumbs,categoryassignments'});
+  const props = await getMuraProps(context,true,{expand:'categoryassignments'});
 
   return props;
 }

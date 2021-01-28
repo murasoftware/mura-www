@@ -16,7 +16,7 @@ export async function getStaticPaths() {
 
 export async function getStaticProps(context) {
   // console.log("CON",context);
-  const props = await getMuraProps(context,false,{expand:'crumbs,categoryassignments'});
+  const props = await getMuraProps(context,false,{expand:'categoryassignments'});
   return props;
 }
 
