@@ -6,19 +6,21 @@ import {getHref} from '@mura/react/MuraConnector';
 
 export const getLayout=(layout) => {
 
-  const uselayout = layout == 'default' ? "DefaultLayout" : layout;
+  const uselayout = (!layout || layout == 'default') ? "List" : layout;
 
   if(typeof ComponentRegistry[uselayout] != 'undefined') {
     return ComponentRegistry[uselayout];
   } else {
     console.log("Layout not registered: ",layout);
-    return ComponentRegistry['DefaultLayout'];
+    return ComponentRegistry['List'];
   }
 }
 
 function Collection(props) {
   const objectparams = Object.assign({}, props);
   const DynamicCollectionLayout = getLayout(objectparams.layout).component;
+
+  objectparams.fields=objectparams.fields || getSelectFields(objectparams) || 'Image,ReleaseDate,Title,Summary,Credits,Tags';
 
   if(!objectparams.dynamicProps){
     const [collection,setCollection]=useState(false);
@@ -30,7 +32,7 @@ function Collection(props) {
     }, []);
     if(collection) {
       return (
-        <DynamicCollectionLayout collection={collection} props={props} link={RouterlessLink}/>
+        <DynamicCollectionLayout collection={collection} props={objectparams} link={RouterlessLink}/>
       )
     }
     else {
@@ -195,7 +197,7 @@ const getImageSizes = (item) => {
 
 const getSelectFields = (item) => {
 
-  const data = getLayout(item.layout).getQueryProps();
+  const data = getLayout(item.layout).getQueryProps(item);
 
   let fieldlist = '';
 
