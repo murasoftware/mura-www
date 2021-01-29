@@ -3,12 +3,30 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Alert from 'react-bootstrap/Alert';
 
-function PrivacyTools(){
+function PrivacyTools(props){   
+    // const objectparams = Object.assign({}, props);
+    // console.log(objectparams);
+
     const [optIn, setOptIn] = useState(0);
     const [optOut, setOptOut] = useState(0);
-    const [mxpAnon, setMxpAnon] = useState(0);
+    const [mxpAnon, setMxpAnon] = useState(1);
     const [updateSuccess,setUpdateSuccess] = useState(0);
     const [showingAlert,setShowingAlert] = useState(false);
+
+    useEffect(() => {
+        let isMounted = true;
+        if (isMounted) {
+            
+            getCurrentPrivacy().then(result => {
+                setMxpAnon(result);
+                console.log('result: ' + result);
+            }); 
+
+        }
+        return () => { isMounted = false };
+    }, []);
+
+    // console.log('_mxpAnon: ', _mxpAnon);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -24,8 +42,8 @@ function PrivacyTools(){
             .invoke(
                 'updatePrivacyMXP',
                 {
-                mxp_opt_in:optIn,
-                mxp_opt_out:optOut
+                    mxp_opt_in:optIn,
+                    mxp_opt_out:optOut
                 }
             );
         
@@ -107,6 +125,17 @@ function PrivacyTools(){
         </Form>
     </>
     );
+}
+
+const getCurrentPrivacy = async () => {
+    const mxpPrivacy = await Mura
+            .getEntity('privacy_tools')
+            .invoke(
+                'privacyStatus'
+            );
+    
+    // return mxpPrivacy.Output;
+    return mxpPrivacy;
 }
 
 export default PrivacyTools
