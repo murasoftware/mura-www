@@ -60,7 +60,7 @@ export const getMuraPaths = async () => {
     .maxItems(0)
     .itemsPerPage(0)
     .sort('orderno')
-    .getQuery();
+    .getQuery({renderMode:'static'});
     pathList=pathList.concat(items.getAll().items);
     pathList.push({ 
       siteid:siteids[index],
