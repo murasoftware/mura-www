@@ -1,6 +1,7 @@
 import React,{useState,useEffect} from 'react';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
+import Mura from 'mura.js';
 
 function MatrixSelector(props){
     const objectparams = Object.assign({}, props);
@@ -11,6 +12,53 @@ function MatrixSelector(props){
 
     const [personaIds, setPersonaIds] = useState(_personaIds);
     const [stageIds, setStageIds] = useState(_stageIds);
+
+    const _personaQ = objectparams.personaq ? objectparams.personaq : 'Who are you?';
+    const _stageQ = objectparams.stageq ? objectparams.stageq : 'Where are you in the process?';
+
+    const [personaQ, setPersonaQ] = useState(_personaQ);
+    const [stageQ, setStateQ] = useState(_stageQ);
+
+    const [curSelPersona, setCurSelPersona] = useState('');
+    const [curSelStage, setCurSelStage] = useState('');
+    const [buttonEnabled, setButtonEnabled] = useState(false);
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        updateExperience(curSelPersona,curSelStage);        
+        // setUpdateSuccess(1);
+        return false;
+    }
+
+    const updateSelectedPersona = (e) => {
+        const newPersona = e.target.value;
+
+        if (curSelPersona != newPersona){
+            console.log('persona updated!');
+            setCurSelPersona(newPersona);
+            updateButtonStatus();
+        }
+
+    }
+
+    const updateSelectedStage = (e) => {
+        const newStage = e.target.value;
+
+        if (curSelStage != newStage){
+            console.log('stage updated!');
+            setCurSelStage(newStage);
+            updateButtonStatus();
+        }
+
+        
+    }
+
+    const updateButtonStatus = () => {
+        console.log('persona: ' + curSelPersona + 'stage: ' + curSelStage)
+        if (curSelStage != '' && curSelPersona != ''){
+            setButtonEnabled(true);
+        }
+    }
 
     if(!objectparams.dynamicProps){
         useEffect(() => {
@@ -33,31 +81,31 @@ function MatrixSelector(props){
         return(
             <>
             <h3>Matrix Selector</h3>
-            <Form inline id="resource-filter-form">
-                {personaIds.length > 0 &&
+            <Form inline id="resource-filter-form" onSubmit={handleSubmit} data-autowire="false">
+                {personaIds.length > 1 &&
                 <>
-                    <Form.Label className="mr-2">Persona Question</Form.Label>
-                    <Form.Control as="select" name="persona" size="sm" className="mr-2">
+                    <Form.Label className="mr-2">{personaQ}</Form.Label>
+                    <Form.Control as="select" name="persona" size="sm" className="mr-2" value={props.curSelPersona} onChange={updateSelectedPersona}>
                         <option value="" key="--">--</option>
                         {personaIds.map((personaId) => (
-                        <option value={personaId.personaid} key={personaId.personaid}>{personaId.name}</option>
+                        <option value={personaId.personaid} key={personaId.personaid}>{personaId.selfidq}</option>
                         ))}
                     </Form.Control>
                 </>
                 }
-                {stageIds.length > 0 &&
+                {stageIds.length > 1 &&
                 <>
-                    <Form.Label className="mr-2">Stage Question</Form.Label>
-                    <Form.Control as="select" name="stage" size="sm">
+                    <Form.Label className="mr-2">{stageQ}</Form.Label>
+                    <Form.Control as="select" name="stage" size="sm" value={props.curSelStage} onChange={updateSelectedStage}>
                         <option value="" key="--">--</option>
                         {stageIds.map((stageId) => (
-                        <option value={stageId.stageid} key={stageId.stageid}>{stageId.name}</option>
+                        <option value={stageId.stageid} key={stageId.stageid}>{stageId.selfidq}</option>
                         ))}
                     </Form.Control>
                 </>
                 }
                 <div className="w-100 mt-3">
-                <Button variant="primary" type="submit">
+                <Button variant="primary" type="submit" disabled={!buttonEnabled}>
                     Submit
                 </Button>
                 </div>
@@ -86,7 +134,7 @@ const getPersonas = async () => {
       .invoke(
         'getPersonas'
       );
-    
+    // console.log(personaIds);
     return personaIds;
 }
 
@@ -97,8 +145,40 @@ const getStages = async () => {
       .invoke(
         'getStages'
       );
-    
+    // console.log(stageIds);
     return stageIds;
+}
+
+const updateExperience = async () => {
+    const personaid = '';
+    const stageid = '';
+
+    const experience = await Mura
+      .getEntity('matrix_selector')
+      .invoke(
+        'updateExperience'
+      );
+    
+    if (experience.personaSelected){
+        Mura(function(){
+            Mura.trackEvent({
+                    category: 'Matrix Self ID',
+                    action: 'Persona',
+                    label:  '#esapiEncode("javascript",personaName)#'
+            });
+        });
+    }
+    
+    if (experience.stageSelected){
+        Mura(function(){
+            Mura.trackEvent({
+                    category: 'Matrix Self ID',
+                    action: 'Stage',
+                    label: '#esapiEncode("javascript",stageName)#'
+            });
+        });
+    }
+
 }
 
 export default MatrixSelector;
