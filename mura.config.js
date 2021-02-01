@@ -79,7 +79,7 @@ let moduleRegistry = [
     SSR: false
   },
   {
-    name: 'cookie_content',
+    name: 'cookie_consent',
     SSR: false
   },
   {

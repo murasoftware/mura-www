@@ -149,7 +149,7 @@ const ListMeta = (props) => {
 /*
   This is not required; it is used to retrieve the required fields when populated getStatic/getServerSide props
 */
-export const getQueryProps = () => {
+export const getQueryProps = (item) => {
   const data = {};
   data['fields'] = "";
 
