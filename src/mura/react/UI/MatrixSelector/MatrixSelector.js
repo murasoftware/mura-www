@@ -76,7 +76,7 @@ function MatrixSelector(props){
             setShowingAlert(true);
         }
     
-        if (exp.personaSelected){
+        if (exp.personaselected){
             Mura(function(){
                 Mura.trackEvent({
                         category: 'Matrix Self ID',
@@ -86,7 +86,7 @@ function MatrixSelector(props){
             });
         }
         
-        if (exp.stageSelected){
+        if (exp.stageselected){
             Mura(function(){
                 Mura.trackEvent({
                         category: 'Matrix Self ID',
