@@ -1,6 +1,7 @@
 import React,{useState,useEffect} from 'react';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
+import Alert from 'react-bootstrap/Alert';
 import Mura from 'mura.js';
 
 function MatrixSelector(props){
@@ -22,6 +23,8 @@ function MatrixSelector(props){
     const [curSelPersona, setCurSelPersona] = useState('');
     const [curSelStage, setCurSelStage] = useState('');
     const [buttonEnabled, setButtonEnabled] = useState(false);
+    const [updateSuccess, setUpdateSuccess] = useState(false);
+    const [showingAlert,setShowingAlert] = useState(false);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -32,33 +35,82 @@ function MatrixSelector(props){
 
     const updateSelectedPersona = (e) => {
         const newPersona = e.target.value;
-
         if (curSelPersona != newPersona){
-            console.log('persona updated!');
             setCurSelPersona(newPersona);
-            updateButtonStatus();
+            updateButtonStatus(newPersona,curSelStage);
         }
-
     }
 
     const updateSelectedStage = (e) => {
         const newStage = e.target.value;
-
         if (curSelStage != newStage){
-            console.log('stage updated!');
             setCurSelStage(newStage);
-            updateButtonStatus();
-        }
-
-        
+            updateButtonStatus(curSelPersona,newStage);
+        }        
     }
 
-    const updateButtonStatus = () => {
-        console.log('persona: ' + curSelPersona + 'stage: ' + curSelStage)
-        if (curSelStage != '' && curSelPersona != ''){
+    const updateButtonStatus = (persona,stage) => {
+        if (persona != '' && stage != ''){
             setButtonEnabled(true);
+        } else {
+            setButtonEnabled(false);
         }
     }
+
+    const updateExperience = async (personaid,stageid) => {
+        const Personaid = personaid;
+        const Stageid = stageid;
+    
+        const exp = await Mura
+          .getEntity('matrix_selector')
+          .invoke(
+            'updateExperience',
+            {
+                personaid:personaid,
+                stageid:stageid
+            }
+          );
+        
+        if (exp.personaselected || exp.stageselected){
+            setUpdateSuccess(1);
+            setShowingAlert(true);
+        }
+    
+        if (exp.personaSelected){
+            Mura(function(){
+                Mura.trackEvent({
+                        category: 'Matrix Self ID',
+                        action: 'Persona',
+                        label:  '#esapiEncode("javascript",personaName)#'
+                });
+            });
+        }
+        
+        if (exp.stageSelected){
+            Mura(function(){
+                Mura.trackEvent({
+                        category: 'Matrix Self ID',
+                        action: 'Stage',
+                        label: '#esapiEncode("javascript",stageName)#'
+                });
+            });
+        }
+    
+    }
+
+    //show alert or not
+    // useEffect(() => {
+    //     let isMounted = true;
+    //     if (isMounted) {
+    //         if(showingAlert){
+    //             setTimeout(() => {
+    //                 setShowingAlert(false);
+    //             }, 2000);
+    //         }
+    //     }
+
+    //     return () => { isMounted = false };
+    // }, [showingAlert]);
 
     if(!objectparams.dynamicProps){
         useEffect(() => {
@@ -78,10 +130,29 @@ function MatrixSelector(props){
             return () => { isMounted = false };
         }, []);
         
+        if (updateSuccess && showingAlert){
+            return(
+            <>
+                <h3>Matrix Selector</h3>
+                <Alert variant="success" >
+                    <h3>Thanks!</h3>
+                    <p>We&rsquo;re tailoring our content for you&hellip;</p>
+                </Alert>
+            </>
+            )
+        }
+        
         return(
             <>
             <h3>Matrix Selector</h3>
-            <Form inline id="resource-filter-form" onSubmit={handleSubmit} data-autowire="false">
+            {updateSuccess && showingAlert &&
+                <Alert variant="success" >
+                    <h3>Thanks!</h3>
+                    <p>We&rsquo;re tailoring our content for you&hellip;</p>
+                </Alert>
+            }
+            <Form inline id="mura_matrix-selector-form" onSubmit={handleSubmit} data-autowire="false">
+                <div className="select-wrap">
                 {personaIds.length > 1 &&
                 <>
                     <Form.Label className="mr-2">{personaQ}</Form.Label>
@@ -104,6 +175,7 @@ function MatrixSelector(props){
                     </Form.Control>
                 </>
                 }
+                </div>
                 <div className="w-100 mt-3">
                 <Button variant="primary" type="submit" disabled={!buttonEnabled}>
                     Submit
@@ -145,40 +217,7 @@ const getStages = async () => {
       .invoke(
         'getStages'
       );
-    // console.log(stageIds);
     return stageIds;
-}
-
-const updateExperience = async () => {
-    const personaid = '';
-    const stageid = '';
-
-    const experience = await Mura
-      .getEntity('matrix_selector')
-      .invoke(
-        'updateExperience'
-      );
-    
-    if (experience.personaSelected){
-        Mura(function(){
-            Mura.trackEvent({
-                    category: 'Matrix Self ID',
-                    action: 'Persona',
-                    label:  '#esapiEncode("javascript",personaName)#'
-            });
-        });
-    }
-    
-    if (experience.stageSelected){
-        Mura(function(){
-            Mura.trackEvent({
-                    category: 'Matrix Self ID',
-                    action: 'Stage',
-                    label: '#esapiEncode("javascript",stageName)#'
-            });
-        });
-    }
-
 }
 
 export default MatrixSelector;

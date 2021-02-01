@@ -1,0 +1,10 @@
+#mura_matrix-selector-form{
+    &.form-inline{
+        .select-wrap{
+            line-height:2.5;
+            display: flex;
+            flex-flow: row wrap;
+            align-items: center;
+        }
+    }
+}
