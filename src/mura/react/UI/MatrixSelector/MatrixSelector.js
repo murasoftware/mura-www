@@ -129,19 +129,7 @@ function MatrixSelector(props){
             }
             return () => { isMounted = false };
         }, []);
-        
-        if (updateSuccess && showingAlert){
-            return(
-            <>
-                <h3>Matrix Selector</h3>
-                <Alert variant="success" >
-                    <h3>Thanks!</h3>
-                    <p>We&rsquo;re tailoring our content for you&hellip;</p>
-                </Alert>
-            </>
-            )
-        }
-        
+
         return(
             <>
             <h3>Matrix Selector</h3>
@@ -151,6 +139,7 @@ function MatrixSelector(props){
                     <p>We&rsquo;re tailoring our content for you&hellip;</p>
                 </Alert>
             }
+            {!updateSuccess && !showingAlert &&
             <Form inline id="mura_matrix-selector-form" onSubmit={handleSubmit} data-autowire="false">
                 <div className="select-wrap">
                 {personaIds.length > 1 &&
@@ -182,6 +171,7 @@ function MatrixSelector(props){
                 </Button>
                 </div>
             </Form>
+            }
             </>
         )
     } else {
