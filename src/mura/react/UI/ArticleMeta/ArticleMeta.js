@@ -17,29 +17,29 @@ function ArticleMeta(props){
                     switch(field) {
                     case "title":
                         return (
-                            <h1 key="title">{item.title}</h1>
+                            <h1 key="title" key={field}>{item.title}</h1>
                         );
                     case "summary":
                         return (
-                            <OutputMarkup source={item.summary} className="lead" />
+                            <OutputMarkup source={item.summary} className="lead"key={field} />
                         );
                     case "date":
                     case "releasedate":
                         return (
-                            <div className="mura-item-meta__date" key="date">
+                            <div className="mura-item-meta__date" key="date" key={field}>
                                 <span>Published on: </span> <ItemDate releasedate={item.releasedate} lastupdate={item.lastupdate}></ItemDate>
                             </div>
                         );
                     case "credits":
                         if(item.credits){
                             return (
-                                <ItemCredits credits={item.credits} key="credits" />
+                                <ItemCredits credits={item.credits} key="credits" key={field} />
                             );
                         }
                     case "tags":
                         if(item.tags){
                             return (
-                                <div className="mura-item-meta__tags" key="tags">
+                                <div className="mura-item-meta__tags" key="tags" key={field}>
                                     <span>Tags: </span><ItemTags tags={item.tags} key="tags" />
                                 </div>
                             );
