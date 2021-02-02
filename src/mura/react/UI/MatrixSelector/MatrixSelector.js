@@ -6,7 +6,6 @@ import Mura from 'mura.js';
 
 function MatrixSelector(props){
     const objectparams = Object.assign({}, props);
-    // console.log(objectparams);
 
     const _personaIds = objectparams.dynamicProps ? objectparams.dynamicProps.personaProps : '';
     const _stageIds = objectparams.dynamicProps ? objectparams.dynamicProps.stageProps : '';
@@ -27,15 +26,12 @@ function MatrixSelector(props){
     const [showingAlert,setShowingAlert] = useState(false);
     const [isUpdating, setIsUpdating] = useState(false);
 
-    // console.log('personaIds.length: ' + personaIds.length + ' stageIds.length: ' + stageIds.length);
     const [selPersonaValidated, setSelPersonaValidated] = useState(false);
     const [selStageValidated, setSelStageValidated] = useState(false);
-    // console.log('selPersonaValidated: ' + selPersonaValidated + ' selStageValidated: ' + selStageValidated);
 
     const handleSubmit = (e) => {
         e.preventDefault();
         updateExperience(curSelPersona,curSelStage);        
-        // setUpdateSuccess(1);
         return false;
     }
 
@@ -76,7 +72,6 @@ function MatrixSelector(props){
 
     const checkSelectValidation = (selPersonaValidated,selStageValidated) => {
         //check validation flags to see if Button should be enabled
-        console.log('selPersonaValidated: ' + selPersonaValidated + ' selStageValidated: ' + selStageValidated);
         if (selPersonaValidated && selStageValidated){
             setButtonEnabled(true);
         } else {
@@ -128,20 +123,6 @@ function MatrixSelector(props){
     
     }
 
-    //show alert or not
-    // useEffect(() => {
-    //     let isMounted = true;
-    //     if (isMounted) {
-    //         if(showingAlert){
-    //             setTimeout(() => {
-    //                 setShowingAlert(false);
-    //             }, 2000);
-    //         }
-    //     }
-
-    //     return () => { isMounted = false };
-    // }, [showingAlert]);
-
     if(!objectparams.dynamicProps){
         useEffect(() => {
             let isMounted = true;
@@ -169,7 +150,7 @@ function MatrixSelector(props){
             }
             return () => { isMounted = false };
         }, []);
-        //todo do we need to add hidden form fields with personaIds or stageIds EQ 1?
+        //todo do we need to add hidden form fields if personaIds or stageIds EQ 1?
         return(
             <>
             <h3>Matrix Selector</h3>
@@ -236,7 +217,6 @@ const getPersonas = async () => {
       .invoke(
         'getPersonas'
       );
-    // console.log(personaIds);
 
     return personaIds;
 }
