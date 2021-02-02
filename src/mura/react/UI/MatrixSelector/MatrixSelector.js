@@ -25,6 +25,12 @@ function MatrixSelector(props){
     const [buttonEnabled, setButtonEnabled] = useState(false);
     const [updateSuccess, setUpdateSuccess] = useState(false);
     const [showingAlert,setShowingAlert] = useState(false);
+    const [isUpdating, setIsUpdating] = useState(false);
+
+    // console.log('personaIds.length: ' + personaIds.length + ' stageIds.length: ' + stageIds.length);
+    const [selPersonaValidated, setSelPersonaValidated] = useState(false);
+    const [selStageValidated, setSelStageValidated] = useState(false);
+    // console.log('selPersonaValidated: ' + selPersonaValidated + ' selStageValidated: ' + selStageValidated);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -50,14 +56,37 @@ function MatrixSelector(props){
     }
 
     const updateButtonStatus = (persona,stage) => {
-        if (persona != '' && stage != ''){
+        //check persona value and personaIds length to see if validated flag should be updated
+        if (persona != '' && personaIds.length){
+            setSelPersonaValidated(true);
+            checkSelectValidation(true,selStageValidated);
+        } else if (persona = '' && personaIds.length){
+            setSelPersonaValidated(false);
+            checkSelectValidation(false,selStageValidated);
+        }
+        //check stage value and stageIds length to see if validated flag should be updated
+        if (stage != '' && stageIds.length){
+            setSelStageValidated(true);
+            checkSelectValidation(selPersonaValidated,true);
+        } else if (stage = '' && stageIds.length){
+            setSelStageValidated(false);
+            checkSelectValidation(selPersonaValidated,false);
+        }
+    }
+
+    const checkSelectValidation = (selPersonaValidated,selStageValidated) => {
+        //check validation flags to see if Button should be enabled
+        console.log('selPersonaValidated: ' + selPersonaValidated + ' selStageValidated: ' + selStageValidated);
+        if (selPersonaValidated && selStageValidated){
             setButtonEnabled(true);
         } else {
             setButtonEnabled(false);
         }
     }
-
     const updateExperience = async (personaid,stageid) => {
+        setIsUpdating(true);
+        setButtonEnabled(false);
+        
         const Personaid = personaid;
         const Stageid = stageid;
     
@@ -74,6 +103,7 @@ function MatrixSelector(props){
         if (exp.personaselected || exp.stageselected){
             setUpdateSuccess(1);
             setShowingAlert(true);
+            setIsUpdating(false);
         }
     
         if (exp.personaselected){
@@ -119,23 +149,33 @@ function MatrixSelector(props){
                 getPersonas().then((personaProps) => {
                     if (isMounted) {
                         setPersonaIds(personaProps);
+                        if (!personaProps.length){
+                            if (isMounted) {
+                                setSelPersonaValidated(true);
+                            }
+                        }
                     }
                 });
                 getStages().then((stageProps) => {
                     if (isMounted) {
                         setStageIds(stageProps);
+                        if (!stageProps.length){
+                            if (isMounted) {
+                                setSelStageValidated(true);
+                            }
+                        }
                     }
                 });
             }
             return () => { isMounted = false };
         }, []);
-
+        //todo do we need to add hidden form fields with personaIds or stageIds EQ 1?
         return(
             <>
             <h3>Matrix Selector</h3>
             {updateSuccess && showingAlert &&
                 <Alert variant="success" >
-                    <h3>Thanks!</h3>
+                    <h4>Thanks!</h4>
                     <p>We&rsquo;re tailoring our content for you&hellip;</p>
                 </Alert>
             }
@@ -167,7 +207,7 @@ function MatrixSelector(props){
                 </div>
                 <div className="w-100 mt-3">
                 <Button variant="primary" type="submit" disabled={!buttonEnabled}>
-                    Submit
+                    {isUpdating ? 'Updating...' : 'Submit'}
                 </Button>
                 </div>
             </Form>
@@ -182,12 +222,12 @@ function MatrixSelector(props){
 export const getDynamicProps = async props => {
     const personaIds = await getPersonas();
     const stageIds = await getStages();
-    
+
     return{
       personaProps:personaIds,
       stageProps:stageIds
     }
-  }
+}
 
 const getPersonas = async () => {  
     
@@ -197,6 +237,7 @@ const getPersonas = async () => {
         'getPersonas'
       );
     // console.log(personaIds);
+
     return personaIds;
 }
 
@@ -207,6 +248,7 @@ const getStages = async () => {
       .invoke(
         'getStages'
       );
+    
     return stageIds;
 }
 
