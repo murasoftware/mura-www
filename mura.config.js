@@ -1,34 +1,34 @@
 import Mura from 'mura.js';
-import Text, {getDynamicProps as  getTextProps } from '@mura/react/UI/Text';
-import Collection, {getDynamicProps as getCollectionProps } from '@mura/react/UI/Collection';
-import Video from '@mura/react/UI/Video';
-import Image from '@mura/react/UI/Image';
-import Container from '@mura/react/UI/Container';
-import Embed from '@mura/react/UI/Embed';
-import Hr from '@mura/react/UI/Hr';
-import PrimaryNav,{getDynamicProps as getPrimaryNavProps} from '@mura/react/UI/PrimaryNav';
-import ResourceHub,{getDynamicProps as getResourceHubProps} from '@mura/react/UI/ResourceHub';
-import ArticleMeta from '@mura/react/UI/ArticleMeta';
-import CTAButton from '@mura/react/UI/CTAButton';
-import PrivacyTools from '@mura/react/UI/PrivacyTools';
-import MatrixSelector,{getDynamicProps as getMatrixSelectorProps} from '@mura/react/UI/MatrixSelector';
+import Text, {getDynamicProps as  getTextProps } from '@mura/modules/Text';
+import Collection, {getDynamicProps as getCollectionProps } from '@mura/modules/Collection';
+import Video from '@mura/modules/Video';
+import Image from '@mura/modules/Image';
+import Container from '@mura/modules/Container';
+import Embed from '@mura/modules/Embed';
+import Hr from '@mura/modules/Hr';
+import PrimaryNav,{getDynamicProps as getPrimaryNavProps} from '@mura/modules/PrimaryNav';
+import ResourceHub,{getDynamicProps as getResourceHubProps} from '@mura/modules/ResourceHub';
+import ArticleMeta from '@mura/modules/ArticleMeta';
+import CTAButton from '@mura/modules/CTAButton';
+import PrivacyTools from '@mura/modules/PrivacyTools';
+import MatrixSelector,{getDynamicProps as getMatrixSelectorProps} from '@mura/modules/MatrixSelector';
 //import Login from '@mura/react/UI/Login';
 
-import DefaultLayout from '@mura/react/UI/Collection/Layouts/DefaultLayout';
-import CollectionLayout,{getQueryProps as getCollectionLayoutProps} from '@mura/react/UI/Collection/Layouts/CollectionLayout';
-import Cards from '@mura/react/UI/Collection/Layouts/Cards';
-import List from '@mura/react/UI/Collection/Layouts/List';
-import AccordionLayout from '@mura/react/UI/Collection/Layouts/Accordion';
-import AlternatingBoxes from '@mura/react/UI/Collection/Layouts/AlternatingBoxes';
-import AlternatingRows from '@mura/react/UI/Collection/Layouts/AlternatingRows';
-import Masonry from '@mura/react/UI/Collection/Layouts/Masonry';
-import SlickSlider from '@mura/react/UI/Collection/Layouts/SlickSlider';
+import DefaultLayout from '@mura/modules/Collection/Layouts/DefaultLayout';
+import CollectionLayout,{getQueryProps as getCollectionLayoutProps} from '@mura/modules/Collection/Layouts/CollectionLayout';
+import Cards from '@mura/modules/Collection/Layouts/Cards';
+import List from '@mura/modules/Collection/Layouts/List';
+import AccordionLayout from '@mura/modules/Collection/Layouts/Accordion';
+import AlternatingBoxes from '@mura/modules/Collection/Layouts/AlternatingBoxes';
+import AlternatingRows from '@mura/modules/Collection/Layouts/AlternatingRows';
+import Masonry from '@mura/modules/Collection/Layouts/Masonry';
+import SlickSlider from '@mura/modules/Collection/Layouts/SlickSlider';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
 
 //Example Custom Module
-import Example from 'src/Example';
+import Example from '@components/Example';
 
 
 export const ConnectorConfig = {
