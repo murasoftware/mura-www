@@ -4,7 +4,7 @@ import "slick-carousel/slick/slick-theme.css";
 import '../scss/custom.scss'
 
 import React, { useState } from "react";
-import GlobalContext from '@mura/core/GlobalContext'
+import { GlobalContext } from '@murasoftware/next-core'
 
 export default function MuraApp({ Component, pageProps }) {
   const [isEditMode, setIsEditMode] = useState(false);

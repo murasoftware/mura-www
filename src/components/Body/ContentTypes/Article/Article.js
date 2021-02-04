@@ -1,7 +1,7 @@
 import React from 'react';
-import OutputMarkup from "@mura/modules/Utilities/OutputMarkup";
-import DisplayRegion from '@mura/core/DisplayRegion';
-import ArticleMeta from '@mura/modules/ArticleMeta';
+import { OutputMarkup } from "@murasoftware/next-modules-bs4";
+import { DisplayRegion } from '@murasoftware/next-core';
+import { ArticleMeta } from '@murasoftware/next-modules-bs4';
 
 function Article({content,moduleStyleData,header,footer,displayregions}){
     return(

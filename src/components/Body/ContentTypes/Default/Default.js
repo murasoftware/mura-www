@@ -1,5 +1,5 @@
 import React from 'react';
-import DisplayRegion from '@mura/core/DisplayRegion';
+import { DisplayRegion } from '@murasoftware/next-core';
 
 function Default({content,moduleStyleData,header,primarycontent,footer,displayregions}){
     return(

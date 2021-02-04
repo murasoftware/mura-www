@@ -2,7 +2,7 @@
 	"global":{
 		"rendererProperties":{
 			"templateArray":["default"],
-			"collectionLayoutArray":["DefaultLayout","CollectionLayout","Cards","List","AccordionLayout","AlternatingBoxes","AlternatingRows","Masonry","SlickSlider"],
+			"collectionLayoutArray":["List","CollectionLayout","Cards","List","AccordionLayout","AlternatingBoxes","AlternatingRows","Masonry","SlickSlider"],
 			"collectionDefaultLayout":"List",
 			"SSR":false,
 			"hashurls":false,

@@ -9,7 +9,7 @@
       "@pages/*": ["src/pages/*"],
       "@hooks/*": ["src/hooks/*"],
       "@helpers/*":["src/helpers/*"],
-      "@mura/*":["src/mura-react-core/*"]
+      "@mura/*":["src/mura/*"]
     }
   },
   "exclude": [
