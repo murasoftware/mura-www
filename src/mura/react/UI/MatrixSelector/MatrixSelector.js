@@ -39,7 +39,7 @@ function MatrixSelector(props){
         const newPersona = e.target.value;
         if (curSelPersona != newPersona){
             setCurSelPersona(newPersona);
-            updateButtonStatus(newPersona,curSelStage);
+            checkSelectValidation(newPersona,curSelStage);
         }
     }
 
@@ -47,30 +47,26 @@ function MatrixSelector(props){
         const newStage = e.target.value;
         if (curSelStage != newStage){
             setCurSelStage(newStage);
-            updateButtonStatus(curSelPersona,newStage);
+            checkSelectValidation(curSelPersona,newStage);
         }        
     }
 
-    const updateButtonStatus = (persona,stage) => {
+    const checkSelectValidation = (persona,stage) => {
         //check persona value and personaIds length to see if validated flag should be updated
         if (persona != '' && personaIds.length){
             setSelPersonaValidated(true);
-            checkSelectValidation(true,selStageValidated);
         } else if (persona = '' && personaIds.length){
             setSelPersonaValidated(false);
-            checkSelectValidation(false,selStageValidated);
         }
         //check stage value and stageIds length to see if validated flag should be updated
         if (stage != '' && stageIds.length){
             setSelStageValidated(true);
-            checkSelectValidation(selPersonaValidated,true);
         } else if (stage = '' && stageIds.length){
             setSelStageValidated(false);
-            checkSelectValidation(selPersonaValidated,false);
         }
     }
 
-    const checkSelectValidation = (selPersonaValidated,selStageValidated) => {
+    const updateButtonStatus = (selPersonaValidated,selStageValidated) => {
         //check validation flags to see if Button should be enabled
         if (selPersonaValidated && selStageValidated){
             setButtonEnabled(true);
@@ -122,6 +118,17 @@ function MatrixSelector(props){
         }
     
     }
+    
+    useEffect(() => {
+        let isMounted = true;
+
+        if (isMounted) {
+            updateButtonStatus(selPersonaValidated,selStageValidated);
+            //should we force a page refresh after this to load the updated persona and stage?
+        }
+        
+        return () => { isMounted = false };
+    }, [selPersonaValidated,selStageValidated])
 
     if(!objectparams.dynamicProps){
         useEffect(() => {
