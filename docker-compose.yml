@@ -27,7 +27,11 @@ services:
         MURA_EDITROUTE: "/edit"
         MURA_AUTODISCOVERPLUGINS: "true"
         MURA_VARIATIONS: "true"
+        MURA_MAILSERVERIP: "mailcatcher"
+        MURA_MAILSERVERSMTPPORT: ${SMTP_PORT:-1025}
+        MURA_USEDEFAULTSMTPSERVER: "false"
     volumes:
+        -   ../mura/app/config:/var/www/config
         -   ../mura/app/core:/var/www/core
         -   ../mura/app/admin:/var/www/admin
         -   ../mura/app/modules/codeblocks:/var/www/modules/codeblocks
@@ -37,6 +41,12 @@ services:
     ports:
         - "8888:8888"
 
+  #Mail Service
+  mailcatcher:
+    image: schickling/mailcatcher
+    ports:
+      - "${MAILCATCHER_PORT:-1080}:1080"
+      - "${SMTP_PORT:-1025}:1025"
   #MySQL
   mura_mysql:
     image: mysql:latest

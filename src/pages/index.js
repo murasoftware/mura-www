@@ -1,18 +1,18 @@
 import React from 'react';
 import Head from 'next/head';
 import { MainLayout } from '@murasoftware/next-core';
-import { MuraJSRefPlaceholder, getMuraProps, getRootPath, getSiteName } from '@murasoftware/next-core';
+import { initConnector, MuraJSRefPlaceholder, getMuraProps, getRootPath, getSiteName } from '@murasoftware/next-core';
 import Body from '../components/Body';
-
+import MuraConfig from 'mura.config';
 
 export async function getStaticProps(context) {
-  // console.log("CON",context);
+  initConnector(MuraConfig);
   const props = await getMuraProps(context,false,{expand:'categoryassignments'});
   return props;
 }
 
 export default function Page(props) {
-
+  initConnector(MuraConfig);
   const {
     content = {},
     content: { displayregions } = {},
