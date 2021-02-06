@@ -265,6 +265,11 @@ Mura.Module.Container.reopen({
 
 export const ComponentRegistry=moduleLookup;
 export const ExternalModules=externalLookup;
+export const muraConfig = {
+  ComponentRegistry,
+  ExternalModules,
+  ConnectorConfig
+};
 
 export default {
   ComponentRegistry,

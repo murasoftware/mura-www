@@ -4,10 +4,10 @@ import { MuraJSRefPlaceholder, getMuraProps, getRootPath, getMuraPaths, getSiteN
 import { initConnector, MainLayout } from '@murasoftware/next-core';
 import ErrorPage from 'next/error';
 import Body from '../components/Body';
-import MuraConfig from 'mura.config';
+import muraConfig from 'mura.config';
 
 export async function getStaticPaths() {
-  initConnector(MuraConfig);
+  initConnector(muraConfig);
   const paths = await getMuraPaths();
 
   return {
@@ -17,13 +17,13 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps(context) {
-  initConnector(MuraConfig);
+  initConnector(muraConfig);
   const props = await getMuraProps(context,false,{expand:'categoryassignments'});
   return props;
 }
 
 export default function Page(props) {
-  initConnector(MuraConfig);
+  initConnector(muraConfig);
   /*
    When in a route not defined in static routes it's intitially missing props
   */

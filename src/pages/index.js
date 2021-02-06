@@ -3,16 +3,16 @@ import Head from 'next/head';
 import { MainLayout } from '@murasoftware/next-core';
 import { initConnector, MuraJSRefPlaceholder, getMuraProps, getRootPath, getSiteName } from '@murasoftware/next-core';
 import Body from '../components/Body';
-import MuraConfig from 'mura.config';
+import muraConfig from 'mura.config';
 
 export async function getStaticProps(context) {
-  initConnector(MuraConfig);
+  initConnector(muraConfig);
   const props = await getMuraProps(context,false,{expand:'categoryassignments'});
   return props;
 }
 
 export default function Page(props) {
-  initConnector(MuraConfig);
+  initConnector(muraConfig);
   const {
     content = {},
     content: { displayregions } = {},
