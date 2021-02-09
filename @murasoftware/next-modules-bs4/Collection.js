@@ -87,11 +87,12 @@ export const getDynamicProps = async (item) => {
     else {
       cdata = content;
     }
-  
+
     feed.andProp('parentid').isEQ(cdata.contentid);
     feed.fields(getSelectFields(item));
     feed.expand(getExpandFields(item));
-
+    feed.sort(cdata.sortby,cdata.sortdirection);
+    
     const query = await feed.getQuery();
     data.collection = query.getAll();
   }
