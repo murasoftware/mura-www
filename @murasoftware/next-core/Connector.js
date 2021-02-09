@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React from 'react';
+import React, { useEffect } from 'react';
 import Mura from 'mura.js';
 
 require('mura.js/src/core/stylemap-static');
@@ -17,7 +17,7 @@ export const getIsEditMode = () => {
   return isEditMode;
 }
 
-export const initConnector = (config) => {
+export const setMuraConfig = (config) => {
   muraConfig = config;
   ComponentRegistry = config.ComponentRegistry;
   ConnectorConfig = config.ConnectorConfig;

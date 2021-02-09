@@ -2,18 +2,18 @@ import React from 'react';
 import { useRouter } from 'next/router';
 import { EditLayout } from '@murasoftware/next-core';
 import Page from '../[...page]';
-import { initConnector, getMuraProps } from '@murasoftware/next-core';
+import { setMuraConfig, getMuraProps } from '@murasoftware/next-core';
 import muraConfig from 'mura.config';
 
 export async function getServerSideProps(context) {
-  initConnector(muraConfig);
+  setMuraConfig(muraConfig);
   const props = await getMuraProps(context,true,{expand:'categoryassignments'});
 
   return props;
 }
 
 function Edit(props) {
-  initConnector(muraConfig);
+  setMuraConfig(muraConfig);
   const router = useRouter();
 
   return (
