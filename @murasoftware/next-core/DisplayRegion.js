@@ -1,7 +1,6 @@
 import React, { useContext } from 'react';
 import { getIsEditMode, getComponent } from './Connector';
 import MuraDecorator from './Decorator';
-import {  EditContext  } from './GlobalContext';
 
 const DisplayRegionSection = ({ children, region, section, isEditMode }) => {
   let out = null;
