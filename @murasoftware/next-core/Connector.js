@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React, { useEffect } from 'react';
+import React from 'react';
 import Mura from 'mura.js';
 
 require('mura.js/src/core/stylemap-static');
