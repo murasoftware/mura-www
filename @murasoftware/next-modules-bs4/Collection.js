@@ -243,6 +243,9 @@ const getSelectFields = (item) => {
     } else if(field==='image'){
       hasImage=true;
       return false;
+    } else if(field==='images'){
+      hasImage=true;
+      return false;
     } else if(field==='fileid'){
       hasFileid=true;
     } else if(field==='contentid'){
