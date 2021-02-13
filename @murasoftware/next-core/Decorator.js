@@ -1,9 +1,9 @@
 import React from 'react';
-import Mura from 'mura.js';
-import { getIsEditMode, getMuraConfig } from '@murasoftware/next-core';
+import { getMura ,getIsEditMode, getMuraConfig } from '@murasoftware/next-core';
 
 function Decorator(props) {
-  const muraConfig =getMuraConfig();
+  const Mura= getMura();
+  const muraConfig = getMuraConfig();
   const { ComponentRegistry, ExternalModules } = muraConfig;
   const { label, instanceid, labeltag, children } = props;
   let isEditMode = getIsEditMode();
