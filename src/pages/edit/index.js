@@ -1,8 +1,7 @@
 import React from 'react';
 import { useRouter } from 'next/router';
-import { EditLayout } from '@murasoftware/next-core';
 import Page from '../[...page]';
-import { setMuraConfig, getMuraProps } from '@murasoftware/next-core';
+import { EditLayout, setMuraConfig, getMuraProps } from '@murasoftware/next-core';
 import muraConfig from 'mura.config';
 
 export async function getServerSideProps(context) {

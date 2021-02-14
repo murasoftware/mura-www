@@ -1,7 +1,6 @@
 import React from 'react';
 import Head from 'next/head';
-import { MuraJSRefPlaceholder, getMuraProps, getRootPath, getMuraPaths, getSiteName } from '@murasoftware/next-core';
-import { setMuraConfig, MainLayout } from '@murasoftware/next-core';
+import { setMuraConfig, MainLayout, MuraJSRefPlaceholder, getMuraProps, getRootPath, getMuraPaths, getSiteName } from '@murasoftware/next-core';
 import ErrorPage from 'next/error';
 import Body from '../components/Body';
 import muraConfig from 'mura.config';
