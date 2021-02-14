@@ -1,11 +1,13 @@
 /* eslint-disable */
 import React from 'react';
-import Mura from 'mura.js';
+import $Mura from 'mura.js';
 
 require('mura.js/src/core/stylemap-static');
 
 let muraConfig, connectorConfig, ComponentRegistry, ConnectorConfig, ExternalModules;
 let isEditMode=false;
+
+export const Mura = $Mura;
 
 export const MuraJSRefPlaceholder = '"undefined"!=typeof window&&function(u){u.queuedMuraCmds=[],u.queuedMuraPreInitCmds=[],"function"!=typeof u.Mura&&(u.Mura=u.mura=u.Mura=function(e){u.queuedMuraCmds.push(e)},u.Mura.preInit=function(e){u.queuedMuraPreInitCmds.push(e)})}(window);';
 
@@ -24,6 +26,8 @@ export const setMuraConfig = function(config) {
   ExternalModules = config.ExternalModules;
   connectorConfig=Object.assign({},ConnectorConfig);
 }
+
+export const MuraConfig = muraConfig;
 
 export const getMuraConfig = function() {
   return muraConfig;

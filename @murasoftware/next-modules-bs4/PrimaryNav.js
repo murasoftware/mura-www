@@ -70,8 +70,7 @@ const Render = ({ items, link, ...props }) => {
 };
 
 export const getDynamicProps = async props => {
-  const Mura = getMura();
-  
+  const Mura=getMura();
   console.log("requesting primary nav data",props.instanceid,Date.now(),Mura.siteid);
  
   const collection=await Mura.getFeed('content')
@@ -153,9 +152,9 @@ const RouterLink = ({href,className,type,menutitle,navlogo})=>{
 }
 
 const Homelink = (props) => {
+  const Mura=getMura();
   const Link=props.link;
   const homeTitle = 'Home';
-  const Mura = getMura();
 
   function createIcon() { 
     return {__html: props.navicon};
