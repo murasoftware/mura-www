@@ -10,7 +10,10 @@
     "lint": "eslint src",
     "lint-fix": "eslint src --fix",
     "export": "next build && next export",
-    "help": "next export --help"
+    "help": "next export --help",
+    "analyze": "cross-env ANALYZE=true next build",
+    "analyze:server": "cross-env BUNDLE_ANALYZE=server next build",
+    "analyze:browser": "cross-env BUNDLE_ANALYZE=browser next build"
   },
   "husky": {
     "hooks": {}
@@ -22,6 +25,7 @@
     "@murasoftware/next-core": "^1.0.14",
     "@murasoftware/next-modules-bs4": "^1.0.14",
     "bootstrap": "^4.6.0",
+    "cross-env": "^7.0.3",
     "mura.js": "^1.0.280",
     "next": "^10.0.7",
     "next-transpile-modules": "^6.3.0",
