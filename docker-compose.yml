@@ -30,6 +30,7 @@ services:
         MURA_MAILSERVERIP: "mailcatcher"
         MURA_MAILSERVERSMTPPORT: ${SMTP_PORT:-1025}
         MURA_USEDEFAULTSMTPSERVER: "false"
+        MURA_MODULETEMPLATES: "true"
     volumes:
         -   ../mura/app/config:/var/www/config
         -   ../mura/app/core:/var/www/core
@@ -38,6 +39,7 @@ services:
         -   ../MXP:/var/www/plugins/MXP
         -   sites_data:/var/www/sites
         -   themes_data:/var/www/themes
+        -   ../mura/app/temp:/var/www/temp
     ports:
         - "8888:8888"
 
