@@ -109,8 +109,7 @@ let moduleRegistry = [
   },
   {
     name: 'Container',
-    component: Container,
-    excludeFromClient:true
+    component: Container
   },
   {
     name: 'Hr',
