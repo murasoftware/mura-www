@@ -113,15 +113,15 @@ let moduleRegistry = [
   },
   {
     name: 'Hr',
-    component: Hr,
+    component: Hr
   },
   {
     name: 'Embed',
-    component: Embed,
+    component: Embed
   },
   {
     name: 'CTAButton',
-    component: CTAButton,
+    component: CTAButton
   },
   {
     name: 'CollectionLayout',
@@ -226,10 +226,11 @@ moduleRegistry.forEach(module => {
     if (!module.excludeFromClient) {
       Mura.Module[module.name] = Mura.UI.extend({
         component: module.component,
+        clientRendered: false,
         renderClient() {
           
           const content = Mura.content.getAll();
-
+         
           ReactDOM.render(
             React.createElement(this.component, {...this.context,content}),
             this.context.targetEl,
@@ -237,7 +238,17 @@ moduleRegistry.forEach(module => {
               this.trigger('afterRender');
             },
           );
+
+          this.clientRendered=true;
         },
+        destroy(){
+          if( this.clientRendered
+              && this.context 
+              && this.context.targetEl 
+              && this.context.targetEl.innerHTML){
+            ReactDOM.unmountComponentAtNode(this.context.targetEl);
+          }
+        }
       });
     }
   }
