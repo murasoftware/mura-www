@@ -1,35 +1,33 @@
 import Mura from 'mura.js';
-import Text, {getDynamicProps as  getTextProps } from '@mura/react/UI/Text';
-import Collection, {getDynamicProps as getCollectionProps } from '@mura/react/UI/Collection';
-import Video from '@mura/react/UI/Video';
-import Image from '@mura/react/UI/Image';
-import Container from '@mura/react/UI/Container';
-import Embed from '@mura/react/UI/Embed';
-import Hr from '@mura/react/UI/Hr';
-import PrimaryNav,{getDynamicProps as getPrimaryNavProps} from '@mura/react/UI/PrimaryNav';
-import ResourceHub,{getDynamicProps as getResourceHubProps} from '@mura/react/UI/ResourceHub';
-import ArticleMeta from '@mura/react/UI/ArticleMeta';
-import CTAButton from '@mura/react/UI/CTAButton';
-import PrivacyTools from '@mura/react/UI/PrivacyTools';
-import MatrixSelector,{getDynamicProps as getMatrixSelectorProps} from '@mura/react/UI/MatrixSelector';
+import { Text, getTextDynamicProps } from '@murasoftware/next-modules-bs4';
+import { Collection, getCollectionDynamicProps } from '@murasoftware/next-modules-bs4';
+import { Video }from '@murasoftware/next-modules-bs4';
+import { Image } from '@murasoftware/next-modules-bs4';
+import { Container } from '@murasoftware/next-modules-bs4';
+import { Embed }from '@murasoftware/next-modules-bs4';
+import { Hr } from '@murasoftware/next-modules-bs4';
+import { PrimaryNav, getPrimaryNavDynamicProps } from '@murasoftware/next-modules-bs4';
+import { ResourceHub, getResourceHubDynamicProps } from '@murasoftware/next-modules-bs4';
+import { ArticleMeta } from '@murasoftware/next-modules-bs4';
+import { CTAButton } from '@murasoftware/next-modules-bs4';
+import { PrivacyTools } from '@murasoftware/next-modules-bs4';
+import { MatrixSelector, getMatrixSelectorDynamicProps } from '@murasoftware/next-modules-bs4';
 //import Login from '@mura/react/UI/Login';
 
-import DefaultLayout from '@mura/react/UI/Collection/Layouts/DefaultLayout';
-import CollectionLayout,{getQueryProps as getCollectionLayoutProps} from '@mura/react/UI/Collection/Layouts/CollectionLayout';
-import Cards from '@mura/react/UI/Collection/Layouts/Cards';
-import List from '@mura/react/UI/Collection/Layouts/List';
-import AccordionLayout from '@mura/react/UI/Collection/Layouts/Accordion';
-import AlternatingBoxes from '@mura/react/UI/Collection/Layouts/AlternatingBoxes';
-import AlternatingRows from '@mura/react/UI/Collection/Layouts/AlternatingRows';
-import Masonry from '@mura/react/UI/Collection/Layouts/Masonry';
-import SlickSlider from '@mura/react/UI/Collection/Layouts/SlickSlider';
+import { CollectionLayout,getCollectionLayoutQueryProps as getCollectionLayoutProps } from '@murasoftware/next-modules-bs4';
+import { CollectionLayoutCards as Cards } from '@murasoftware/next-modules-bs4';
+import { CollectionLayoutList as List } from '@murasoftware/next-modules-bs4';
+import { CollectionLayoutAccordion as AccordionLayout } from '@murasoftware/next-modules-bs4';
+import { CollectionLayoutAlternatingBoxes as AlternatingBoxes } from '@murasoftware/next-modules-bs4';
+import { CollectionLayoutAlternatingRows as AlternatingRows } from '@murasoftware/next-modules-bs4';
+import { CollectionLayoutMasonry as Masonry }from '@murasoftware/next-modules-bs4';
+import { CollectionLayoutSlickSlider as SlickSlider } from '@murasoftware/next-modules-bs4';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
 
 //Example Custom Module
-import Example from 'src/Example';
-
+import Example from '@components/Example';
 
 export const ConnectorConfig = {
   rootpath: process.env.rootpath,
@@ -80,7 +78,7 @@ let moduleRegistry = [
     SSR: false
   },
   {
-    name: 'cookie_content',
+    name: 'cookie_consent',
     SSR: false
   },
   {
@@ -94,12 +92,12 @@ let moduleRegistry = [
   {
     name: 'Text',
     component: Text,
-    getDynamicProps: getTextProps,
+    getDynamicProps: getTextDynamicProps,
   },
   {
     name: 'Collection',
     component: Collection,
-    getDynamicProps: getCollectionProps,
+    getDynamicProps: getCollectionDynamicProps,
   },
   {
     name: 'Video',
@@ -111,19 +109,19 @@ let moduleRegistry = [
   },
   {
     name: 'Container',
-    component: Container,
+    component: Container
   },
   {
     name: 'Hr',
-    component: Hr,
+    component: Hr
   },
   {
     name: 'Embed',
-    component: Embed,
+    component: Embed
   },
   {
     name: 'CTAButton',
-    component: CTAButton,
+    component: CTAButton
   },
   {
     name: 'CollectionLayout',
@@ -131,20 +129,20 @@ let moduleRegistry = [
     getQueryProps: getCollectionLayoutProps,
     excludeFromClient: true
   },
-  {
+  /*{
     name: 'DefaultLayout',
     component: DefaultLayout,
     excludeFromClient: true
-  },
+  },*/
   {
     name: 'PrimaryNav',
     component: PrimaryNav,
-    getDynamicProps: getPrimaryNavProps
+    getDynamicProps: getPrimaryNavDynamicProps
   },
   {
     name: 'resource_hub',
     component: ResourceHub,
-    getDynamicProps: getResourceHubProps,
+    getDynamicProps: getResourceHubDynamicProps,
     //SSR: false
   },
   {
@@ -155,7 +153,7 @@ let moduleRegistry = [
   {
     name: 'matrix_selector',
     component: MatrixSelector,
-    getDynamicProps: getMatrixSelectorProps,
+    getDynamicProps: getMatrixSelectorDynamicProps,
     SSR: false
   },
   {
@@ -228,10 +226,11 @@ moduleRegistry.forEach(module => {
     if (!module.excludeFromClient) {
       Mura.Module[module.name] = Mura.UI.extend({
         component: module.component,
+        clientRendered: false,
         renderClient() {
           
           const content = Mura.content.getAll();
-
+         
           ReactDOM.render(
             React.createElement(this.component, {...this.context,content}),
             this.context.targetEl,
@@ -239,7 +238,17 @@ moduleRegistry.forEach(module => {
               this.trigger('afterRender');
             },
           );
+
+          this.clientRendered=true;
         },
+        destroy(){
+          if( this.clientRendered
+              && this.context 
+              && this.context.targetEl 
+              && this.context.targetEl.innerHTML){
+            ReactDOM.unmountComponentAtNode(this.context.targetEl);
+          }
+        }
       });
     }
   }
@@ -267,4 +276,14 @@ Mura.Module.Container.reopen({
 
 export const ComponentRegistry=moduleLookup;
 export const ExternalModules=externalLookup;
-export default moduleLookup;
+export const muraConfig = {
+  ComponentRegistry,
+  ExternalModules,
+  ConnectorConfig
+};
+
+export default {
+  ComponentRegistry,
+  ExternalModules,
+  ConnectorConfig
+};
