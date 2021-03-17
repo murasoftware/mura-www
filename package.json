@@ -19,8 +19,8 @@
     "hooks": {}
   },
   "dependencies": {
-    "@fortawesome/fontawesome-svg-core": "^1.2.34",
-    "@fortawesome/free-solid-svg-icons": "^5.15.2",
+    "@fortawesome/fontawesome-svg-core": "^1.2.35",
+    "@fortawesome/free-solid-svg-icons": "^5.15.3",
     "@fortawesome/react-fontawesome": "^0.1.14",
     "@murasoftware/next-core": "^1.0.14",
     "@murasoftware/next-modules-bs4": "^1.0.14",
@@ -30,7 +30,7 @@
     "next": "^10.0.7",
     "next-transpile-modules": "^6.3.0",
     "react": "17.0.1",
-    "react-bootstrap": "^1.4.3",
+    "react-bootstrap": "^1.5.2",
     "react-dom": "17.0.1",
     "react-fontawesome": "^1.7.1",
     "react-markdown": "^5.0.3",
