@@ -255,22 +255,6 @@ moduleRegistry.forEach(module => {
 });
 
 Mura.Module.Container.reopen({
-  resetItems(items){
-    items.forEach((item)=>{
-      item.instanceid=Mura.createUUID();
-      if(item.object=='container' && item.items){
-        let $items=item.items;
-       if(!Array.isArray($items)){
-          try{
-            $items=JSON.parse($items);
-          } catch(e){
-            $items=[];
-          }
-        }
-        this.resetItems($items)
-      }
-    })
-  },
 	reset(self, empty) {
 	  self.find('.mura-object:not([data-object="container"])').html('');
 	  self.find('.frontEndToolsModal').remove();
@@ -284,9 +268,6 @@ Mura.Module.Container.reopen({
 		  //console.log(Mura(this).data())
 		  nestedObjects.push(Mura(this).data());
 		});
-    if(Mura.cloning){
-      this.resetItems(nestedObjects);
-    }
 		self.data('items', JSON.stringify(nestedObjects));
 		self.removeAttr('data-content');
 	  }
