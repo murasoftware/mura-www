@@ -23,9 +23,10 @@
     "@fortawesome/free-solid-svg-icons": "^5.15.2",
     "@fortawesome/react-fontawesome": "^0.1.14",
     "@murasoftware/next-core": "^1.0.14",
-    "@murasoftware/next-modules-bs4": "^1.0.14",
+    "@murasoftware/next-modules-bs4": "^1.0.37",
     "bootstrap": "^4.6.0",
     "cross-env": "^7.0.3",
+    "hastscript": "^6.0.0",
     "install": "^0.10.4",
     "mura.js": "^1.0.280",
     "next": "^10.0.7",
@@ -37,10 +38,14 @@
     "react-fontawesome": "^1.7.1",
     "react-markdown": "^5.0.3",
     "react-slick": "^0.28.0",
+    "rehype-format": "^3.1.0",
+    "remark-directive": "^1.0.1",
     "remark-gfm": "^1.0.0",
+    "remark-rehype": "^8.0.0",
     "sass": "^1.32.7",
     "slick-carousel": "^1.8.1",
-    "styled-components": "^5.2.1"
+    "styled-components": "^5.2.1",
+    "unist-util-visit": "^2.0.3"
   },
   "devDependencies": {
     "@next/bundle-analyzer": "^10.0.7",
