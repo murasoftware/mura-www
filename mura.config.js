@@ -30,16 +30,16 @@ import ReactDOM from 'react-dom';
 import Example from '@components/Example';
 
 export const ConnectorConfig = {
-  rootpath: process.env.rootpath,
-  siteid: process.env.siteid,
+  rootpath: process.env.rootpath || "https:/training.review.murasoftware.com",
+  siteid: "default",
   processMarkup: false,
-  editroute: process.env.editroute,
-  sitename: process.env.sitename,
-  siteidinurls:  process.env.siteidinurls,
-  codeblocks: process.env.codeblocks,
-  variations: process.env.variations,
-  MXP: process.env.MXP,
-  htmleditortype: process.env.htmleditortype
+  editroute: "",
+  sitename:"Mura Academy,
+  siteidinurls:  false,
+  codeblocks: true,
+  variations: false,
+  MXP: true,
+  htmleditortype: "markdown"
 };
 
 /*
