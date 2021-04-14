@@ -106,6 +106,35 @@
 					}
 				]
 			},
+			"GatedAsset":{
+				"name":"Gated Asset",
+				"contenttypes":"*",
+				"configurator":[{
+					"type":"select",
+					"name":"isgatelocked",
+					"label":"Is Gate Locked?",
+					"options":[
+						{"name":"Yes","value":1},
+						{"name":"No","value":0}
+					]
+				}]
+			},
+			"Gist":{
+				"name":"Gist",
+				"contenttypes":"*",
+				"configurator":[
+					{
+						"type":"text",
+						"name":"gistid",
+						"label":"Gist ID"
+					},
+					{
+						"type":"text",
+						"name":"file",
+						"label":"File"
+					}
+				]
+			},
 			"CTAButton":{
 				"name":"CTA Button",
 				"contenttypes":"*",

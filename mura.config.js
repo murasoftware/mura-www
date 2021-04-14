@@ -23,6 +23,9 @@ import { CollectionLayoutAlternatingRows as AlternatingRows } from '@murasoftwar
 import { CollectionLayoutMasonry as Masonry }from '@murasoftware/next-modules-bs4';
 import { CollectionLayoutSlickSlider as SlickSlider } from '@murasoftware/next-modules-bs4';
 
+import { GatedAsset } from '@murasoftware/next-modules-bs4';
+import { Gist } from '@murasoftware/next-modules-bs4';
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 
@@ -88,6 +91,14 @@ let moduleRegistry = [
   {
     name: 'Example',
     component: Example,
+  },
+  {
+    name: 'GatedAsset',
+    component: GatedAsset
+  },
+  {
+    name: 'Gist',
+    component: Gist
   },
   {
     name: 'Text',
