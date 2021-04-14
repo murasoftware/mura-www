@@ -285,6 +285,58 @@ Mura.Module.Container.reopen({
 	},
 });
 
+Mura.Module.GatedAsset.reopen({
+	reset(self, empty) {
+    console.log('test',self.node.outerHTML)
+	  self.find('.frontEndToolsModal').remove();
+	  self.find('.mura-object-meta').html('');
+
+	  var gate = self.find('.mura-gate > div.mura-object');
+    var gateparams=self.data('gateparams');
+
+    if(typeof gateparams != 'undefined'){
+      gateparams={object:"container", items:[], ssr:false, 'render':'client'};
+    } else {
+      if(typeof gateparams == 'string'){
+        try{
+          gateparams=JSON.parse(gateparams)
+        }catch(e){
+          gateparams={object:"container", items:[], ssr:false, 'render':'client'};
+        }
+      }
+    }
+   
+	  if (gate.length) {
+      Mura.resetAsyncObject(gate.node, empty);
+      gateparams=gate.data();
+      self.data('gateparams', JSON.stringify(gateparams));
+	  }
+
+    var asset = self.find('.mura-asset > div.mura-object');
+    var assetparams=self.data('assetparams');
+
+    if(typeof assetparams != 'undefined'){
+      assetparams={object:"container", items:[], 'render-client':'client'};
+    } else {
+      if(typeof assetparams == 'string'){
+        try{
+          assetparams=JSON.parse(assetparams)
+        }catch(e){
+          assetparams={object:"container", items:[], 'render-client':'client'};
+        }
+      }
+    }
+
+    if (asset.length) {
+      Mura.resetAsyncObject(asset.node, empty);
+      assetparams=asset.data();
+      self.data('assetparams', JSON.stringify(assetparams));
+	  }
+
+	},
+});
+
+
 export const ComponentRegistry=moduleLookup;
 export const ExternalModules=externalLookup;
 export const muraConfig = {
