@@ -23,6 +23,9 @@ import { CollectionLayoutAlternatingRows as AlternatingRows } from '@murasoftwar
 import { CollectionLayoutMasonry as Masonry }from '@murasoftware/next-modules-bs4';
 import { CollectionLayoutSlickSlider as SlickSlider } from '@murasoftware/next-modules-bs4';
 
+import { GatedAsset } from '@murasoftware/next-modules-bs4';
+import { Gist } from '@murasoftware/next-modules-bs4';
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 
@@ -88,6 +91,14 @@ let moduleRegistry = [
   {
     name: 'Example',
     component: Example,
+  },
+  {
+    name: 'GatedAsset',
+    component: GatedAsset
+  },
+  {
+    name: 'Gist',
+    component: Gist
   },
   {
     name: 'Text',
@@ -260,17 +271,44 @@ Mura.Module.Container.reopen({
 	  self.find('.frontEndToolsModal').remove();
 	  self.find('.mura-object-meta').html('');
 	  var content = self.children('div.mura-object-content');
-  
+ 
 	  if (content.length) {
 		var nestedObjects = [];
 		content.children('.mura-object').each(function() {
-		  Mura.resetAsyncObject(this, empty);
+		  Mura.resetAsyncObject(this, false);
 		  //console.log(Mura(this).data())
-		  nestedObjects.push(Mura(this).data());
+      const item=Mura(this).data();
+      delete item.inited;
+		  nestedObjects.push(item);
 		});
 		self.data('items', JSON.stringify(nestedObjects));
-		self.removeAttr('data-content');
 	  }
+	},
+});
+
+Mura.Module.GatedAsset.reopen({
+	reset(self, empty) {
+	  self.find('.frontEndToolsModal').remove();
+	  self.find('.mura-object-meta').html('');
+  
+	  var gate = self.find('.mura-gate > div.mura-object');
+  
+	  if (gate.length) {
+      Mura.resetAsyncObject(gate.node, empty);
+      const gateparams=gate.data();
+      delete gateparams.inited;
+      self.data('gateparams', JSON.stringify(gateparams));
+	  }
+
+    var asset = self.find('.mura-asset > div.mura-object');
+
+    if (asset.length) {
+      Mura.resetAsyncObject(asset.node, empty);
+      const assetparams=asset.data();
+      delete assetparams.inited;
+      self.data('assetparams', JSON.stringify(assetparams));
+	  }
+
 	},
 });
 

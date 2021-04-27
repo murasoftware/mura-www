@@ -13,7 +13,8 @@
     "help": "next export --help",
     "analyze": "cross-env ANALYZE=true next build",
     "analyze:server": "cross-env BUNDLE_ANALYZE=server next build",
-    "analyze:browser": "cross-env BUNDLE_ANALYZE=browser next build"
+    "analyze:browser": "cross-env BUNDLE_ANALYZE=browser next build",
+    "update:mura": "npm uninstall mura.js @murasoftware/next-core @murasoftware/next-modules-bs4 && npm install mura.js @murasoftware/next-core @murasoftware/next-modules-bs4"
   },
   "husky": {
     "hooks": {}
@@ -22,22 +23,30 @@
     "@fortawesome/fontawesome-svg-core": "^1.2.35",
     "@fortawesome/free-solid-svg-icons": "^5.15.3",
     "@fortawesome/react-fontawesome": "^0.1.14",
-    "@murasoftware/next-core": "^1.0.14",
-    "@murasoftware/next-modules-bs4": "^1.0.14",
+    "@murasoftware/next-core": "^1.0.29",
+    "@murasoftware/next-modules-bs4": "^1.0.54",
     "bootstrap": "^4.6.0",
     "cross-env": "^7.0.3",
-    "mura.js": "^1.0.280",
+    "hastscript": "^6.0.0",
+    "install": "^0.10.4",
+    "mura.js": "^1.0.298",
     "next": "^10.0.7",
     "next-transpile-modules": "^6.3.0",
+    "npm": "^6.14.11",
     "react": "17.0.1",
     "react-bootstrap": "^1.5.2",
     "react-dom": "17.0.1",
     "react-fontawesome": "^1.7.1",
     "react-markdown": "^5.0.3",
     "react-slick": "^0.28.0",
+    "rehype-format": "^3.1.0",
+    "remark-directive": "^1.0.1",
+    "remark-gfm": "^1.0.0",
+    "remark-rehype": "^8.0.0",
     "sass": "^1.32.7",
     "slick-carousel": "^1.8.1",
-    "styled-components": "^5.2.1"
+    "styled-components": "^5.2.1",
+    "unist-util-visit": "^2.0.3"
   },
   "devDependencies": {
     "@next/bundle-analyzer": "^10.0.7",
