@@ -8,21 +8,24 @@ import muraConfig from 'mura.config';
 
 
 export async function getServerSideProps(context) {
-  setMuraConfig(muraConfig);
-  const props = await getMuraProps(context,true,{expand:'categoryassignments'});
-  return props;
+  try{
+    setMuraConfig(muraConfig);
+    const props = await getMuraProps(context,true,{expand:'categoryassignments'});
+    return props;
+  } catch (e){
+    console.error(e);
+    const props={};
+    return props;
+  }
 }
 
 export default function Page(props) {
   setMuraConfig(muraConfig);
+  
   const router = useRouter();
   /*
    When in a route not defined in static routes it's intitially missing props
   */
-  if(!props.content){
-    return '';
-  }
-
   const {
     content = {},
     content: { displayregions } = {},
@@ -31,7 +34,12 @@ export default function Page(props) {
     },
     moduleStyleData
   } = props;
-  if(content.isnew && !content.redirect && !content.display){
+
+  if(!content){
+    return <ErrorPage statusCode="500" />
+  } else if (content && typeof content.statusCode != 'undefined' && content.statusCode != 200){
+    return <ErrorPage statusCode={content.statusCode} />
+  } else if(content.isnew && !content.redirect){
     return <ErrorPage statusCode="404" />
   } else {
     return (
