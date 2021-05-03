@@ -29,7 +29,7 @@
     "cross-env": "^7.0.3",
     "hastscript": "^6.0.0",
     "install": "^0.10.4",
-    "mura.js": "^1.0.300",
+    "mura.js": "^1.0.302",
     "next": "^10.2.0",
     "next-transpile-modules": "^6.3.0",
     "npm": "^6.14.11",
