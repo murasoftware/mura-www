@@ -135,6 +135,46 @@
 					}
 				]
 			},
+			"matrix_selector":{
+				"name":"Matrix Selector",
+				"contenttypes":"*",
+				"external":true,
+				"configurator":[
+					{
+						"type":"text",
+						"name":"selfidstart",
+						"label":"Self ID Start"
+					},
+					{
+						"type":"text",
+						"name":"selfidmiddle",
+						"label":"Self ID Middle"
+					},
+					{
+						"type":"text",
+						"name":"selfidend",
+						"label":"Self ID End"
+					},
+					{
+						"type":"select",
+						"name":"displaytype",
+						"label":"Display Type",
+						"labels":["Inline","Widget","Eyebrow"],
+						"options":["inline","widget","eyebrow"],
+						"value":"inline"
+					},
+					{
+						"type":"select",
+						"name":"widgeposition",
+						"label":"Widget Position",
+						"labels":["Top / Right","Bottom / Right","Bottom / Left","Top / Left"],
+						"options":["top_right","bottom_right","bottom_left","top_left"],
+						"value":"top_right",
+						"condition":"prop.displaytype='widget'"
+
+					}
+				]
+			},
 			"CTAButton":{
 				"name":"CTA Button",
 				"contenttypes":"*",

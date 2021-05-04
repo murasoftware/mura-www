@@ -1,10 +1,278 @@
+@mixin matrix-selector-footer(){
+    text-align: center;
+    margin-top:.5rem;
+    ul{
+        margin-bottom:0;
+        li{
+            a{
+                color:$black;
+                font-size:14px;
+            }                
+            + li{
+                margin-left:1rem;
+            }
+        }
+    }
+}
 #mura_matrix-selector-form{
     &.form-inline{
         .select-wrap{
-            line-height:2.5;
+            line-height:1.5;
             display: flex;
             flex-flow: row wrap;
             align-items: center;
+            .form-control{
+                appearance:none;
+                border-radius:0;
+                background-color:transparent;
+                border:none;
+                border-bottom:1px dotted $gray-800;
+            }
+            select{
+                background-image:url("/images/dropdown-arrow.png");
+                background-position:100% 10px;
+                background-repeat:no-repeat;
+                padding-right:1.5rem;
+                font-size:1.1rem;
+                padding-left:0;
+            }
+            p{
+                margin-bottom:0;
+                color:$gray-800;
+            }
         }
+    }
+    .btn{
+        &-link{
+            position: relative;
+            border-bottom:1px dotted $black;            
+            color:$black;
+            padding-right:1.5rem;
+            text-decoration: none;
+            &:hover,
+            &:active{
+                border-bottom:1px solid $black;
+            }
+            &:after{
+                content:'';
+                display:block;
+                height:15px;
+                width:15px;
+                position:absolute;
+                right:0;
+                top:9px;
+                background-image:url("/images/dropdown-arrow.png");
+                background-repeat:no-repeat;
+                transform: rotateZ(270deg);
+                background-size: contain;
+            }
+        }
+    }
+}
+.mura-matrix-selector{
+    &__widget{
+        position: fixed;
+        top:1rem;
+        right:1rem;
+        height:auto;
+        padding:0;
+        background-color:$white;
+        z-index: 100001;
+        &__inner{
+            display:none;
+            transition: all 500ms ease-out 1s;
+            top: 0%;
+            background-color: transparent;
+            position: absolute;
+            right: 0;
+            top: calc(100% + 1rem);
+            &:before{
+                content:'';
+                width: 0; 
+                height: 0; 
+                border-left: 10px solid transparent;
+                border-right: 10px solid transparent;  
+                border-bottom: 10px solid $gray-100;
+                position: absolute;
+                top: -10px;
+                right: 15%;
+            }
+            &__footer{
+                @include matrix-selector-footer();
+            }
+        }
+        &.bottom_right,
+        &.bottom_left{
+            top:unset;
+            bottom:1rem;
+            .mura-matrix-selector__widget__inner{
+                top:unset !important;
+                bottom: calc(100% + 1rem);
+                &:after{
+                    content:'';
+                    width: 0; 
+                    height: 0; 
+                    border-left: 10px solid transparent;
+                    border-right: 10px solid transparent;  
+                    border-top: 10px solid $gray-100;
+                    border-bottom:0;
+                    position: absolute;
+                    bottom:-10px;
+                    right: 15%;
+                }
+                &:before{
+                    display:none;
+                }
+            }
+        }
+        &.bottom_left{
+            right:unset;
+            left:1rem;
+            .mura-matrix-selector__widget__inner{
+                left:0;
+                right:unset;
+                &:after{
+                    left:15%;
+                    right:unset;
+                }
+            }
+        }
+        &.top_left{
+            right:unset;
+            left:1rem;
+            .mura-matrix-selector__widget__inner{
+                left:0;
+                right:unset;
+                &:before{
+                    left:15%;
+                    right:unset;
+                }
+            }
+        }
+        &.open{
+            .mura-matrix-selector__widget__inner{
+                display: block;
+                width: 800px;
+                max-width: calc(100vw - 2rem - 15px);
+                background-color: $gray-100;
+                padding: .5rem 2rem;
+            }
+        }
+    }
+    &__inline{
+        &__footer{
+            @include matrix-selector-footer();
+        }
+    }
+    &__eyebrow{
+        display:flex;
+        flex-wrap:wrap;
+        justify-content:center;
+        flex-basis: 100%;
+        background-color:$black;
+        &__inner{
+            display:flex;
+            flex-wrap: wrap;
+            padding: .35rem;
+            align-items:center;
+            h4{
+                font-size:.9rem;
+                font-weight:$font-weight-bold;
+                color:$white;
+                margin-bottom:0;
+                margin-right:1rem;
+            }
+            &__footer{
+                margin:0 1rem;
+                ul{
+                    margin-bottom:0;
+                    li{
+                        a{
+                            color:$white;
+                            font-size:.8rem;
+                        }                
+                        + li{
+                            margin-left:1rem;
+                        }
+                    }
+                }
+            }
+        }
+        .successMessage{
+            display:flex;
+            flex-wrap: nowrap;
+            align-items:center;
+            h4,
+            p{
+                color:$white;
+                margin:0;
+            }
+            p{
+                margin-left:1rem;
+                font-size:.8rem;
+            }
+        }
+        #mura_matrix-selector-form{
+            &.form-inline{
+                .select-wrap{
+                    line-height:1.1;
+                    .form-control{
+                        border-bottom:1px dotted $white;
+                    }
+                    label{
+                        color:$white;
+                        font-size:.8rem;
+                    }
+                    select{
+                        background-image:url("/images/dropdown-arrow-white.png");
+                        background-position:100% 6px;
+                        font-size:.8rem;
+                        color:$white;
+                    }
+                    p{
+                        color:$white;
+                        font-size:.8rem;
+                    }
+                }
+            }
+            .btn{
+                &-link{
+                    border-bottom:1px dotted $white;            
+                    color:$white;
+                    font-size:.8rem;
+                    &:hover,
+                    &:active{
+                        border-bottom:1px solid $white;
+                    }
+                    &:after{
+                        top:7px;
+                        background-image:url("/images/dropdown-arrow-white.png");
+                    }
+                }
+            }
+        }
+    }
+}
+.mura-edit-mode{
+    .mura-matrix-selector__widget{
+        top:calc(1rem + 36px);
+        &.bottom_right,
+        &.bottom_left{
+            top:unset;
+        }
+    }
+}
+.matrix-selector-edit-alert{
+    display:none;
+}
+.mura-sidebar-state__pushed--right{
+    .mura-matrix-selector__widget{
+        right:calc(300px + 1rem);
+        &.top_left{
+            right:unset;
+        }
+    }
+    .matrix-selector-edit-alert{
+        display:block;
     }
 }
