@@ -266,7 +266,7 @@ function MatrixSelector(props){
                     {...props}
                     seconds={seconds}
                 />
-                <div className="mura-matrix-selector__inline__footer">
+                <div className="mura-matrix-selector__inline__footer" key="matrix-selector-footer">
                     <MatrixSelectorFooter {...props} />
                 </div>
                 </>
@@ -277,9 +277,10 @@ function MatrixSelector(props){
 }
 const MatrixSelectorFooter = (props) => {
     const CustomLinks = Array.from(props.customlinks);
+    console.log('props: ', props);
     if (CustomLinks && CustomLinks.length){
         const UtilityLinks = CustomLinks.map((link) => 
-        <li className="list-inline-item">
+        <li className="list-inline-item" key={link.name}>
             <a href={link.value}>{link.name}</a>
         </li>
         );
