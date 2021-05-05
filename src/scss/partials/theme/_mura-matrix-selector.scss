@@ -43,6 +43,9 @@
         }
     }
     .btn{
+        &-sm{
+            font-size:1.1rem;
+        }
         &-link{
             position: relative;
             border-bottom:1px dotted $black;            
@@ -175,6 +178,7 @@
             flex-wrap: wrap;
             padding: .35rem;
             align-items:center;
+            justify-content:center;
             h4{
                 font-size:.9rem;
                 font-weight:$font-weight-bold;
@@ -226,6 +230,7 @@
                     select{
                         background-image:url("/images/dropdown-arrow-white.png");
                         background-position:100% 6px;
+                        background-size:auto 15px;
                         font-size:.8rem;
                         color:$white;
                     }

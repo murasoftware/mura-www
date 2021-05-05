@@ -144,7 +144,7 @@ function MatrixSelector(props){
             setTimeout(() => setSeconds(seconds -1), 1000);
         }
         if (seconds < 1 && showingAlert ){
-            window.location.reload();
+            window.location = window.location.href.split("?")[0];
         }
     }, [seconds]);
 
@@ -276,13 +276,20 @@ function MatrixSelector(props){
     }
 }
 const MatrixSelectorFooter = (props) => {
-    return (
-        <ul className="list-inline">
-            <li className="list-inline-item"><a href="?mxp_clear">Reset to Default Experience</a></li>
-            <li className="list-inline-item"><a href="/privacy#How_Do_We_Use_This_Information">How Do We Use This Information?</a></li>
-            <li className="list-inline-item"><a href="/privacy">Privacy Policy</a></li>
-        </ul>
-    )
+    const CustomLinks = Array.from(props.customlinks);
+    if (CustomLinks && CustomLinks.length){
+        const UtilityLinks = CustomLinks.map((link) => 
+        <li className="list-inline-item">
+            <a href={link.value}>{link.name}</a>
+        </li>
+        );
+        return (
+            <ul className="list-inline">
+                {UtilityLinks}
+            </ul>
+        )
+    }
+    return null    
 }
 
 const MatrixForm = (props) => {
