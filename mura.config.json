@@ -165,13 +165,18 @@
 					},
 					{
 						"type":"select",
-						"name":"widgeposition",
+						"name":"widgetposition",
 						"label":"Widget Position",
 						"labels":["Top / Right","Bottom / Right","Bottom / Left","Top / Left"],
 						"options":["top_right","bottom_right","bottom_left","top_left"],
 						"value":"top_right",
-						"condition":"prop.displaytype='widget'"
+						"condition":"this.displaytype==='widget'"
 
+					},
+					{
+						"type":"name_value_array",
+						"name":"customlinks",
+						"label":"Links"
 					}
 				]
 			},
