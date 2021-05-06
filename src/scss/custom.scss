@@ -62,18 +62,25 @@ $colors: () !default;
 $colors: map-merge(
   (
     "blue":       $blue,
+    "violet":     $violet,
     "indigo":     $indigo,
     "purple":     $purple,
     "pink":       $pink,
     "red":        $red,
     "orange":     $orange,
+    "goldenrod":  $goldenrod,
     "yellow":     $yellow,
-    "green":      $green,
+    "azul":       $azul,
+    "sea-foam":   $sea-foam,
     "teal":       $teal,
+    "green":      $green,
+    "cranberry":  $cranberry,
     "cyan":       $cyan,
     "white":      $white,
-    "gray":       $gray-600,
-    "gray-dark":  $gray-800
+    "light-gray": $light-gray,
+    "medium-gray":$medium-gray,
+    "dark-gray":  $dark-gray,
+    "black":      $black
   ),
   $colors
 );

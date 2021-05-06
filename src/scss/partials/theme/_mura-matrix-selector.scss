@@ -265,6 +265,85 @@
         }
     }
 }
+@function contains($var,$list) {
+    $_out: false;
+    @each $item in $list { @if $item == $var { $_out: true; } }
+    @return $_out;
+}
+$list: white, light-gray;
+.mura-object{
+    @each $color, $value in $colors {
+        &.module-#{$color}{
+            .mura-matrix-selector__eyebrow{
+                background-color: $value;
+                &__inner{
+                    &__heading{
+                        .svg-inline--fa{
+                            color:color-yiq($value);
+                        }
+                    }
+                    h4{
+                        color:color-yiq($value);
+                    }
+                    &__footer{
+                        ul{
+                            li{
+                                a{
+                                    color:color-yiq($value);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            .successMessage{
+                h4,
+                p{
+                    color:color-yiq($value);
+                }
+            }
+            #mura_matrix-selector-form{
+                &.form-inline{
+                    .select-wrap{
+                        .form-control{
+                            border-bottom:1px dotted color-yiq($value);
+                        }
+                        select{
+                            @if contains($color, $list) {
+                                background-image:url("/images/dropdown-arrow-black.png");
+                            } @else {
+                                background-image:url("/images/dropdown-arrow-white.png");
+                            } 
+                        }
+                        label,
+                        select,
+                        p{
+                            color:color-yiq($value);
+                        }
+                    }
+                }
+                .btn{
+                    &-link{
+                        border-bottom:1px dotted color-yiq($value);            
+                        color:color-yiq($value);
+                        &:hover,
+                        &:active{
+                            border-bottom:1px solid color-yiq($value);
+                        }
+                        &:after{
+                            @if contains($color, $list) {
+                                background-image:url("/images/dropdown-arrow-black.png");
+                            } @else {
+                                background-image:url("/images/dropdown-arrow-white.png");
+                            }                           
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
 .mura-edit-mode{
     .mura-matrix-selector__widget{
         top:calc(1rem + 36px);
