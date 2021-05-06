@@ -172,19 +172,26 @@
         flex-wrap:wrap;
         justify-content:center;
         flex-basis: 100%;
-        background-color:$black;
+        background-color:black;
         &__inner{
             display:flex;
             flex-wrap: wrap;
             padding: .35rem;
             align-items:center;
             justify-content:center;
+            &__heading{
+                .svg-inline--fa{
+                    max-width:10px;
+                    color:$white;
+                }
+            }
             h4{
                 font-size:.9rem;
                 font-weight:$font-weight-bold;
                 color:$white;
                 margin-bottom:0;
-                margin-right:1rem;
+                margin-right:calc(1rem + 10px);
+                white-space: nowrap;
             }
             &__footer{
                 margin:0 1rem;

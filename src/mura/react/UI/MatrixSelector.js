@@ -222,7 +222,11 @@ function MatrixSelector(props){
                 return(
                     <div className={`mura-matrix-selector__eyebrow`}>
                         <div className="mura-matrix-selector__eyebrow__inner">
-                            <h4><FontAwesomeIcon icon={faBolt} /> Optimize Your Experience</h4>
+                            {!showingAlert &&
+                                <div className="mura-matrix-selector__eyebrow__inner__heading">
+                                    <h4><FontAwesomeIcon icon={faBolt} /> Optimize Your Experience</h4>
+                                </div>
+                            }
                             <MatrixForm 
                                 updateSuccess={updateSuccess}
                                 showingAlert={showingAlert}
@@ -240,9 +244,11 @@ function MatrixSelector(props){
                                 {...props}
                                 seconds={seconds}
                             />
-                            <div className="mura-matrix-selector__eyebrow__inner__footer">
-                                <MatrixSelectorFooter {...props} />
-                            </div>
+                            {!showingAlert &&
+                                <div className="mura-matrix-selector__eyebrow__inner__footer">
+                                    <MatrixSelectorFooter {...props} />
+                                </div>
+                            }
                         </div>
                     </div>
                 )
@@ -266,9 +272,11 @@ function MatrixSelector(props){
                     {...props}
                     seconds={seconds}
                 />
-                <div className="mura-matrix-selector__inline__footer" key="matrix-selector-footer">
-                    <MatrixSelectorFooter {...props} />
-                </div>
+                {!showingAlert &&
+                    <div className="mura-matrix-selector__inline__footer" key="matrix-selector-footer">
+                        <MatrixSelectorFooter {...props} />
+                    </div>
+                }
                 </>
             )
     } else {
