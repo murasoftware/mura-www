@@ -314,11 +314,6 @@
                             border-bottom:1px dotted color-yiq($value);
                         }
                         select{
-                            // @if contains($color, $list) {
-                            //     background-image:url("/images/dropdown-arrow-black.png");
-                            // } @else {
-                            //     background-image:url("/images/dropdown-arrow-white.png");
-                            // }
                             @include img-bg-contrast($value);
                         }
                         label,
@@ -337,11 +332,6 @@
                             border-bottom:1px solid color-yiq($value);
                         }
                         &:after{
-                            // @if contains($color, $list) {
-                            //     background-image:url("/images/dropdown-arrow-black.png");
-                            // } @else {
-                            //     background-image:url("/images/dropdown-arrow-white.png");
-                            // }
                             @include img-bg-contrast($value);
                         }
                     }
