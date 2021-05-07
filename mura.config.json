@@ -135,7 +135,7 @@
 					}
 				]
 			},
-			"experience_selector":{
+			"matrix_selector":{
 				"name":"Experience Selector",
 				"contenttypes":"*",
 				"external":true,

@@ -11,8 +11,8 @@ import { ResourceHub, getResourceHubDynamicProps } from '@murasoftware/next-modu
 import { ArticleMeta } from '@murasoftware/next-modules-bs4';
 import { CTAButton } from '@murasoftware/next-modules-bs4';
 import { PrivacyTools } from '@murasoftware/next-modules-bs4';
-// import { ExperienceSelector, getExperienceSelectorDynamicProps } from '@murasoftware/next-modules-bs4';
-import { ExperienceSelector, getExperienceSelectorDynamicProps } from 'src/mura/react/UI';
+// import { MatrixSelector, getMatrixSelectorDynamicProps } from '@murasoftware/next-modules-bs4';
+import { MatrixSelector, getMatrixSelectorDynamicProps } from 'src/mura/react/UI';
 //import Login from '@mura/react/UI/Login';
 
 import { CollectionLayout,getCollectionLayoutQueryProps as getCollectionLayoutProps } from '@murasoftware/next-modules-bs4';
@@ -163,9 +163,9 @@ let moduleRegistry = [
     SSR: false
   },
   {
-    name: 'experience_selector',
-    component: ExperienceSelector,
-    getDynamicProps: getExperienceSelectorDynamicProps,
+    name: 'matrix_selector',
+    component: MatrixSelector,
+    getDynamicProps: getMatrixSelectorDynamicProps,
     SSR: false
   },
   {

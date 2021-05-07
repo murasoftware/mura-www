@@ -1,6 +1,6 @@
-import { getDynamicProps as getMatrixSelectorDynamicProps, default as ExperienceSelector} from "./ExperienceSelector";
+import { getDynamicProps as getMatrixSelectorDynamicProps, default as MatrixSelector} from "./MatrixSelector";
 
 export {
     getMatrixSelectorDynamicProps,
-    ExperienceSelector
+    MatrixSelector
 };

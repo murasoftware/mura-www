@@ -6,7 +6,7 @@ import Mura from 'mura.js';
 import { faBolt } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-function ExperienceSelector(props){
+function MatrixSelector(props){
     const objectparams = Object.assign({}, props);
 
     const _personaIds = objectparams.dynamicProps ? objectparams.dynamicProps.personaProps : '';
@@ -284,7 +284,7 @@ function ExperienceSelector(props){
     }
 }
 const MatrixSelectorFooter = (props) => {
-    const CustomLinks = Array.from(props.customlinks);
+    const CustomLinks = props.customlinks ? Array.from(props.customlinks) : [];
     console.log('props: ', props);
     if (CustomLinks && CustomLinks.length){
         const UtilityLinks = CustomLinks.map((link) => 
@@ -379,4 +379,4 @@ const getStages = async () => {
     return stageIds;
 }
 
-export default ExperienceSelector;
+export default MatrixSelector;
