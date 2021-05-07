@@ -301,6 +301,45 @@
                     }
                 }
             }
+            .mura-matrix-selector__widget{
+                > .btn-light{
+                    background-color:$value;
+                    color:color-yiq($value);
+                }
+                &__inner{                    
+                    &:before{  
+                        border-bottom-color: $value;
+                    }
+                    &:after{
+                        border-top-color: $value;
+                    }
+                    &__footer{
+                        ul{
+                            li{
+                                a{
+                                    color:color-yiq($value);
+                                }
+                            }
+                        }
+                    }
+                }
+                &.open{
+                    .mura-matrix-selector__widget__inner{
+                        background-color: $value;
+                    }
+                }
+            }
+            .mura-matrix-selector__inline{
+                &__footer{
+                    ul{
+                        li{
+                            a{
+                                color:color-yiq($value);
+                            }
+                        }
+                    }
+                }
+            }
             .successMessage{
                 h4,
                 p{
