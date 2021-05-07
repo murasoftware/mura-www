@@ -6,7 +6,7 @@ import Mura from 'mura.js';
 import { faBolt } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-function MatrixSelector(props){
+function ExperienceSelector(props){
     const objectparams = Object.assign({}, props);
 
     const _personaIds = objectparams.dynamicProps ? objectparams.dynamicProps.personaProps : '';
@@ -379,4 +379,4 @@ const getStages = async () => {
     return stageIds;
 }
 
-export default MatrixSelector;
+export default ExperienceSelector;
