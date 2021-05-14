@@ -1,10 +1,10 @@
 import React from 'react';
 import Article from './ContentTypes/Article';
 import Default from './ContentTypes/Default';
-import ContentOffline from '@components/Body/ContentOffline';
+import ErrorPage from 'next/error';
 
 function Body({content,moduleStyleData,header,primarycontent,footer,displayregions}){
-    const isOnDisplay = content.isondisplay ? content.isondisplay : 1;
+    const isOnDisplay = content.isondisplay;
     // console.log('content.isondisplay: ', content.isondisplay);
     if(isOnDisplay == 1){
         switch(content.subtype){
@@ -33,7 +33,7 @@ function Body({content,moduleStyleData,header,primarycontent,footer,displayregio
         )
     } else {
         return (
-            <ContentOffline />
+            <ErrorPage statusCode="404" />
         )
     }//isondisplay
         
