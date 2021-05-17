@@ -6,236 +6,172 @@ $normal-padding-lg: 2.5rem !default;//LG breakpoint and up
 $loose-padding: 3rem !default;//MD breakpoint and down
 $loose-padding-lg: 5rem !default;//LG breakpoint and up
 
-//tight
-.mura-object[data-objectspacing="tight"],
-.spacing-tight {
-    @include module-padding($tight-padding, $tight-padding, $tight-padding-lg, $tight-padding-lg);
-}
-.mura-object[data-metaspacing="tight"]{
-    > div.mura-object-meta-wrapper{
-        > div.mura-object-meta{
-            @include module-padding($tight-padding, $tight-padding, $tight-padding-lg, $tight-padding-lg);
-        }
-    }
-}
-.mura-object[data-contentspacing="tight"]{
-    > div.mura-object-content{
+.mura-object{
+    &.tight{
         @include module-padding($tight-padding, $tight-padding, $tight-padding-lg, $tight-padding-lg);
-    }
-}
-//normal
-.mura-object[data-objectspacing="normal"],
-.spacing-normal {
-    @include module-padding($tight-padding, $normal-padding, $normal-padding-lg, $normal-padding-lg);
-}
-.mura-object[data-contentspacing="normal"]{
-    > div.mura-object-content{
-        @include module-padding($tight-padding, $normal-padding, $normal-padding-lg, $normal-padding-lg);
-    }
-}
-.mura-object[data-metaspacing="normal"]{
-    > div.mura-object-meta-wrapper{
-        > div.mura-object-meta{
-            @include module-padding($tight-padding, $normal-padding, $normal-padding-lg, $normal-padding-lg);
-        }
-    }
-}
-//loose
-.mura-object[data-objectspacing="loose"],
-.spacing-loose {
-    @include module-padding($tight-padding, $loose-padding, $tight-padding-lg, $loose-padding-lg);
-}
-.mura-object[data-contentspacing="loose"]{
-    > div.mura-object-content{
-        @include module-padding($tight-padding, $loose-padding, $tight-padding-lg, $loose-padding-lg);
-    }
-}
-.mura-object[data-metaspacing="loose"]{
-    > div.mura-object-meta-wrapper{
-        > div.mura-object-meta{
-            @include module-padding($tight-padding, $loose-padding, $tight-padding-lg, $loose-padding-lg);
-        }
-    }
-}
-
-//vertical spacing only
-//tight-y
-.mura-object[data-objectspacing="tight-y"],
-.spacing-tight-y {
-    @include module-padding-y-only($tight-padding, $tight-padding);
-}
-.mura-object[data-metaspacing="tight-y"]{
-    > div.mura-object-meta-wrapper{
-        > div.mura-object-meta{
+        &-y{
             @include module-padding-y-only($tight-padding, $tight-padding);
         }
-    }
-}
-.mura-object[data-contentspacing="tight-y"]{
-    > div.mura-object-content{
-        @include module-padding-y-only($tight-padding, $tight-padding);
-    }
-}
-//normal-y
-.mura-object[data-objectspacing="normal-y"],
-.spacing-normal-y {
-    @include module-padding-y-only($normal-padding, $normal-padding-lg);
-}
-.mura-object[data-contentspacing="normal-y"]{
-    > div.mura-object-content{
-        @include module-padding-y-only($normal-padding, $normal-padding-lg);
-    }
-}
-.mura-object[data-metaspacing="normal-y"]{
-    > div.mura-object-meta-wrapper{
-        > div.mura-object-meta{
-            @include module-padding-y-only($normal-padding, $normal-padding-lg);
-        }
-    }
-}
-//loose-y
-.mura-object[data-objectspacing="loose-y"],
-.spacing-loose-y {
-    @include module-padding-y-only($loose-padding, $loose-padding-lg);
-}
-.mura-object[data-contentspacing="loose-y"]{
-    > div.mura-object-content{
-        @include module-padding-y-only($loose-padding, $loose-padding-lg);
-    }
-}
-.mura-object[data-metaspacing="loose-y"]{
-    > div.mura-object-meta-wrapper{
-        > div.mura-object-meta{
-            @include module-padding-y-only($loose-padding, $loose-padding-lg);
-        }
-    }
-}
-
-//bottom only options
-//tight
-//module
-.mura-object[data-objectspacing="tight-bottom"],
-.spacing-loose-y {
-    @include module-padding-bottom-only($tight-padding, $tight-padding-lg)
-}
-//heading
-.mura-object[data-metaspacing="tight-bottom"]{
-    > div.mura-object-meta-wrapper{
-        > div.mura-object-meta{
-            @include module-padding-bottom-only($tight-padding, $tight-padding-lg)
-        }
-    }
-}
-//content
-.mura-object[data-contentspacing="tight-bottom"]{
-    > div.mura-object-content{
-        @include module-padding-bottom-only($tight-padding, $tight-padding-lg)
-    }
-}
-
-//normal
-//module
-.mura-object[data-objectspacing="normal-bottom"],
-.spacing-loose-y {
-    @include module-padding-bottom-only($normal-padding, $normal-padding-lg)
-}
-//heading
-.mura-object[data-metaspacing="normal-bottom"]{
-    > div.mura-object-meta-wrapper{
-        > div.mura-object-meta{
-            @include module-padding-bottom-only($normal-padding, $normal-padding-lg)
-        }
-    }
-}
-//content
-.mura-object[data-contentspacing="normal-bottom"]{
-    > div.mura-object-content{
-        @include module-padding-bottom-only($normal-padding, $normal-padding-lg)
-    }
-}
-
-//loose
-//module
-.mura-object[data-objectspacing="loose-bottom"],
-.spacing-loose-y {
-    @include module-padding-bottom-only($loose-padding, $loose-padding-lg)
-}
-//heading
-.mura-object[data-metaspacing="loose-bottom"]{
-    > div.mura-object-meta-wrapper{
-        > div.mura-object-meta{
-            @include module-padding-bottom-only($loose-padding, $loose-padding-lg)
-        }
-    }
-}
-//content
-.mura-object[data-contentspacing="loose-bottom"]{
-    > div.mura-object-content{
-        @include module-padding-bottom-only($loose-padding, $loose-padding-lg)
-    }
-}
-
-//top only options
-//tight
-//module
-.mura-object[data-objectspacing="tight-top"],
-.spacing-loose-y {
-    @include module-padding-top-only($tight-padding, $tight-padding-lg)
-}
-//heading
-.mura-object[data-metaspacing="tight-top"]{
-    > div.mura-object-meta-wrapper{
-        > div.mura-object-meta{
+        &-top{
             @include module-padding-top-only($tight-padding, $tight-padding-lg)
         }
+        &-right{
+            @include module-padding-right-only($tight-padding, $tight-padding-lg)
+        }
+        &-bottom{
+            @include module-padding-bottom-only($tight-padding, $tight-padding-lg)
+        }
+        &-left{
+            @include module-padding-left-only($tight-padding, $tight-padding-lg)
+        }
     }
-}
-//content
-.mura-object[data-contentspacing="tight-top"]{
-    > div.mura-object-content{
-        @include module-padding-top-only($tight-padding, $tight-padding-lg)
-    }
-}
-
-//normal
-//module
-.mura-object[data-objectspacing="normal-top"],
-.spacing-loose-y {
-    @include module-padding-top-only($normal-padding, $normal-padding-lg)
-}
-//heading
-.mura-object[data-metaspacing="normal-top"]{
-    > div.mura-object-meta-wrapper{
-        > div.mura-object-meta{
+    &.normal{
+        @include module-padding($tight-padding, $normal-padding, $normal-padding-lg, $normal-padding-lg);
+        &-y{
+            @include module-padding-y-only($normal-padding, $normal-padding-lg);
+        }
+        &-top{
             @include module-padding-top-only($normal-padding, $normal-padding-lg)
         }
-    }
-}
-//content
-.mura-object[data-contentspacing="normal-top"]{
-    > div.mura-object-content{
-        @include module-padding-top-only($normal-padding, $normal-padding-lg)
-    }
-}
-
-//loose
-//module
-.mura-object[data-objectspacing="loose-top"],
-.spacing-loose-y {
-    @include module-padding-top-only($loose-padding, $loose-padding-lg)
-}
-//heading
-.mura-object[data-metaspacing="loose-top"]{
-    > div.mura-object-meta-wrapper{
-        > div.mura-object-meta{
-            @include module-padding-top-only($loose-padding, $loose-padding-lg)
+        &-right{
+            @include module-padding-right-only($normal-padding, $normal-padding-lg)
+        }
+        &-bottom{
+            @include module-padding-bottom-only($normal-padding, $normal-padding-lg)
+        }
+        &-left{
+            @include module-padding-left-only($normal-padding, $normal-padding-lg)
         }
     }
-}
-//content
-.mura-object[data-contentspacing="loose-top"]{
-    > div.mura-object-content{
-        @include module-padding-top-only($loose-padding, $loose-padding-lg)
+    &.loose{
+        @include module-padding($tight-padding, $loose-padding, $tight-padding-lg, $loose-padding-lg);
+        &-y{
+            @include module-padding-y-only($loose-padding, $loose-padding-lg)
+        }
+        &-top{
+            @include module-padding-top-only($loose-padding, $loose-padding-lg)
+        }
+        &-right{
+            @include module-padding-right-only($loose-padding, $loose-padding-lg)
+        }
+        &-bottom{
+            @include module-padding-bottom-only($loose-padding, $loose-padding-lg)
+        }
+        &-left{
+            @include module-padding-left-only($loose-padding, $loose-padding-lg)
+        }
+    }
+    &-meta-wrapper{
+        &.tight{
+            @include module-padding($tight-padding, $tight-padding, $tight-padding-lg, $tight-padding-lg);
+            &-y{
+                @include module-padding-y-only($tight-padding, $tight-padding);
+            }
+            &-top{
+                @include module-padding-top-only($tight-padding, $tight-padding-lg)
+            }
+            &-right{
+                @include module-padding-right-only($tight-padding, $tight-padding-lg)
+            }
+            &-bottom{
+                @include module-padding-bottom-only($tight-padding, $tight-padding-lg)
+            }
+            &-left{
+                @include module-padding-left-only($tight-padding, $tight-padding-lg)
+            }
+        }
+        &.normal{
+            @include module-padding($tight-padding, $normal-padding, $normal-padding-lg, $normal-padding-lg);
+            &-y{
+                @include module-padding-y-only($normal-padding, $normal-padding-lg);
+            }
+            &-top{
+                @include module-padding-top-only($normal-padding, $normal-padding-lg)
+            }
+            &-right{
+                @include module-padding-right-only($normal-padding, $normal-padding-lg)
+            }
+            &-bottom{
+                @include module-padding-bottom-only($normal-padding, $normal-padding-lg)
+            }
+            &-left{
+                @include module-padding-left-only($normal-padding, $normal-padding-lg)
+            }
+        }
+        &.loose{
+            @include module-padding($tight-padding, $loose-padding, $tight-padding-lg, $loose-padding-lg);
+            &-y{
+                @include module-padding-y-only($loose-padding, $loose-padding-lg)
+            }
+            &-top{
+                @include module-padding-top-only($loose-padding, $loose-padding-lg)
+            }
+            &-right{
+                @include module-padding-right-only($loose-padding, $loose-padding-lg)
+            }
+            &-bottom{
+                @include module-padding-bottom-only($loose-padding, $loose-padding-lg)
+            }
+            &-left{
+                @include module-padding-left-only($loose-padding, $loose-padding-lg)
+            }
+        }
+    }
+    &-content{
+        &.tight{
+            @include module-padding($tight-padding, $tight-padding, $tight-padding-lg, $tight-padding-lg);
+            &-y{
+                @include module-padding-y-only($tight-padding, $tight-padding);
+            }
+            &-top{
+                @include module-padding-top-only($tight-padding, $tight-padding-lg)
+            }
+            &-right{
+                @include module-padding-right-only($tight-padding, $tight-padding-lg)
+            }
+            &-bottom{
+                @include module-padding-bottom-only($tight-padding, $tight-padding-lg)
+            }
+            &-left{
+                @include module-padding-left-only($tight-padding, $tight-padding-lg)
+            }
+        }
+        &.normal{
+            @include module-padding($tight-padding, $normal-padding, $normal-padding-lg, $normal-padding-lg);
+            &-y{
+                @include module-padding-y-only($normal-padding, $normal-padding-lg);
+            }
+            &-top{
+                @include module-padding-top-only($normal-padding, $normal-padding-lg)
+            }
+            &-right{
+                @include module-padding-right-only($normal-padding, $normal-padding-lg)
+            }
+            &-bottom{
+                @include module-padding-bottom-only($normal-padding, $normal-padding-lg)
+            }
+            &-left{
+                @include module-padding-left-only($normal-padding, $normal-padding-lg)
+            }
+        }
+        &.loose{
+            @include module-padding($tight-padding, $loose-padding, $tight-padding-lg, $loose-padding-lg);
+            &-y{
+                @include module-padding-y-only($loose-padding, $loose-padding-lg)
+            }
+            &-top{
+                @include module-padding-top-only($loose-padding, $loose-padding-lg)
+            }
+            &-right{
+                @include module-padding-right-only($loose-padding, $loose-padding-lg)
+            }
+            &-bottom{
+                @include module-padding-bottom-only($loose-padding, $loose-padding-lg)
+            }
+            &-left{
+                @include module-padding-left-only($loose-padding, $loose-padding-lg)
+            }
+        }
     }
 }
 

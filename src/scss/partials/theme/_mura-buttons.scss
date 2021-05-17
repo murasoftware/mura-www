@@ -1,0 +1,34 @@
+.btn{
+    svg{
+        &[data-icon]{
+            width:10px;
+        }
+    }
+    &-sm{
+        svg{
+            &[data-icon]{
+                width:8px;
+                margin-top:-1px;
+            }
+        }
+    }
+    &-lg{
+        svg{
+            &[data-icon]{
+                width:14px;
+                margin-top:-2px;
+            }
+        }
+    }
+}
+
+.input-group-append{
+    .btn{
+        svg{
+            &[data-icon]{
+                width:16px;
+                margin-top:-3px;
+            }
+        }
+    }
+}

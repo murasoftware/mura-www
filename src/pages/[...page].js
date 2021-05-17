@@ -11,6 +11,9 @@ export async function getServerSideProps(context) {
   try{
     setMuraConfig(muraConfig);
     const props = await getMuraProps(context,true,{expand:'categoryassignments'});
+    if (!props.props.content.isondisplay){
+      context.res.statusCode = 404;
+    }
     return props;
   } catch (e){
     console.error(e);
