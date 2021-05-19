@@ -17,29 +17,29 @@
 }
 
 @mixin module-padding-bottom-only($padding-bottom, $padding-bottom-lg){
-    padding-bottom: $padding-bottom;
+    padding-bottom: $padding-bottom !important;
     @include media-breakpoint-up(lg){
-        padding-bottom: $padding-bottom-lg;
+        padding-bottom: $padding-bottom-lg !important;
     }
 }
 
 @mixin module-padding-top-only($padding-top, $padding-top-lg){
-    padding-top: $padding-top;
+    padding-top: $padding-top !important;
     @include media-breakpoint-up(lg){
-        padding-top: $padding-top-lg;
+        padding-top: $padding-top-lg !important;
     }
 }
 
 @mixin module-padding-right-only($padding-y, $padding-y-lg){
-    padding-right: $padding-y;
+    padding-right: $padding-y !important;
     @include media-breakpoint-up(lg){
-        padding-right: $padding-y-lg;
+        padding-right: $padding-y-lg !important;
     }
 }
 @mixin module-padding-left-only($padding-y, $padding-y-lg){
-    padding-left: $padding-y;
+    padding-left: $padding-y !important;
     @include media-breakpoint-up(lg){
-        padding-left: $padding-y-lg;
+        padding-left: $padding-y-lg !important;
     }
 }
 
