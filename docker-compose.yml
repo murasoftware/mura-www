@@ -20,7 +20,6 @@ services:
         MURA_DBCLASS: com.mysql.cj.jdbc.Driver
         MURA_SITEIDINURLS: "false"
         MURA_INDEXFILEINURLS: "false"
-        MURA_ADMINDOMAIN: "localhost"
         MURA_EXTERNALCONFIG: "/var/www/config/mura.config.json"
         MURA_DEFAULTTHEMEURL: "https://github.com/murasoftware/mura-minimal/archive/master.zip"
         MURA_HTMLEDITORTYPE: markdown
