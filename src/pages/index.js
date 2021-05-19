@@ -93,6 +93,7 @@ export default function Page(props) {
             props={props}
           />
           <div dangerouslySetInnerHTML={{__html:props.codeblocks.footer}}/>
+          <div className="mura-object" data-object='cookie_consent' data-statsid='cookie_consent' data-width='sm' data-buttonclass='btn btn-sm btn-primary' />
         </MainLayout>
       </EditLayout>
     );
