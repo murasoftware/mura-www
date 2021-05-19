@@ -168,47 +168,6 @@
 					"value":"module-text-cards",
 					"modules":"container",
 					"omitmodules":""
-				},
-				{
-					"name":"Layout Items 40/60",
-					"value":"module-layout-40-60",
-					"modules":"container",
-					"omitmodules":""
-				},
-				{
-					"name":"Layout Items 60/40",
-					"value":"module-layout-60-40",
-					"modules":"container",
-					"omitmodules":""
-				},
-				{
-					"name":"Layout Items 2 Columns",
-					"value":"module-layout-two-col",
-					"modules":"container",
-					"omitmodules":""
-				},
-				{
-					"name":"Layout Items 3 Columns",
-					"value":"module-layout-three-col",
-					"modules":"container",
-					"omitmodules":""
-				},
-				{
-					"name":"Layout Items 4 Columns",
-					"value":"module-layout-four-col",
-					"modules":"container",
-					"omitmodules":""
-				},
-				{
-					"name":"Layout Items 5 Columns",
-					"value":"module-layout-five-col",
-					"modules":"container",
-					"omitmodules":""
-				},
-				{"name":"Layout Items 6 Columns",
-					"value":"module-layout-six-col",
-					"modules":"container",
-					"omitmodules":""
 				}
 			]
 		},
