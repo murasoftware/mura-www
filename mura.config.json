@@ -29,38 +29,146 @@
 				{"name":"Loose Bottom","value":"loose-bottom"},
 				{"name":"Loose Left","value":"loose-left"},
 				{"name":"Loose Right","value":"loose-right"},
-				{"name":"Layout Items 40/60","value":"module-layout-40-60"},
-				{"name":"Layout Items 60/40","value":"module-layout-60-40"},
-				{"name":"Layout Items 2 Columns","value":"module-layout-two-col"},
-				{"name":"Layout Items 3 Columns","value":"module-layout-three-col"},
-				{"name":"Layout Items 4 Columns","value":"module-layout-four-col"},
-				{"name":"Layout Items 5 Columns","value":"module-layout-five-col"},
-				{"name":"Layout Items 6 Columns","value":"module-layout-six-col"}
+				{"name":"40/60","value":"module-layout-40-60"},
+				{"name":"60/40","value":"module-layout-60-40"},
+				{"name":"2 Columns","value":"module-layout-two-col"},
+				{"name":"3 Columns","value":"module-layout-three-col"},
+				{"name":"4 Columns","value":"module-layout-four-col"},
+				{"name":"5 Columns","value":"module-layout-five-col"},
+				{"name":"6 Columns","value":"module-layout-six-col"}
 			],
 			"moduleThemeOptions":[
-				{"name":"Brand Default","value":"module-brand"},
-				{"name":"Black","value":"module-black"},
-				{"name":"Light Gray","value":"module-light-gray"},
-				{"name":"Medium Gray","value":"module-medium-gray"},
-				{"name":"Dark Gray","value":"module-dark-gray"},
-				{"name":"Orange","value":"module-orange"},
-				{"name":"Red","value":"module-red"},
-				{"name":"Azul","value":"module-azul"},
-				{"name":"Sea Foam","value":"module-sea-foam"},
-				{"name":"Teal","value":"module-teal"},
-				{"name":"Green","value":"module-green"},
-				{"name":"Cranberry","value":"module-cranberry"},
-				{"name":"Goldenrod","value":"module-goldenrod"},
-				{"name":"Violet","value":"module-violet"},
-				{"name":"Purple","value":"module-purple"},
-				{"name":"Blue","value":"module-blue"},
-				{"name":"White","value":"module-white"},
-				{"name":"Horizontal Nav","value":"module-horizontal-nav"},
-				{"name":"Equal Height Icons (100px)","value":"module-equal-height-icons"},
-				{"name":"Equal Height Icons LG (150px)","value":"module-equal-height-icons-lg"},
-				{"name":"Equal Height Icons XL (220px)","value":"module-equal-height-icons-xl"},
-				{"name":"Center Icons","value":"module-center-icons"},
-				{"name":"Cards","value":"module-text-cards"}
+				{
+					"name":"Brand Default",
+					"value":"module-brand",
+					"modules":"*",
+					"omitmodules":""
+				},
+				{
+					"name":"Black",
+					"value":"module-black",
+					"modules":"*",
+					"omitmodules":""
+				},
+				{
+					"name":"Light Gray",
+					"value":"module-light-gray",
+					"modules":"*",
+					"omitmodules":""
+				},
+				{
+					"name":"Medium Gray",
+					"value":"module-medium-gray",
+					"modules":"*",
+					"omitmodules":""
+				},
+				{
+					"name":"Dark Gray",
+					"value":"module-dark-gray",
+					"modules":"*",
+					"omitmodules":""
+				},
+				{
+					"name":"Orange",
+					"value":"module-orange",
+					"modules":"*",
+					"omitmodules":""
+				},
+				{
+					"name":"Red",
+					"value":"module-red",
+					"modules":"*"
+				},
+				{
+					"name":"Azul",
+					"value":"module-azul",
+					"modules":"*",
+					"omitmodules":""
+				},
+				{
+					"name":"Sea Foam",
+					"value":"module-sea-foam",
+					"modules":"*",
+					"omitmodules":""
+				},
+				{
+					"name":"Teal",
+					"value":"module-teal",
+					"modules":"*",
+					"omitmodules":""
+				},
+				{
+					"name":"Green",
+					"value":"module-green",
+					"modules":"*",
+					"omitmodules":""
+				},
+				{
+					"name":"Cranberry",
+					"value":"module-cranberry",
+					"modules":"*",
+					"omitmodules":""
+				},
+				{
+					"name":"Goldenrod",
+					"value":"module-goldenrod",
+					"modules":"*",
+					"omitmodules":""
+				},
+				{
+					"name":"Violet",
+					"value":"module-violet",
+					"modules":"*",
+					"omitmodules":""
+				},
+				{
+					"name":"Purple",
+					"value":"module-purple",
+					"modules":"*",
+					"omitmodules":""
+				},
+				{
+					"name":"Blue",
+					"value":"module-blue",
+					"modules":"*",
+					"omitmodules":""
+				},
+				{
+					"name":"White",
+					"value":"module-white",
+					"modules":"*",
+					"omitmodules":""
+				},
+				{
+					"name":"Equal Height Icons (100px)",
+					"value":"module-equal-height-icons",
+					"modules":"container",
+					"omitmodules":""
+				},
+				{
+					"name":"Equal Height Icons LG (150px)",
+					"value":"module-equal-height-icons-lg",
+					"modules":"container",
+					"omitmodules":""
+				},
+				{
+					"name":"Equal Height Icons XL (220px)",
+					"value":"module-equal-height-icons-xl",
+					"modules":"container",
+					"omitmodules":""
+				},
+				{
+					"name":"Center Icons",
+					"value":"module-center-icons",
+					"modules":"container",
+					"omitmodules":""
+				},
+				{
+					"name":"Cards",
+					"value":"module-text-cards",
+					"modules":"container",
+					"omitmodules":""
+				}
 			]
 		},
 		"proxies":{
