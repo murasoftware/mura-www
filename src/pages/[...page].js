@@ -5,6 +5,7 @@ import { EditLayout, setMuraConfig, MainLayout, MuraJSRefPlaceholder, getMuraPro
 import ErrorPage from 'next/error';
 import Body from '../components/Body';
 import muraConfig from 'mura.config';
+import Mura from 'mura.js';
 
 
 export async function getServerSideProps(context) {
@@ -100,7 +101,7 @@ export default function Page(props) {
             props={props}
           />
           <div dangerouslySetInnerHTML={{__html:props.codeblocks.footer}}/>
-          <div className="mura-object" data-object='cookie_consent' data-statsid='cookie_consent' data-width='sm' data-buttonclass='btn btn-sm btn-primary' />
+            <div className="mura-object" data-object='cookie_consent' data-statsid='cookie_consent' data-width='sm' />
         </MainLayout>
       </EditLayout>
     );
