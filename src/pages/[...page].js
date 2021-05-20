@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import { EditLayout, setMuraConfig, MainLayout, MuraJSRefPlaceholder, getMuraProps, getRootPath, getMuraPaths, getSiteName } from '@murasoftware/next-core';
 import ErrorPage from 'next/error';
 import Body from '../components/Body';
-import muraConfig from 'mura.config';
+import muraConfig, { DisplayOptions } from 'mura.config';
 import Mura from 'mura.js';
 
 
@@ -101,7 +101,9 @@ export default function Page(props) {
             props={props}
           />
           <div dangerouslySetInnerHTML={{__html:props.codeblocks.footer}}/>
-            <div className="mura-object" data-object='cookie_consent' data-statsid='cookie_consent' data-width='sm' />
+            {DisplayOptions.cookieconsent && 
+              <div className="mura-object" data-object='cookie_consent' data-statsid='cookie_consent' data-width='sm' />
+            }
         </MainLayout>
       </EditLayout>
     );

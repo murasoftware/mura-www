@@ -45,6 +45,10 @@ export const ConnectorConfig = {
   htmleditortype: process.env.htmleditortype
 };
 
+export const DisplayOptions = {
+  cookieconsent: true
+}
+
 /*
   These module are also registered with Mura via the mura.config.json
 
