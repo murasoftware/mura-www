@@ -189,6 +189,48 @@ div.mura-object[data-object="container"]:not(.mura-objectclass){
 @mixin module-theme($module-bg-color) {
     background-color: $module-bg-color;
     color: color-yiq($module-bg-color);
+    &[data-object="image"]{
+        background-color:transparent !important;
+        img{
+            @if $module-bg-color == $blue {
+                filter: invert(29%) sepia(62%) saturate(1761%) hue-rotate(207deg) brightness(97%) contrast(100%);
+              } @else if $module-bg-color == $violet {
+                filter: invert(38%) sepia(26%) saturate(3925%) hue-rotate(254deg) brightness(81%) contrast(82%);
+              } @else if $module-bg-color == $purple {
+                filter: invert(45%) sepia(75%) saturate(4081%) hue-rotate(225deg) brightness(93%) contrast(86%);
+              } @else if $module-bg-color == $pink {
+                filter: invert(36%) sepia(68%) saturate(3370%) hue-rotate(311deg) brightness(97%) contrast(88%);
+              } @else if $module-bg-color == $red {
+                filter: invert(20%) sepia(77%) saturate(3237%) hue-rotate(333deg) brightness(89%) contrast(94%);
+              } @else if $module-bg-color == $orange {
+                filter: invert(72%) sepia(50%) saturate(4511%) hue-rotate(331deg) brightness(97%) contrast(90%);
+              } @else if $module-bg-color == $goldenrod {
+                filter: invert(73%) sepia(25%) saturate(6220%) hue-rotate(9deg) brightness(102%) contrast(99%);
+              } @else if $module-bg-color == $yellow {
+                filter: invert(68%) sepia(13%) saturate(6090%) hue-rotate(8deg) brightness(101%) contrast(101%);
+              } @else if $module-bg-color == $azul {
+                filter: invert(55%) sepia(32%) saturate(6992%) hue-rotate(159deg) brightness(105%) contrast(101%);
+              } @else if $module-bg-color == $sea-foam {
+                filter: invert(76%) sepia(5%) saturate(3959%) hue-rotate(96deg) brightness(90%) contrast(98%);
+              } @else if $module-bg-color == $teal {
+                filter: invert(60%) sepia(28%) saturate(7147%) hue-rotate(137deg) brightness(101%) contrast(106%);
+              } @else if $module-bg-color == $green {
+                filter: invert(63%) sepia(83%) saturate(387%) hue-rotate(35deg) brightness(92%) contrast(99%);
+              } @else if $module-bg-color == $cranberry {
+                filter: invert(21%) sepia(79%) saturate(3115%) hue-rotate(333deg) brightness(87%) contrast(96%);
+              } @else if $module-bg-color == $cyan {
+                filter: invert(63%) sepia(41%) saturate(7491%) hue-rotate(155deg) brightness(96%) contrast(82%);
+              } @else if $module-bg-color == $light-gray {
+                filter: invert(100%) sepia(4%) saturate(132%) hue-rotate(177deg) brightness(113%) contrast(92%);
+              } @else if $module-bg-color == $medium-gray {
+                filter: invert(44%) sepia(2%) saturate(2%) hue-rotate(344deg) brightness(93%) contrast(91%);
+              } @else if $module-bg-color == $dark-gray {
+                filter: invert(21%) sepia(13%) saturate(472%) hue-rotate(173deg) brightness(88%) contrast(89%);
+              } @else {
+                filter: invert(36%) sepia(68%) saturate(3370%) hue-rotate(311deg) brightness(97%) contrast(88%);
+              }
+        }
+    }
 }
 
 //let's replace this with a list/each loop
@@ -482,6 +524,45 @@ div.mura-object[data-object="container"]:not(.mura-objectclass){
                     }
                 }
             }
+        }
+    }
+}
+
+//image grid module theme
+.module-image-grid{
+    > .mura-object-content{
+        display: flex !important;//force flex
+        flex-flow: row wrap;
+        width: 100%;
+        [data-object="image"]{
+            flex: auto !important;
+            height: 250px !important;
+            min-width: 150px !important;
+            margin: .5rem !important; //gutter
+            overflow:hidden;
+            @extend .rounded-lg, .shadow;
+            figure{
+                height:250px;
+                img{
+                    object-fit: cover;
+                    width: 100%;
+                    height: 100%;
+                    vertical-align: middle;
+                    max-width: 100%;
+                }
+            }
+        }
+        [data-object="image"]:nth-child(4n+1) {
+            width: 250px !important;
+        }
+        [data-object="image"]:nth-child(4n+2) {
+            width: 325px !important;
+        }
+        [data-object="image"]:nth-child(4n+3) {
+            width: 180px !important;
+        }
+        [data-object="image"]:nth-child(4n+4) {
+            width: 380px !important;
         }
     }
 }
