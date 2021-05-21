@@ -1,0 +1,11 @@
+.mura-object{
+    &[data-object="form"]{
+        .mura-section{
+            font-family: Work Sans,Arial,Helvetica,sans-serif;
+            font-weight: 700;
+            line-height: 1.2;
+            font-style: italic;
+            font-size:1.375rem;
+        }
+    }
+}
