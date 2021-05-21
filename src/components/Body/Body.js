@@ -9,8 +9,7 @@ function Body({content,moduleStyleData,header,primarycontent,footer,displayregio
     if(typeof isOnDisplay == 'undefined' || isOnDisplay == 1){
         switch(content.subtype){
             case 'Article':
-            case 'Blog':
-            case 'Whitepaper':
+            case 'Blog Post':
             return (
                 <Article
                     content={content}
