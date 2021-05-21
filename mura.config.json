@@ -168,6 +168,12 @@
 					"value":"module-text-cards",
 					"modules":"container",
 					"omitmodules":""
+				},
+				{
+					"name":"Image Grid",
+					"value":"module-image-grid",
+					"modules":"container",
+					"omitmodules":""
 				}
 			]
 		},
