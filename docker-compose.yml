@@ -23,13 +23,17 @@ services:
         MURA_EXTERNALCONFIG: "/var/www/config/mura.config.json"
         MURA_DEFAULTTHEMEURL: "https://github.com/murasoftware/mura-minimal/archive/master.zip"
         MURA_HTMLEDITORTYPE: markdown
-        MURA_EDITROUTE: ""
         MURA_AUTODISCOVERPLUGINS: "true"
         MURA_VARIATIONS: "true"
         MURA_MAILSERVERIP: "mailcatcher"
         MURA_MAILSERVERSMTPPORT: ${SMTP_PORT:-1025}
         MURA_USEDEFAULTSMTPSERVER: "false"
         MURA_MODULETEMPLATES: "true"
+        MURA_DECOUPLED: "true"
+        MURA_SETUPDOMAIN: "localhost"
+        MURA_RESORUCEDOMAIN: "localhost"
+        MURA_REMOTEPORT: "3000"
+        MURA_EDITROUTE: ""
     volumes:
         -   ../mura/app/config:/var/www/config
         -   ../mura/app/core:/var/www/core
