@@ -434,7 +434,7 @@
 				]
 			},
 			"HR":{
-				"name":"HR",
+				"name":"Hr",
 				"external":false,
 				"contenttypes":"*"
 			},
