@@ -1,4 +1,5 @@
-.collectionLayoutList{
+.collectionLayoutList,
+.searchResultsLayout{
     .row{
         position:relative;
         [class*="col-"] {
@@ -16,6 +17,19 @@
                         border:1px solid $primary;
                     }
                 }
+            }
+        }
+    }
+}
+
+//when content is not constrained but collection layout has a .row
+.mura-object{
+    &[data-layout="List"],
+    &[data-object="SearchResults"]{
+        .mura-object-content{
+            &:not(.container){
+                padding-left:15px;
+                padding-right:15px;
             }
         }
     }
