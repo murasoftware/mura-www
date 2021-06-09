@@ -23,6 +23,8 @@ import { CollectionLayoutAlternatingRows as AlternatingRows } from '@murasoftwar
 import { CollectionLayoutMasonry as Masonry }from '@murasoftware/next-modules-bs4';
 import { CollectionLayoutSlickSlider as SlickSlider } from '@murasoftware/next-modules-bs4';
 
+import { UtilityNav } from 'src/modules/UtilityNav';
+
 import { GatedAsset } from '@murasoftware/next-modules-bs4';
 import { Gist } from '@murasoftware/next-modules-bs4';
 
@@ -209,6 +211,11 @@ let moduleRegistry = [
     name: 'SlickSlider',
     component: SlickSlider,
     excludeFromClient: true
+  },
+  {
+    name: 'UtilityNav',
+    component: UtilityNav,
+    SSR: false
   }
 ];
 

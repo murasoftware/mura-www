@@ -433,7 +433,30 @@
 				"name":"Login",
 				"external":false,
 				"contenttypes":"*"
+			},
+			"UtilityNav":{
+				"name":"Utility Nav",
+				"contenttypes":"*",
+				"configurator":[
+					{
+						"type":"select",
+						"name":"linktarget",
+						"label":"Link Target",
+						"options":[
+							"",
+							"_self",
+							"_top",
+							"_blank"
+						]
+					},
+					{
+						"type":"name_value_array",
+						"name":"customlinks",
+						"label":"Links"
+					}
+				]
 			}
+
 	},
 	"sites":{
 		"default":{
