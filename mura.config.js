@@ -7,6 +7,7 @@ import { Container } from '@murasoftware/next-modules-bs4';
 import { Embed }from '@murasoftware/next-modules-bs4';
 import { Hr } from '@murasoftware/next-modules-bs4';
 import { PrimaryNav, getPrimaryNavDynamicProps } from '@murasoftware/next-modules-bs4';
+// import { default as PrimaryNav, getDynamicProps as getPrimaryNavDynamicProps } from 'src/components/PrimaryNav';
 import { ResourceHub, getResourceHubDynamicProps } from '@murasoftware/next-modules-bs4';
 import { ArticleMeta } from '@murasoftware/next-modules-bs4';
 import { CTAButton } from '@murasoftware/next-modules-bs4';
@@ -27,6 +28,9 @@ import { UtilityNav } from 'src/modules/UtilityNav';
 
 import { GatedAsset } from '@murasoftware/next-modules-bs4';
 import { Gist } from '@murasoftware/next-modules-bs4';
+// import { default as SearchResults, getDynamicProps as getSearchResultsDynamicProps } from '@components/SearchResults';
+import { SearchResults, getDynamicProps as getSearchResultsDynamicProps } from '@murasoftware/next-modules-bs4';
+import { SearchResultsLayout } from '@murasoftware/next-modules-bs4';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -213,9 +217,19 @@ let moduleRegistry = [
     excludeFromClient: true
   },
   {
+    name: 'SearchResults',
+    component: SearchResults,
+    getDynamicProps: getSearchResultsDynamicProps
+  },
+  {
     name: 'UtilityNav',
     component: UtilityNav,
-    SSR: false
+    SSR: false    
+  },
+  {
+    name: 'SearchResultsLayout',
+    component: SearchResultsLayout,
+    excludeFromClient: true
   }
 ];
 

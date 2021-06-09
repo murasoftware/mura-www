@@ -317,7 +317,6 @@ div.mura-object[data-object="container"]:not(.mura-objectclass){
                 margin-left:0;
                 margin-right:auto;
                 display:block;
-                //margin-bottom:2rem;
             }
         }
     }
@@ -330,7 +329,58 @@ div.mura-object[data-object="container"]:not(.mura-objectclass){
                 margin-left:0;
                 margin-right:auto;
                 display:block;
-                //margin-bottom:2rem;
+            }
+        }
+    }
+    &-xs{
+        [data-object="image"],
+        .mura-object-image{
+            figure{
+                img{
+                    max-height:50px;
+                    width:auto;
+                    margin-left:0;
+                    margin-right:auto;
+                    display:block;
+                }
+            }
+        }
+        [data-object="text"],
+        .mura-object-text{
+            .mura-object-content{
+                img{
+                    max-height:50px;
+                    width:auto;
+                    margin-left:0;
+                    margin-right:auto;
+                    display:block;
+                }
+            }
+        }
+    }
+    &-sm{
+        [data-object="image"],
+        .mura-object-image{
+            figure{
+                img{
+                    max-height:75px;
+                    width:auto;
+                    margin-left:0;
+                    margin-right:auto;
+                    display:block;
+                }
+            }
+        }
+        [data-object="text"],
+        .mura-object-text{
+            .mura-object-content{
+                img{
+                    max-height:75px;
+                    width:auto;
+                    margin-left:0;
+                    margin-right:auto;
+                    display:block;
+                }
             }
         }
     }
@@ -344,7 +394,6 @@ div.mura-object[data-object="container"]:not(.mura-objectclass){
                     margin-left:0;
                     margin-right:auto;
                     display:block;
-                    //margin-bottom:3rem;
                 }
             }
         }
@@ -357,7 +406,6 @@ div.mura-object[data-object="container"]:not(.mura-objectclass){
                     margin-left:0;
                     margin-right:auto;
                     display:block;
-                    //margin-bottom:3rem;
                 }
             }
         }
@@ -372,7 +420,6 @@ div.mura-object[data-object="container"]:not(.mura-objectclass){
                     margin-left:0;
                     margin-right:auto;
                     display:block;
-                    //margin-bottom:5rem;
                 }
             }
         }
@@ -385,7 +432,6 @@ div.mura-object[data-object="container"]:not(.mura-objectclass){
                     margin-left:0;
                     margin-right:auto;
                     display:block;
-                    //margin-bottom:5rem;
                 }
             }
         }
