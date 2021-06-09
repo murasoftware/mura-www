@@ -231,6 +231,16 @@ div.mura-object[data-object="container"]:not(.mura-objectclass){
               }
         }
     }
+    &[data-object="UtilityNav"]{
+        .list-inline{
+            &-item{
+                font-size:.85rem;
+                a{
+                    color: color-yiq($module-bg-color);
+                }
+            }
+        }
+    }
 }
 
 //let's replace this with a list/each loop
