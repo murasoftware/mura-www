@@ -10,6 +10,15 @@
 			"editableAttributesArray":[],
 			"imageAttributesArray":[],
 			"defaultInheritedRegions":["header","footer"],
+			"layoutOptions":[
+				{"name":"40/60","value":"module-layout-40-60","modules":"container"},
+				{"name":"60/40","value":"module-layout-60-40","modules":"container"},
+				{"name":"2 Columns","value":"module-layout-two-col","modules":"container"},
+				{"name":"3 Columns","value":"module-layout-three-col","modules":"container"},
+				{"name":"4 Columns","value":"module-layout-four-col","modules":"container"},
+				{"name":"5 Columns","value":"module-layout-five-col","modules":"container"},
+				{"name":"6 Columns","value":"module-layout-six-col","modules":"container"}
+			],
 			"spacingOptions":[
 				{"name":"Tight","value":"tight"},
 				{"name":"Tight Vertical","value":"tight-y"},
@@ -28,14 +37,7 @@
 				{"name":"Loose Top","value":"loose-top"},
 				{"name":"Loose Bottom","value":"loose-bottom"},
 				{"name":"Loose Left","value":"loose-left"},
-				{"name":"Loose Right","value":"loose-right"},
-				{"name":"40/60","value":"module-layout-40-60"},
-				{"name":"60/40","value":"module-layout-60-40"},
-				{"name":"2 Columns","value":"module-layout-two-col"},
-				{"name":"3 Columns","value":"module-layout-three-col"},
-				{"name":"4 Columns","value":"module-layout-four-col"},
-				{"name":"5 Columns","value":"module-layout-five-col"},
-				{"name":"6 Columns","value":"module-layout-six-col"}
+				{"name":"Loose Right","value":"loose-right"}
 			],
 			"moduleThemeOptions":[
 				{

@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev -p 3000",
-    "build": "next build",
+    "build": "cp mura.config.json public/mura.config.json && next build",
     "start": "next start",
     "test": "eslint src && echo \"no test specified\"",
     "lint": "eslint src",
