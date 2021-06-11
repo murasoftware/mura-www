@@ -14,7 +14,7 @@
     "analyze": "cross-env ANALYZE=true next build",
     "analyze:server": "cross-env BUNDLE_ANALYZE=server next build",
     "analyze:browser": "cross-env BUNDLE_ANALYZE=browser next build",
-    "update:mura": "npm uninstall mura.js @murasoftware/next-core @murasoftware/next-modules-bs4 && npm install mura.js @murasoftware/next-core @murasoftware/next-modules-bs4"
+    "update:mura": "npm uninstall mura.js @murasoftware/next-core @murasoftware/next-modules-bs4 @murasoftware/next-core-assets && npm install mura.js @murasoftware/next-core @murasoftware/next-modules-bs4 @murasoftware/next-core-assets"
   },
   "husky": {
     "hooks": {}
@@ -25,6 +25,7 @@
     "@fortawesome/react-fontawesome": "^0.1.14",
     "@murasoftware/next-core": "^1.0.50",
     "@murasoftware/next-modules-bs4": "^1.0.64",
+    "@murasoftware/next-core-assets": "^1.0.0",
     "bootstrap": "^4.6.0",
     "cross-env": "^7.0.3",
     "hastscript": "^6.0.0",
