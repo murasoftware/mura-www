@@ -70,16 +70,6 @@ export default function Page(props) {
               <link rel="canonical" href={`${getRootPath()}/${content.filename}`} />
             }
 
-            <link
-              href={`${getRootPath()}/core/modules/v1/core_assets/css/mura.10.min.css`}
-              rel="stylesheet"
-              key="min"
-            />
-            <link
-              href={`${getRootPath()}/core/modules/v1/core_assets/css/mura.10.skin.css`}
-              rel="stylesheet"
-              key="skin"
-            />
             {/* favicon */}
             <link rel="icon" href="/ico/favicon.ico" type="image/x-icon" />
             <link rel="shortcut icon" href="/ico/favicon.ico" type="image/x-icon" />
