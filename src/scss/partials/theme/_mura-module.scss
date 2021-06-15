@@ -624,11 +624,29 @@ div.mura-object[data-object="container"]:not(.mura-objectclass){
 }
 //makes Image Fit controls work
 [data-object="image"]{
-    height:100%;
-    .mura-object-content{
+    &[data-fit="fill"],
+    &[data-fit="cover"]{
         height:100%;
-        figure{
+        .mura-object-content{
             height:100%;
+            figure{
+                height:100%;
+                position: relative;
+                figcaption{
+                    position: absolute;
+                    bottom:0;
+                    left:0;
+                    right:0;
+                    top:auto;
+                    padding:1rem;
+                    color:$white;
+                    background-color:rgba(0,0,0,.5);
+                    p{
+                        margin-bottom:0;
+                        line-height:1.1;
+                    }
+                }
+            }
         }
     }
 }
