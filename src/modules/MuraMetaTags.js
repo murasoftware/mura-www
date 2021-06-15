@@ -15,6 +15,7 @@ export function MuraMetaTags(props) {
             <meta property="og:site_name" content={getSiteName()} />
             <meta property="og:title" content={content.htmltitle} />
             <meta property="og:description" content={content.metadesc} />
+            <link href="https://fonts.googleapis.com/css?family=Open+Sans|Work+Sans:300,400,700&display=swap" rel="stylesheet" />
             {content.images && content.images.large &&
                 <meta property="og:image" content={content.images.large} />
             }
