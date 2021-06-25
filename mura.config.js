@@ -81,9 +81,6 @@ let moduleRegistry = [
     js:[
       ConnectorConfig.rootpath + "/core/modules/v1/pdfviewer/dist/main.bundle.js",
     ],
-    css:[
-      ConnectorConfig.rootpath + "/core/modules/v1/pdfviewer/assets/css/pdfviewer.css",
-    ],
     SSR: false
   },
   {
