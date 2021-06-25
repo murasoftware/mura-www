@@ -15,6 +15,28 @@ const handleBooleanProperty=function(variable){
 
 module.exports = withTM(
     {
+      async headers() {
+        return [
+          {
+            source: '/:path*',
+            headers: [
+              {
+                key: 'X-Frame-Options',
+                value: 'sameorigin',
+              }
+            ],
+          },
+          {
+            source: '/',
+            headers: [
+              {
+                key: 'X-Frame-Options',
+                value: 'sameorigin',
+              }
+            ],
+          }
+        ]
+      },
       async redirects() {
         return []
       },
