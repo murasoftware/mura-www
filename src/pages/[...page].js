@@ -5,7 +5,7 @@ import { EditLayout, setMuraConfig, MainLayout, MuraJSRefPlaceholder, getMuraPro
 import ErrorPage from 'next/error';
 import Body from '../components/Body';
 import muraConfig, { DisplayOptions } from 'mura.config';
-import Mura from 'mura.js';
+import ReactHTMLParser from 'html-react-parser';
 
 
 export async function getServerSideProps(context) {
@@ -46,7 +46,7 @@ export default function Page(props) {
     return (
       <EditLayout {...props}>  
         <MainLayout {...props} route={`/${router.query.page}`}>  
-          <Head>
+          <Head dangerouslySetInnerHTML={{__html:props.codeblocks.header}}>
             {/* I wanted to add a "MuraMetaTags" component here but doesn't seem possible inside the <Head> component -- see metaTags branch */}
             <title>{content.htmltitle} - {getSiteName()}</title>
             <meta name="description" content={content.metadesc} />
@@ -67,6 +67,16 @@ export default function Page(props) {
               <link rel="canonical" href={`${getRootPath()}/${content.filename}`} />
             }
 
+            <link
+              href={`${getRootPath()}/core/modules/v1/core_assets/css/mura.10.min.css`}
+              rel="stylesheet"
+              key="min"
+            />
+            <link
+              href={`${getRootPath()}/core/modules/v1/core_assets/css/mura.10.skin.css`}
+              rel="stylesheet"
+              key="skin"
+            />
             {/* favicon */}
             <link rel="icon" href="/ico/favicon.ico" type="image/x-icon" />
             <link rel="shortcut icon" href="/ico/favicon.ico" type="image/x-icon" />
@@ -75,8 +85,8 @@ export default function Page(props) {
             <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/ico/apple-touch-icon-72-precomposed.png" />
             <link rel="apple-touch-icon-precomposed" href="/ico/apple-touch-icon-57-precomposed.png" />
             <script dangerouslySetInnerHTML={{__html:MuraJSRefPlaceholder}}/>
+            {ReactHTMLParser(props.codeblocks.header.join("\n"))}
           </Head>
-          <div dangerouslySetInnerHTML={{__html:props.codeblocks.header}}/>
           <div dangerouslySetInnerHTML={{__html:props.codeblocks.bodystart}}/>
           <Body
             content={content}

@@ -30,6 +30,7 @@
     "cross-env": "^7.0.3",
     "hastscript": "^6.0.0",
     "hosted-git-info": "^2.8.9",
+    "html-react-parser": "^1.2.7",
     "install": "^0.10.4",
     "lodash": "^4.17.21",
     "mura.js": "^1.0.317",

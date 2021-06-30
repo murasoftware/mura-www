@@ -4,7 +4,7 @@ import ErrorPage from 'next/error';
 import { EditLayout, MainLayout, setMuraConfig, MuraJSRefPlaceholder, getMuraProps, getRootPath, getSiteName } from '@murasoftware/next-core';
 import Body from '../components/Body';
 import muraConfig, { DisplayOptions } from 'mura.config';
-import Mura from 'mura.js';
+import ReactHTMLParser from 'html-react-parser';
 
 export async function getServerSideProps(context) {
   try {
@@ -71,8 +71,8 @@ export default function Page(props) {
             <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/ico/apple-touch-icon-114-precomposed.png" />
             <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/ico/apple-touch-icon-72-precomposed.png" />
             <link rel="apple-touch-icon-precomposed" href="/ico/apple-touch-icon-57-precomposed.png" />
+            {ReactHTMLParser(props.codeblocks.header.join("\n"))}
           </Head>
-          <div dangerouslySetInnerHTML={{__html:props.codeblocks.header}}/>
           <div dangerouslySetInnerHTML={{__html:props.codeblocks.bodystart}}/>
           <Body
             content={content}
