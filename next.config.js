@@ -40,8 +40,10 @@ module.exports = withTM(
       async redirects() {
         return []
       },
-      future: {
-        webpack5: true
+      eslint: {
+        // Warning: Dangerously allow production builds to successfully complete even if
+        // your project has ESLint errors.
+        ignoreDuringBuilds: true,
       },
       env: {
         rootpath: typeof process.env.MURA_ROOTPATH != 'undefined' ? process.env.MURA_ROOTPATH : 'http://localhost:8888',
