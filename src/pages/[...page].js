@@ -46,7 +46,7 @@ export default function Page(props) {
     return (
       <EditLayout {...props}>  
         <MainLayout {...props} route={`/${router.query.page}`}>  
-          <Head dangerouslySetInnerHTML={{__html:props.codeblocks.header}}>
+          <Head>
             {/* I wanted to add a "MuraMetaTags" component here but doesn't seem possible inside the <Head> component -- see metaTags branch */}
             <title>{content.htmltitle} - {getSiteName()}</title>
             <meta name="description" content={content.metadesc} />
