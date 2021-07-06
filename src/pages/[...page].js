@@ -5,7 +5,7 @@ import ErrorPage from 'next/error';
 import Body from '../components/Body';
 import muraConfig, { DisplayOptions } from 'mura.config';
 import Mura from 'mura.js';
-
+import MuraMetaTags from 'src/modules/MuraMetaTags';
 
 export async function getServerSideProps(context) {
   try{

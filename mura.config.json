@@ -243,6 +243,7 @@
 			"GatedAsset":{
 				"name":"Gated Asset",
 				"contenttypes":"*",
+				"iconclass":"mi-lock",
 				"configurator":[{
 					"type":"select",
 					"name":"isgatelocked",
@@ -256,6 +257,7 @@
 			"Gist":{
 				"name":"Gist",
 				"contenttypes":"*",
+				"iconclass":"mi-github",
 				"configurator":[
 					{
 						"type":"text",
@@ -272,6 +274,7 @@
 			"matrix_selector":{
 				"name":"Experience Selector",
 				"contenttypes":"*",
+				"iconclass":"mi-road",
 				"external":true,
 				"configurator":[
 					{
@@ -317,6 +320,7 @@
 			"CTAButton":{
 				"name":"CTA Button",
 				"contenttypes":"*",
+				"iconclass":"mi-hand-pointer-o",
 				"omitcontenttypes":"",
 				"configurator":[
 					{"type":"text","name":"buttontext","label":"Button Text"},
@@ -427,6 +431,7 @@
 			"PrimaryNav":{
 				"name":"PrimaryNav",
 				"contenttypes":"*",
+				"iconclass":"mi-navicon",
 				"configurator":[
 					{"type":"radio","name":"displayhome","label":"Display Home?","labels":["Yes","No"],"options":["true","false"],"value":"false"},
 					{"type":"file","name":"navlogo","label":"Navbar Logo"},
@@ -436,28 +441,33 @@
 			"ArticleMeta":{
 				"name":"Article Meta",
 				"contenttypes":"*",
+				"iconclass":"mi-info-circle",
 				"configurator":[
 					{"type":"fieldlist","name":"fields","label":"Display List","value":"Date,Credits,Tags"}
 				]
 			},
 			"Hr":{
 				"name":"Horizontal Rule",
+				"iconclass":"mi-minus",
 				"external":false,
 				"contenttypes":"*"
 			},
 			"Embed":{
 				"name":"Embed",
+				"iconclass":"mi-code",
 				"external":false,
 				"contenttypes":"*"
 			},
 			"Login":{
 				"name":"Login",
+				"iconclass":"mi-keyboard-o",
 				"external":false,
 				"contenttypes":"*"
 			},
 			"UtilityNav":{
 				"name":"Utility Nav",
 				"contenttypes":"*",
+				"iconclass":"mi-navicon",
 				"configurator":[
 					{
 						"type":"select",
@@ -480,6 +490,7 @@
 			"SearchResults":{
 				"name":"Search Results",
 				"contenttypes":"*",
+				"iconclass":"mi-search",
 				"configurator":[
 					{
 						"type":"fieldlist","name":"fields","label":"Display List"
