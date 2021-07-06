@@ -3,8 +3,12 @@ import ErrorPage from 'next/error';
 import { EditLayout, MainLayout, setMuraConfig, MuraJSRefPlaceholder, getMuraProps, getRootPath, getSiteName } from '@murasoftware/next-core';
 import Body from '../components/Body';
 import muraConfig, { DisplayOptions } from 'mura.config';
+<<<<<<< HEAD
 import Mura from 'mura.js';
 import MuraMetaTags from 'src/modules/MuraMetaTags';
+=======
+import ReactHTMLParser from 'html-react-parser';
+>>>>>>> 4a0cc940c08d4fadb46cad21ceebd8c777644766
 
 export async function getServerSideProps(context) {
   try {
@@ -42,6 +46,7 @@ export default function Page(props) {
     return (
       <EditLayout {...props}>
         <MainLayout {...props}>
+<<<<<<< HEAD
           <MuraMetaTags 
             content={content}
             getSiteName={getSiteName}
@@ -49,6 +54,39 @@ export default function Page(props) {
             getRootPath={getRootPath}            
           />
           <div dangerouslySetInnerHTML={{__html:props.codeblocks.header}}/>
+=======
+          <Head>
+            {/* I wanted to add a "MuraMetaTags" component here but doesn't seem possible inside the <Head> component -- see metaTags branch */}
+            <title>{content.htmltitle} - {getSiteName()}</title>
+            <meta name="description" content={content.metadesc} />
+
+            <meta property="og:site_name" content={getSiteName()} />
+            <meta property="og:title" content={content.htmltitle} />
+            <meta property="og:description" content={content.metadesc} />
+            {content.images && content.images.large &&
+              <meta property="og:image" content={content.images.large} />
+            }
+            <meta property="og:type" content="website" />
+            
+            {content.canonicalurl != '' &&
+              <link rel="canonical" href={content.canonicalurl} />
+            }
+
+            {content.canonicalurl == '' &&
+              <link rel="canonical" href={`${getRootPath()}/${content.filename}`} />
+            }
+
+            <script dangerouslySetInnerHTML={{__html:MuraJSRefPlaceholder}}/>
+            {/* favicon */}
+            <link rel="icon" href="/ico/favicon.ico" type="image/x-icon" />
+            <link rel="shortcut icon" href="/ico/favicon.ico" type="image/x-icon" />
+            <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/ico/apple-touch-icon-144-precomposed.png" />
+            <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/ico/apple-touch-icon-114-precomposed.png" />
+            <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/ico/apple-touch-icon-72-precomposed.png" />
+            <link rel="apple-touch-icon-precomposed" href="/ico/apple-touch-icon-57-precomposed.png" />
+            {ReactHTMLParser(props.codeblocks.header.join(" "))}
+          </Head>
+>>>>>>> 4a0cc940c08d4fadb46cad21ceebd8c777644766
           <div dangerouslySetInnerHTML={{__html:props.codeblocks.bodystart}}/>
           <Body
             content={content}
