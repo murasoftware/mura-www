@@ -29,8 +29,6 @@ export function MuraMetaTags(props) {
             {content.canonicalurl == '' &&
                 <link rel="canonical" href={`${getRootPath()}/${content.filename}`} />
             }
-
-            <script dangerouslySetInnerHTML={{__html:MuraJSRefPlaceholder}}/>
             {/* favicon */}
             <link rel="icon" href="/ico/favicon.ico" type="image/x-icon" />
             <link rel="shortcut icon" href="/ico/favicon.ico" type="image/x-icon" />
@@ -38,6 +36,7 @@ export function MuraMetaTags(props) {
             <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/ico/apple-touch-icon-114-precomposed.png" />
             <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/ico/apple-touch-icon-72-precomposed.png" />
             <link rel="apple-touch-icon-precomposed" href="/ico/apple-touch-icon-57-precomposed.png" />
+            <script dangerouslySetInnerHTML={{__html:MuraJSRefPlaceholder}}/>
             {ReactHTMLParser(props.codeblocks.header.join(" "))}
         </Head>
     )
