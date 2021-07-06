@@ -1,5 +1,6 @@
 import React from 'react';
 import Head from 'next/head';
+import ReactHTMLParser from 'html-react-parser';
 
 export function MuraMetaTags(props) {
     const getSiteName = props.getSiteName;
@@ -37,6 +38,7 @@ export function MuraMetaTags(props) {
             <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/ico/apple-touch-icon-114-precomposed.png" />
             <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/ico/apple-touch-icon-72-precomposed.png" />
             <link rel="apple-touch-icon-precomposed" href="/ico/apple-touch-icon-57-precomposed.png" />
+            {ReactHTMLParser(props.codeblocks.header.join(" "))}
         </Head>
     )
 }
