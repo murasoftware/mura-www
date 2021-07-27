@@ -35,7 +35,7 @@ For Partners
 - [Docker](https://www.docker.com/get-started)
 - [Git](https://git-scm.com/downloads)
 - [NodeJS](https://nodejs.org/en/)
-- [VS Code](https://code.visualstudio.com/) (optional - you can use preffered text editor)
+- [VS Code](https://code.visualstudio.com/) (optional - you can use preferred text editor)
 - [cmder](https://cmder.net/)
 
 ## Local Environment
