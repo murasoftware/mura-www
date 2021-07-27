@@ -40,17 +40,17 @@ For Partners
 
 ## Local Environment
 1. You will be supplied with both a front-end and back-end repositories
-   1. Your back-end repository will be named <partner-name>-<partner-project>
-   2. Your front-end repository will be named <partner-name>-<partner-project>-www
-2. Please clone the front-end and backend repositories to your local folder either using “git clone” or downloading zipped source from Github
-3. Open terminal and run “cd <path-to-my-back-end> && git checkout review && docker-compose up”
-4. Open another terminal and run “cd <path-to-my-front-end> && git checkout review && npm install && npm run dev”
+   1. Your back-end repository will be named `<partner-name>-<partner-project>`
+   2. Your front-end repository will be named `<partner-name>-<partner-project>-www`
+2. Please clone the front-end and backend repositories to your local folder either using `git clone` or downloading zipped source from Github
+3. Open terminal and run `cd <path-to-my-back-end> && git checkout review && docker-compose up`
+4. Open another terminal and run `cd <path-to-my-front-end> && git checkout review && npm install && npm run dev`
 5. Open your browser and go to http://localhost:3000/ and wait for Mura to create your database and initial configuration
 6. Once the initial configuration is set, copy the file mura.config.json from your project folder to the folder mura/app/config
 7. In mura/app/config open the file settings.ini.cfm and set the value for externalconfig to “/var/www/config/mura.config.json”
 8. Reload your mura instance using http://localhost:8888/admin/?appreload or you can stop the backend and launched again with:
-    - run “docker-compose down”
-    - run “docker-compose up”
+    - run `docker-compose down`
+    - run `docker-compose up`
 
 ## Developing Components w/ ReactJS and NextJS
 ReactJS is perhaps the most pervasive JavaScript framework globally at this point in time and for many years. NextJS is one of, if not the largest and most supports NodeJS server framework globally. Bootstrap is one of the most wellknow HTML/JS/CSS framework out there. So we chose React-Bootstrap to build Mura modules moving forward. Mura has chosen to move in the direction of ubiquity to strengthen and expand the community.  
