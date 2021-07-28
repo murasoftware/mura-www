@@ -11,7 +11,7 @@ RUN sed -i "s/hspw=\"\"/hspw=\"$admin_hspw\"/" /opt/lucee/server/lucee-server/co
 RUN ln -sf /dev/stdout /opt/lucee/web/logs/application.log \
 	&& ln -sf /dev/stdout /opt/lucee/web/logs/exception.log
 
-COPY web.xml /usr/local/tomcat/conf/
+# COPY web.xml /usr/local/tomcat/conf/
 COPY mura.config.json /var/www/config/
 
 # Copy Mura files
