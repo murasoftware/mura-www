@@ -3,7 +3,7 @@ import Article from './ContentTypes/Article';
 import Default from './ContentTypes/Default';
 import ErrorPage from 'next/error';
 
-function Body({content,moduleStyleData,header,primarycontent,footer,displayregions}){
+function Body({content,moduleStyleData,header,primarycontent,footer,displayregions,queryParams}){
     const isOnDisplay = content.isondisplay;
     // console.log('content.isondisplay: ', content.isondisplay);
     if(typeof isOnDisplay == 'undefined' || isOnDisplay == 1){
@@ -17,6 +17,7 @@ function Body({content,moduleStyleData,header,primarycontent,footer,displayregio
                     header={header}
                     footer={footer}
                     displayregions={displayregions}
+                    queryParams={queryParams}
                 />
             )
         }
@@ -28,6 +29,7 @@ function Body({content,moduleStyleData,header,primarycontent,footer,displayregio
                 primarycontent={primarycontent}
                 footer={footer}
                 displayregions={displayregions}
+                queryParams={queryParams}
             />
         )
     } else {

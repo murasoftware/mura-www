@@ -2,7 +2,7 @@ import React from 'react';
 import { ArticleMeta, OutputMarkup } from "@murasoftware/next-modules-bs4";
 import { DisplayRegion } from '@murasoftware/next-core';
 
-function Article({content,moduleStyleData,header,footer,displayregions}){
+function Article({content,moduleStyleData,header,footer,displayregions,queryParams}){
     return(
         <>
         {/* Article Header */}
@@ -11,6 +11,7 @@ function Article({content,moduleStyleData,header,footer,displayregions}){
             region={header}
             moduleStyleData={moduleStyleData}
             content={content}
+            queryParams={queryParams}
             />
         }
         <section className="article">
@@ -45,6 +46,7 @@ function Article({content,moduleStyleData,header,footer,displayregions}){
             region={footer}
             moduleStyleData={moduleStyleData}
             content={content}
+            queryParams={queryParams}
             />
         }
         </>

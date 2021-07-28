@@ -2,7 +2,7 @@ import React from 'react';
 import { DisplayRegion } from '@murasoftware/next-core';
 import { muraConfig } from 'mura.config';
 
-function Default({content,moduleStyleData,header,primarycontent,footer,displayregions}){
+function Default({content,moduleStyleData,header,primarycontent,footer,displayregions,queryParams}){
     return(
         <>
         {content && displayregions && header &&
@@ -11,6 +11,7 @@ function Default({content,moduleStyleData,header,primarycontent,footer,displayre
             moduleStyleData={moduleStyleData}
             content={content}
             muraConfig={muraConfig}
+            queryParams={queryParams}
             />
         }
         {content && displayregions && primarycontent &&
@@ -19,6 +20,7 @@ function Default({content,moduleStyleData,header,primarycontent,footer,displayre
             moduleStyleData={moduleStyleData}
             content={content}
             muraConfig={muraConfig}
+            queryParams={queryParams}
             />
         }
         {content && displayregions && footer &&
@@ -27,6 +29,7 @@ function Default({content,moduleStyleData,header,primarycontent,footer,displayre
             moduleStyleData={moduleStyleData}
             content={content}
             muraConfig={muraConfig}
+            queryParams={queryParams}
             />
         }
         </>
