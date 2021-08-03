@@ -3,9 +3,7 @@ version: '3.8'
 services:
   #Mura Server
   mura:
-    build:
-        context: .
-        dockerfile: Dockerfile.mura
+    image: murasoftware/mura:latest
     environment:
         MURA_ADMIN_USERNAME: admin
         MURA_ADMIN_PASSWORD: admin
@@ -20,7 +18,7 @@ services:
         MURA_DBCLASS: com.mysql.cj.jdbc.Driver
         MURA_SITEIDINURLS: "false"
         MURA_INDEXFILEINURLS: "false"
-        MURA_EXTERNALCONFIG: "/var/www/config/mura.config.json"
+        MURA_EXTERNALCONFIG: "http://localhost:3000/mura.config.json"
         MURA_DEFAULTTHEMEURL: "https://github.com/murasoftware/mura-minimal/archive/master.zip"
         MURA_HTMLEDITORTYPE: markdown
         MURA_AUTODISCOVERPLUGINS: "true"
