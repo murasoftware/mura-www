@@ -1,9 +1,9 @@
 import React from 'react';
 import ErrorPage from 'next/error';
 import { EditLayout, MainLayout, setMuraConfig, MuraJSRefPlaceholder, getMuraProps, getRootPath, getSiteName } from '@murasoftware/next-core';
-import Body from '../components/Body';
+import Body from '@components/Body';
 import muraConfig, { DisplayOptions } from 'mura.config';
-import MuraHead from 'src/modules/MuraHead';
+import MuraHead from '@components/MuraHead';
 
 export async function getServerSideProps(context) {
   try {

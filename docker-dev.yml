@@ -3,7 +3,7 @@ version: '3.8'
 services:
   #Mura Server
   mura:
-    image: murasoftware/mura-dxp:latest
+    image: murasoftware/mura:latest
     environment:
         LUCEE_JAVA_OPTS: "-Xms1024m -Xmx2048m"
         MURA_ADMIN_USERNAME: admin
@@ -33,8 +33,14 @@ services:
         MURA_REMOTEPORT: "3000"
         MURA_EDITROUTE: ""
     volumes:
+        -   ../mura/app/config:/var/www/config
+        -   ../mura/app/core:/var/www/core
+        -   ../mura/app/admin:/var/www/admin
+        -   ../mura/app/modules/codeblocks:/var/www/modules/codeblocks
+        -   ../MXP:/var/www/plugins/MXP
         -   sites_data:/var/www/sites
-        -   themes_data:/var/www/themes
+        #-   themes_data:/var/www/themes
+        -   ../mura/app/temp:/var/www/temp
     ports:
         - "8888:8888"
 

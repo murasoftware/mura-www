@@ -2,9 +2,9 @@ import React from 'react';
 import { useRouter } from 'next/router';
 import { EditLayout, setMuraConfig, MainLayout, MuraJSRefPlaceholder, getMuraProps, getRootPath, getMuraPaths, getSiteName } from '@murasoftware/next-core';
 import ErrorPage from 'next/error';
-import Body from '../components/Body';
+import Body from '@components/Body';
 import muraConfig, { DisplayOptions } from 'mura.config';
-import MuraHead from 'src/modules/MuraHead';
+import MuraHead from '@components/MuraHead';
 
 export async function getServerSideProps(context) {
   try{
