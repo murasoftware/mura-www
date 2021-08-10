@@ -3,7 +3,7 @@ import ErrorPage from 'next/error';
 import { EditLayout, MainLayout, setMuraConfig, MuraJSRefPlaceholder, getMuraProps, getRootPath, getSiteName } from '@murasoftware/next-core';
 import Body from '@components/Body';
 import muraConfig, { DisplayOptions } from 'mura.config';
-import MuraHead from '@components/MuraHead';
+import Head from '@components/Head';
 
 export async function getServerSideProps(context) {
   try {
@@ -42,7 +42,7 @@ export default function Page(props) {
     return (
       <EditLayout {...props}>
         <MainLayout {...props}>
-          <MuraHead            
+          <Head            
             content={content}
             getSiteName={getSiteName}
             MuraJSRefPlaceholder={MuraJSRefPlaceholder}

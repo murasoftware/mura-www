@@ -4,7 +4,7 @@ import { EditLayout, setMuraConfig, MainLayout, MuraJSRefPlaceholder, getMuraPro
 import ErrorPage from 'next/error';
 import Body from '@components/Body';
 import muraConfig, { DisplayOptions } from 'mura.config';
-import MuraHead from '@components/MuraHead';
+import Head from '@components/Head';
 
 export async function getServerSideProps(context) {
   try{
@@ -45,7 +45,7 @@ export default function Page(props) {
     return (
       <EditLayout {...props}>  
         <MainLayout {...props} route={`/${router.query.page}`}>  
-          <MuraHead            
+          <Head            
             content={content}
             getSiteName={getSiteName}
             MuraJSRefPlaceholder={MuraJSRefPlaceholder}
