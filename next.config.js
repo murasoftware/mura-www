@@ -1,4 +1,21 @@
 // next.config.js
+/*
+Handy snippet if you can't find where a log entry is coming from
+
+['log', 'warn','error'].forEach(function(method) {
+  var old = console[method];
+  console[method] = function() {
+    var stack = (new Error()).stack.split(/\n/);
+    // Chrome includes a single "Error" line, FF doesn't.
+    if (stack[0].indexOf('Error') === 0) {
+      stack = stack.slice(1);
+    }
+    var args = [].slice.apply(arguments).concat([stack[1].trim()]);
+    return old.apply(console, args);
+  };
+});
+
+*/
 
 const withTM = require('next-transpile-modules')(
   ['mura.js'],
