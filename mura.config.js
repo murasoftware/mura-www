@@ -29,7 +29,7 @@ import { UtilityNav } from '@murasoftware/next-modules-bs4';
 import { GatedAsset } from '@murasoftware/next-modules-bs4';
 import { Gist } from '@murasoftware/next-modules-bs4';
 // import { default as SearchResults, getDynamicProps as getSearchResultsDynamicProps } from '@components/SearchResults';
-import { SearchResults, getDynamicProps as getSearchResultsDynamicProps } from '@murasoftware/next-modules-bs4';
+import { SearchResults, getSearchResultsDynamicProps } from '@murasoftware/next-modules-bs4';
 import { SearchResultsLayout } from '@murasoftware/next-modules-bs4';
 
 import React from 'react';
