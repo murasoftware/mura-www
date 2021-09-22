@@ -1,14 +1,13 @@
 import React from "react";
-import { setMuraConfig, getMuraPaths, getSiteName } from '@murasoftware/next-core';
-import Mura from 'mura.js';
+import { setMuraConfig, getMura } from '@murasoftware/next-core';
 import muraConfig from 'mura.config';
 
 const Sitemap = () => {};
 
 export async function getServerSideProps({ res }) {
     setMuraConfig(muraConfig);
-
-	var response = '';
+	const Mura = getMura();
+	let response = '';
 
 	try {
 		response = await Mura.get(Mura.rootpath + "/sitemap.xml");
