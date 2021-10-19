@@ -92,7 +92,7 @@ let moduleRegistry = [
     SSR: false
   },
   {
-    name: 'Login',
+    name: 'login',
     SSR: false
   },
   {
