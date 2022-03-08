@@ -34,7 +34,7 @@
     "install": "^0.10.4",
     "lodash": "^4.17.21",
     "mura.js": "^1.0.349",
-    "next": "^11.0.1",
+    "next": "^12.1.0",
     "next-transpile-modules": "^8.0.0",
     "npm": "^6.14.11",
     "react": "^17.0.2",
