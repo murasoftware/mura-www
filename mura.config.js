@@ -1,36 +1,32 @@
 import Mura from 'mura.js';
-import { Text, getTextDynamicProps } from '@murasoftware/next-modules-bs4';
-import { Collection, getCollectionDynamicProps } from '@murasoftware/next-modules-bs4';
-import { Video }from '@murasoftware/next-modules-bs4';
-import { Image } from '@murasoftware/next-modules-bs4';
-import { Container } from '@murasoftware/next-modules-bs4';
-import { Embed }from '@murasoftware/next-modules-bs4';
-import { Hr } from '@murasoftware/next-modules-bs4';
-import { PrimaryNav, getPrimaryNavDynamicProps } from '@murasoftware/next-modules-bs4';
-// import { default as PrimaryNav, getDynamicProps as getPrimaryNavDynamicProps } from 'src/components/PrimaryNav';
-import { ResourceHub, getResourceHubDynamicProps } from '@murasoftware/next-modules-bs4';
-import { ArticleMeta } from '@murasoftware/next-modules-bs4';
-import { CTAButton } from '@murasoftware/next-modules-bs4';
-import { PrivacyTools } from '@murasoftware/next-modules-bs4';
-import { MatrixSelector, getMatrixSelectorDynamicProps } from '@murasoftware/next-modules-bs4';
-//import Login from '@mura/react/UI/Login';
-
-import { CollectionLayout,getCollectionLayoutQueryProps as getCollectionLayoutProps } from '@murasoftware/next-modules-bs4';
-import { CollectionLayoutCards as Cards } from '@murasoftware/next-modules-bs4';
-import { CollectionLayoutList as List } from '@murasoftware/next-modules-bs4';
-import { CollectionLayoutAccordion as AccordionLayout } from '@murasoftware/next-modules-bs4';
-import { CollectionLayoutAlternatingBoxes as AlternatingBoxes } from '@murasoftware/next-modules-bs4';
-import { CollectionLayoutAlternatingRows as AlternatingRows } from '@murasoftware/next-modules-bs4';
-import { CollectionLayoutMasonry as Masonry }from '@murasoftware/next-modules-bs4';
-import { CollectionLayoutSlickSlider as SlickSlider } from '@murasoftware/next-modules-bs4';
-
-import { UtilityNav } from '@murasoftware/next-modules-bs4';
-
-import { GatedAsset } from '@murasoftware/next-modules-bs4';
-import { Gist } from '@murasoftware/next-modules-bs4';
-// import { default as SearchResults, getDynamicProps as getSearchResultsDynamicProps } from '@components/SearchResults';
-import { SearchResults, getSearchResultsDynamicProps } from '@murasoftware/next-modules-bs4';
-import { SearchResultsLayout } from '@murasoftware/next-modules-bs4';
+import { 
+          Text, getTextDynamicProps,
+          Collection, getCollectionDynamicProps,
+          Video,
+          Image,
+          Container,
+          Embed,
+          Hr,
+          PrimaryNav, getPrimaryNavDynamicProps,
+          ResourceHub, getResourceHubDynamicProps,
+          ArticleMeta,
+          CTAButton,
+          PrivacyTools,
+          MatrixSelector, getMatrixSelectorDynamicProps,
+          CollectionLayout,getCollectionLayoutQueryProps as getCollectionLayoutProps,
+          CollectionLayoutCards as Cards,
+          CollectionLayoutList as List,
+          CollectionLayoutAccordion as AccordionLayout,
+          CollectionLayoutAlternatingBoxes as AlternatingBoxes,
+          CollectionLayoutAlternatingRows as AlternatingRows,
+          CollectionLayoutMasonry as Masonry,
+          CollectionLayoutSlickSlider as SlickSlider,
+          UtilityNav,
+          GatedAsset,
+          Gist,
+          SearchResults, getSearchResultsDynamicProps,
+          SearchResultsLayout
+} from '@murasoftware/next-modules-bs4'; 
 
 import React from 'react';
 import ReactDOM from 'react-dom';
