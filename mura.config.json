@@ -272,6 +272,14 @@
 					},
 					{
 						"type":"select",
+						"name":"mode",
+						"label":"Mode",
+						"labels":["Preview Only","Preview and Save"],
+						"options":["preview only","preview and save"],
+						"value":"preview only"
+					},
+					{
+						"type":"select",
 						"name":"displaytype",
 						"label":"Display Type",
 						"labels":["Inline","Widget","Eyebrow"],
@@ -433,6 +441,12 @@
 			"Embed":{
 				"name":"Embed",
 				"iconclass":"mi-code",
+				"external":false,
+				"contenttypes":"*"
+			},
+			"Text":{
+				"name":"Text",
+				"iconclass":"mi-font",
 				"external":false,
 				"contenttypes":"*"
 			},

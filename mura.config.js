@@ -1,6 +1,6 @@
 import Mura from 'mura.js';
-import { Text, getTextDynamicProps } from '@murasoftware/next-modules-bs4';
-import { Collection, getCollectionDynamicProps } from '@murasoftware/next-modules-bs4';
+import { default as Text ,getDynamicProps as getTextDynamicProps } from '@components/Text';
+import { Collection } from '@murasoftware/next-modules-bs4';
 import { Video }from '@murasoftware/next-modules-bs4';
 import { Image } from '@murasoftware/next-modules-bs4';
 import { Container } from '@murasoftware/next-modules-bs4';
@@ -8,11 +8,11 @@ import { Embed }from '@murasoftware/next-modules-bs4';
 import { Hr } from '@murasoftware/next-modules-bs4';
 import { PrimaryNav, getPrimaryNavDynamicProps } from '@murasoftware/next-modules-bs4';
 // import { default as PrimaryNav, getDynamicProps as getPrimaryNavDynamicProps } from 'src/components/PrimaryNav';
-import { ResourceHub, getResourceHubDynamicProps } from '@murasoftware/next-modules-bs4';
+import { ResourceHub } from '@murasoftware/next-modules-bs4';
 import { ArticleMeta } from '@murasoftware/next-modules-bs4';
 import { CTAButton } from '@murasoftware/next-modules-bs4';
 import { PrivacyTools } from '@murasoftware/next-modules-bs4';
-import { MatrixSelector, getMatrixSelectorDynamicProps } from '@murasoftware/next-modules-bs4';
+import { MatrixSelector } from '@components/MatrixSelector';
 //import Login from '@mura/react/UI/Login';
 
 import { CollectionLayout,getCollectionLayoutQueryProps as getCollectionLayoutProps } from '@murasoftware/next-modules-bs4';
@@ -29,7 +29,7 @@ import { UtilityNav } from '@murasoftware/next-modules-bs4';
 import { GatedAsset } from '@murasoftware/next-modules-bs4';
 import { Gist } from '@murasoftware/next-modules-bs4';
 // import { default as SearchResults, getDynamicProps as getSearchResultsDynamicProps } from '@components/SearchResults';
-import { SearchResults, getSearchResultsDynamicProps } from '@murasoftware/next-modules-bs4';
+import { SearchResults } from '@murasoftware/next-modules-bs4';
 import { SearchResultsLayout } from '@murasoftware/next-modules-bs4';
 
 import React from 'react';
@@ -48,7 +48,9 @@ export const ConnectorConfig = {
   codeblocks: process.env.codeblocks,
   variations: process.env.variations,
   MXP: process.env.MXP,
-  htmleditortype: process.env.htmleditortype
+  MXPTracking: process.env.MXPTracking,
+  htmleditortype: process.env.htmleditortype,
+  maxQueryStringLength:500
 };
 
 export const DisplayOptions = {
@@ -114,8 +116,7 @@ let moduleRegistry = [
   },
   {
     name: 'Collection',
-    component: Collection,
-    getDynamicProps: getCollectionDynamicProps,
+    component: Collection
   },
   {
     name: 'Video',
@@ -159,9 +160,7 @@ let moduleRegistry = [
   },
   {
     name: 'resource_hub',
-    component: ResourceHub,
-    getDynamicProps: getResourceHubDynamicProps,
-    //SSR: false
+    component: ResourceHub
   },
   {
     name: 'privacy_tools',
@@ -171,7 +170,6 @@ let moduleRegistry = [
   {
     name: 'matrix_selector',
     component: MatrixSelector,
-    getDynamicProps: getMatrixSelectorDynamicProps,
     SSR: false
   },
   {
@@ -215,8 +213,7 @@ let moduleRegistry = [
   },
   {
     name: 'SearchResults',
-    component: SearchResults,
-    getDynamicProps: getSearchResultsDynamicProps
+    component: SearchResults
   },
   {
     name: 'UtilityNav',
@@ -263,9 +260,9 @@ moduleRegistry.forEach(module => {
         renderClient() {
           
           const content = Mura.content.getAll();
-         
+  
           ReactDOM.render(
-            React.createElement(this.component, {...this.context,content}),
+            React.createElement(this.component, {...this.context,content,Mura}),
             this.context.targetEl,
             () => {
               this.trigger('afterRender');

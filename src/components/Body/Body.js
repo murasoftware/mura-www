@@ -3,7 +3,7 @@ import Article from './ContentTypes/Article';
 import Default from './ContentTypes/Default';
 import ErrorPage from 'next/error';
 
-function Body({content,moduleStyleData,header,primarycontent,footer,displayregions,queryParams}){
+function Body({content,moduleStyleData,header,primarycontent,footer,displayregions,queryParams,Mura}){
     const isOnDisplay = content.isondisplay;
     // console.log('content.isondisplay: ', content.isondisplay);
     if(typeof isOnDisplay == 'undefined' || isOnDisplay == 1){
@@ -18,6 +18,7 @@ function Body({content,moduleStyleData,header,primarycontent,footer,displayregio
                     footer={footer}
                     displayregions={displayregions}
                     queryParams={queryParams}
+                    Mura={Mura}
                 />
             )
         }
@@ -30,11 +31,12 @@ function Body({content,moduleStyleData,header,primarycontent,footer,displayregio
                 footer={footer}
                 displayregions={displayregions}
                 queryParams={queryParams}
+                Mura={Mura}
             />
         )
     } else {
         return (
-            <ErrorPage statusCode="404" />
+            <ErrorPage statusCode="404"/>
         )
     }//isondisplay
         
