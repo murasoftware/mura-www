@@ -16,12 +16,6 @@ Handy snippet if you can't find where a log entry is coming from
 });
 
 */
-
-const withTM = require('next-transpile-modules')(
-  ['mura.js'],
-  {resolveSymlinks:true}
-); // pass the modules you would like to see transpiled
-
 const withBundleAnalyzer = require('@next/bundle-analyzer')({
   enabled: process.env.ANALYZE === 'true',
 })
@@ -30,7 +24,7 @@ const handleBooleanProperty=function(variable){
   return typeof variable != 'undefined' && !(((variable === '0') || (variable === 'false')));
 }
 
-module.exports = withTM(
+module.exports = withBundleAnalyzer(
     {
       async headers() {
         return [
@@ -54,8 +48,13 @@ module.exports = withTM(
           }
         ]
       },
-      async redirects() {
-        return []
+      async rewrites() {
+        return [
+          {
+            source: '/sites/:path*',
+            destination: '/api/sites/:path*'
+          }
+        ]
       },
       eslint: {
         // Warning: Dangerously allow production builds to successfully complete even if
@@ -71,12 +70,10 @@ module.exports = withTM(
         codeblocks: handleBooleanProperty(process.env.MURA_CODEBLOCKS),
         variations: handleBooleanProperty(process.env.MURA_VARIATIONS),
         MXP: handleBooleanProperty(process.env.MURA_MXP),
+        MXPTracking: typeof process.env.MURA_MXPTRACKING != 'undefined' ? process.env.MURA_MXPTRACKING : 'native',
         htmleditortype: typeof process.env.MURA_HTMLEDITORTYPE != 'undefined' ? process.env.MURA_HTMLEDITORTYPE : 'markdown'
-      }
-    },
-    withBundleAnalyzer(
-        {
-        enabled: 'true',
+      },
+      enabled: 'true',
         trailingSlash: true,
         exportPathMap: async function(
           defaultPathMap,
@@ -86,7 +83,6 @@ module.exports = withTM(
           let newPathMap = {...defaultPathMap};
           delete newPathMap['/edit/[...page]'];
           return newPathMap;
-        },
-      }
-    )
+        }
+    }
   );

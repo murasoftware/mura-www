@@ -50,7 +50,8 @@
     "sass": "^1.32.12",
     "slick-carousel": "^1.8.1",
     "styled-components": "^5.2.3",
-    "unist-util-visit": "^2.0.3"
+    "unist-util-visit": "^2.0.3",
+    "webpack": "^5.74.0"
   },
   "devDependencies": {
     "@next/bundle-analyzer": "^10.2.0",
