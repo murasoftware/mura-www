@@ -7,6 +7,7 @@ import {
           Container,
           Embed,
           Hr,
+          UtilityNav,
           PrimaryNav, getPrimaryNavDynamicProps,
           ResourceHub, getResourceHubDynamicProps,
           ArticleMeta,
@@ -21,7 +22,6 @@ import {
           CollectionLayoutAlternatingRows as AlternatingRows,
           CollectionLayoutMasonry as Masonry,
           CollectionLayoutSlickSlider as SlickSlider,
-          UtilityNav,
           GatedAsset,
           Gist,
           SearchResults, getSearchResultsDynamicProps,
@@ -29,8 +29,7 @@ import {
 } from '@murasoftware/next-modules-bs4'; 
 
 import React from 'react';
-import ReactDOM from 'react-dom';
-
+import { createRoot } from 'react-dom/client';
 //Example Custom Module
 import Example from '@components/Example';
 
@@ -216,8 +215,7 @@ let moduleRegistry = [
   },
   {
     name: 'UtilityNav',
-    component: UtilityNav,
-    SSR: false    
+    component: UtilityNav
   },
   {
     name: 'SearchResultsLayout',
@@ -257,15 +255,14 @@ moduleRegistry.forEach(module => {
         component: module.component,
         clientRendered: false,
         renderClient() {
-          
           const content = Mura.content.getAll();
-         
-          ReactDOM.render(
-            React.createElement(this.component, {...this.context,content}),
-            this.context.targetEl,
-            () => {
-              this.trigger('afterRender');
-            },
+          const Component = this.component;
+          const props = {...this.context,content};
+
+          this.root = createRoot(this.context.targetEl);
+
+          this.root.render(
+           <Component {...props}/>
           );
 
           this.clientRendered=true;
@@ -275,7 +272,7 @@ moduleRegistry.forEach(module => {
               && this.context 
               && this.context.targetEl 
               && this.context.targetEl.innerHTML){
-            ReactDOM.unmountComponentAtNode(this.context.targetEl);
+                this.root.unmount();
           }
         }
       });
