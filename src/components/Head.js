@@ -7,10 +7,11 @@ export function MuraMetaTags(props) {
     const content = props.content;
     const getRootPath = props.getRootPath;
     const MuraJSRefPlaceholder = props.MuraJSRefPlaceholder;
-    
+    const pageTitle=`${content.htmltitle} - ${getSiteName()}`;
+
     return (
         <Head>
-            <title>{content.htmltitle} - {getSiteName()}</title>
+            <title>{pageTitle}</title>
             <meta name="description" content={content.metadesc} />
 
             <meta property="og:site_name" content={getSiteName()} />
