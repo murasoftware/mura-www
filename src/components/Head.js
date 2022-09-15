@@ -2,7 +2,7 @@ import React from 'react';
 import Head from 'next/head';
 import ReactHTMLParser from 'html-react-parser';
 
-export function MuraMetaTags(props) {
+export function HTMLHead(props) {
     const getSiteName = props.getSiteName;
     const content = props.content;
     const getRootPath = props.getRootPath;
@@ -43,4 +43,4 @@ export function MuraMetaTags(props) {
     )
 }
 
-export default MuraMetaTags;
+export default HTMLHead;
