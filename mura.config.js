@@ -13,7 +13,7 @@ import {
           ArticleMeta,
           CTAButton,
           PrivacyTools,
-          //MatrixSelector, getMatrixSelectorDynamicProps,
+          MatrixSelector, getMatrixSelectorDynamicProps,
           CollectionLayout,getCollectionLayoutQueryProps as getCollectionLayoutProps,
           CollectionLayoutCards as Cards,
           CollectionLayoutList as List,
@@ -32,7 +32,6 @@ import React from 'react';
 import { createRoot } from 'react-dom/client';
 //Example Custom Module
 import Example from '@components/Example';
-import {default as MatrixSelector, getDynamicProps as getMatrixSelectorDynamicProps} from '@components/MatrixSelector';
 
 export const ConnectorConfig = {
   rootpath: process.env.rootpath,
