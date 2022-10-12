@@ -1,6 +1,6 @@
 import React from 'react';
 import { useRouter } from 'next/router';
-import { EditLayout, setMuraConfig, MainLayout, MuraJSRefPlaceholder ,getMura, getMuraProps} from '@murasoftware/next-core';
+import { EditLayout, setMuraConfig, MainLayout, MuraJSRefPlaceholder ,getMura, getMuraProps, getSiteName, getRootPath} from '@murasoftware/next-core';
 import ErrorPage from 'next/error';
 import Body from '@components/Body';
 import muraConfig, { DisplayOptions } from 'mura.config';
@@ -69,6 +69,8 @@ export default function Page(props) {
             MuraJSRefPlaceholder={MuraJSRefPlaceholder}
             codeblocks={codeblocks}
             Mura={Mura}
+            getSiteName={getSiteName}
+            getRootPath={getRootPath}
           />
           <div dangerouslySetInnerHTML={{__html:codeblocks.bodystart}}/>
           <Body

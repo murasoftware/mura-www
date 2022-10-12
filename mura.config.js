@@ -34,6 +34,9 @@ import ReactDOM from 'react-dom';
 //Example Custom Module
 import Example from '@components/Example';
 
+//import {default as PrimaryNav, getDynamicProps as getPrimaryNavDynamicProps} from '@components/PrimaryNav';
+// import {default as Collection, getDynamicProps as getCollectionDynamicProps} from '@components/Collection';
+
 export const ConnectorConfig = {
   rootpath: process.env.rootpath,
   siteid: process.env.siteid,
