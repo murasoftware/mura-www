@@ -2,7 +2,7 @@ import React from 'react';
 import { ArticleMeta, OutputMarkup } from "@murasoftware/next-modules-bs4";
 import { DisplayRegion } from '@murasoftware/next-core';
 
-function Article({content,moduleStyleData,header,footer,displayregions,queryParams}){
+function Article({content,moduleStyleData,header,footer,displayregions,queryParams,Mura}){
     return(
         <>
         {/* Article Header */}
@@ -12,6 +12,7 @@ function Article({content,moduleStyleData,header,footer,displayregions,queryPara
             moduleStyleData={moduleStyleData}
             content={content}
             queryParams={queryParams}
+            Mura={Mura}
             />
         }
         <section className="article">
@@ -24,7 +25,7 @@ function Article({content,moduleStyleData,header,footer,displayregions,queryPara
             <div className="container article__meta">
                 <div className="row justify-content-center">
                     <div className="col-12 col-md-10 col-lg-9 col-xl-8">
-                        <ArticleMeta content={content} fields="Title,Summary,Date,Credits,Tags"/>
+                        <ArticleMeta content={content} fields="Title,Summary,Date,Credits,Tags" Mura={Mura}/>
                     </div>
                 </div>
             </div>
@@ -34,7 +35,7 @@ function Article({content,moduleStyleData,header,footer,displayregions,queryPara
                 <div className="row justify-content-center">
                     <div className="col-12 col-md-10 col-lg-9 col-xl-8">
                         {/* <h1>{content.title}</h1> */}
-                        <OutputMarkup source={content.body}/>
+                        <OutputMarkup source={content.body} Mura={Mura}/>
                     </div>
                 </div>
             </div>
@@ -47,6 +48,7 @@ function Article({content,moduleStyleData,header,footer,displayregions,queryPara
             moduleStyleData={moduleStyleData}
             content={content}
             queryParams={queryParams}
+            Mura={Mura}
             />
         }
         </>

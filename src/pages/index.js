@@ -1,32 +1,48 @@
-import React from 'react';
+import React,{ useEffect } from 'react';
 import ErrorPage from 'next/error';
-import { EditLayout, MainLayout, setMuraConfig, MuraJSRefPlaceholder, getMuraProps, getRootPath, getSiteName } from '@murasoftware/next-core';
+import { EditLayout, MainLayout, setMuraConfig, MuraJSRefPlaceholder, getMura, getMuraProps, getSiteName, getRootPath } from '@murasoftware/next-core';
 import Body from '@components/Body';
 import muraConfig, { DisplayOptions } from 'mura.config';
 import Head from '@components/Head';
 
 export async function getServerSideProps(context) {
-  try {
+
+  try{
     setMuraConfig(muraConfig);
-    const props = await getMuraProps(context,true,{expand:'categoryassignments'});
-    return props;
-  } catch (e){
-    console.error(e);
-    const props={};
-    return props;
-  }
+    
+    const Mura=getMura(context);
+    
+    return getMuraProps(
+      {
+        context:context,
+        Mura:Mura,
+        renderMode:'dynamic',
+        params: {
+            expand:'categoryassignments'
+        }
+      }
+    );
+
+    } catch(e){
+      console.log(e);
+      return {
+        props:{}
+      };
+    }
 }
 
 export default function Page(props) {
-  setMuraConfig(muraConfig);
+
   const {
     content = {},
     content: { displayregions } = {},
     content: {
       displayregions: { primarycontent,footer,header } = {},
     },
+    codeblocks,
     moduleStyleData,
-    queryParams = {}
+    queryParams = {},
+    renderMode
   } = props;
 
   /*
@@ -39,17 +55,25 @@ export default function Page(props) {
   } else if(content.isnew && !content.redirect){
     return <ErrorPage statusCode="404" />
   } else {
+
+    setMuraConfig(muraConfig);
+   
+    const Mura = getMura(content.siteid);
+    
+    Mura.setRenderMode(renderMode);
+
     return (
-      <EditLayout {...props}>
-        <MainLayout {...props}>
+      <EditLayout {...props}  Mura={Mura}>
+        <MainLayout {...props}  Mura={Mura}>
           <Head            
             content={content}
-            getSiteName={getSiteName}
             MuraJSRefPlaceholder={MuraJSRefPlaceholder}
-            getRootPath={getRootPath}
             codeblocks={props.codeblocks}
+            Mura={Mura}
+            getSiteName={getSiteName}
+            getRootPath={getRootPath}
           />
-          <div dangerouslySetInnerHTML={{__html:props.codeblocks.bodystart}}/>
+          <div dangerouslySetInnerHTML={{__html:codeblocks.bodystart}}/>
           <Body
             content={content}
             moduleStyleData={moduleStyleData}
@@ -59,8 +83,9 @@ export default function Page(props) {
             displayregions={displayregions}
             props={props}
             queryParams={queryParams}
+            Mura={Mura}
           />
-          <div dangerouslySetInnerHTML={{__html:props.codeblocks.footer}}/>
+          <div dangerouslySetInnerHTML={{__html:codeblocks.footer}}/>
           {DisplayOptions.cookieconsent && 
             <div className="mura-object" data-object='cookie_consent' data-statsid='cookie_consent' data-width='sm' />
           }
