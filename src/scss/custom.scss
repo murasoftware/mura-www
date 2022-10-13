@@ -1142,6 +1142,11 @@ $positions: static, relative, absolute, fixed, sticky !default;
 $print-page-size:                   a3 !default;
 $print-body-min-width:              map-get($grid-breakpoints, "lg") !default;
 
+// .mura-object-content {
+//   grid: none;//auto-flow dense / 100%;
+//   grid-column-gap: 10px;
+//   grid-row-gap: 10px;
+// }
 
 @import "~bootstrap/scss/bootstrap";
 

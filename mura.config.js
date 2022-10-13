@@ -7,7 +7,6 @@ import {
           Container,
           Embed,
           Hr,
-          UtilityNav,
           PrimaryNav, getPrimaryNavDynamicProps,
           ResourceHub, getResourceHubDynamicProps,
           ArticleMeta,
@@ -22,6 +21,7 @@ import {
           CollectionLayoutAlternatingRows as AlternatingRows,
           CollectionLayoutMasonry as Masonry,
           CollectionLayoutSlickSlider as SlickSlider,
+          UtilityNav,
           GatedAsset,
           Gist,
           SearchResults, getSearchResultsDynamicProps,
@@ -32,6 +32,9 @@ import React from 'react';
 import { createRoot } from 'react-dom/client';
 //Example Custom Module
 import Example from '@components/Example';
+
+//import {default as PrimaryNav, getDynamicProps as getPrimaryNavDynamicProps} from '@components/PrimaryNav';
+// import {default as Collection, getDynamicProps as getCollectionDynamicProps} from '@components/Collection';
 
 export const ConnectorConfig = {
   rootpath: process.env.rootpath,
