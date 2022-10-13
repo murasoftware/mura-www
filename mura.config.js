@@ -29,7 +29,8 @@ import {
 } from '@murasoftware/next-modules-bs4'; 
 
 import React from 'react';
-import { createRoot } from 'react-dom/client';
+import ReactDOM from 'react-dom';
+
 //Example Custom Module
 import Example from '@components/Example';
 
@@ -218,7 +219,8 @@ let moduleRegistry = [
   },
   {
     name: 'UtilityNav',
-    component: UtilityNav
+    component: UtilityNav,
+    SSR: false    
   },
   {
     name: 'SearchResultsLayout',
@@ -258,14 +260,15 @@ moduleRegistry.forEach(module => {
         component: module.component,
         clientRendered: false,
         renderClient() {
+          
           const content = Mura.content.getAll();
-          const Component = this.component;
-          const props = {...this.context,content};
-
-          this.root = createRoot(this.context.targetEl);
-
-          this.root.render(
-           <Component {...props}/>
+         
+          ReactDOM.render(
+            React.createElement(this.component, {...this.context,content}),
+            this.context.targetEl,
+            () => {
+              this.trigger('afterRender');
+            },
           );
 
           this.clientRendered=true;
@@ -275,7 +278,7 @@ moduleRegistry.forEach(module => {
               && this.context 
               && this.context.targetEl 
               && this.context.targetEl.innerHTML){
-                this.root.unmount();
+            ReactDOM.unmountComponentAtNode(this.context.targetEl);
           }
         }
       });
