@@ -7,6 +7,7 @@ import {
           Container,
           Embed,
           Hr,
+          UtilityNav,
           PrimaryNav, getPrimaryNavDynamicProps,
           ResourceHub, getResourceHubDynamicProps,
           ArticleMeta,
@@ -21,21 +22,17 @@ import {
           CollectionLayoutAlternatingRows as AlternatingRows,
           CollectionLayoutMasonry as Masonry,
           CollectionLayoutSlickSlider as SlickSlider,
-          UtilityNav,
           GatedAsset,
           Gist,
           SearchResults, getSearchResultsDynamicProps,
           SearchResultsLayout
 } from '@murasoftware/next-modules-bs4'; 
 
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React, {useEffect} from 'react';
+import { createRoot } from 'react-dom/client';
 
 //Example Custom Module
 import Example from '@components/Example';
-
-//import {default as PrimaryNav, getDynamicProps as getPrimaryNavDynamicProps} from '@components/PrimaryNav';
-// import {default as Collection, getDynamicProps as getCollectionDynamicProps} from '@components/Collection';
 
 export const ConnectorConfig = {
   rootpath: process.env.rootpath,
@@ -47,7 +44,8 @@ export const ConnectorConfig = {
   codeblocks: process.env.codeblocks,
   variations: process.env.variations,
   MXP: process.env.MXP,
-  htmleditortype: process.env.htmleditortype
+  htmleditortype: process.env.htmleditortype,
+  indexfileinapi:false
 };
 
 export const DisplayOptions = {
@@ -219,8 +217,7 @@ let moduleRegistry = [
   },
   {
     name: 'UtilityNav',
-    component: UtilityNav,
-    SSR: false    
+    component: UtilityNav
   },
   {
     name: 'SearchResultsLayout',
@@ -260,15 +257,26 @@ moduleRegistry.forEach(module => {
         component: module.component,
         clientRendered: false,
         renderClient() {
-          
           const content = Mura.content.getAll();
-         
-          ReactDOM.render(
-            React.createElement(this.component, {...this.context,content}),
-            this.context.targetEl,
-            () => {
-              this.trigger('afterRender');
-            },
+          const Component = this.component;
+          const props = {...this.context,content};
+          const self = this;
+
+          function ModuleWithCallbackAfterRender(props) {
+            useEffect(() => {
+              self.trigger('afterRender');
+            });
+            return  <Component {...props}/>
+          }
+          
+          if(this.root){
+            this.root.unmount();
+          }
+
+          this.root=createRoot(this.context.targetEl);
+
+          this.root.render(
+            <ModuleWithCallbackAfterRender {...props}/>
           );
 
           this.clientRendered=true;
@@ -278,7 +286,7 @@ moduleRegistry.forEach(module => {
               && this.context 
               && this.context.targetEl 
               && this.context.targetEl.innerHTML){
-            ReactDOM.unmountComponentAtNode(this.context.targetEl);
+                this.root.unmount();
           }
         }
       });
@@ -293,20 +301,22 @@ Mura.Module.Container.reopen({
       self.find('.frontEndToolsModal').remove();
       self.find('.mura-object-meta').html('');
     }
-	  var content = self.children('div.mura-object-content');
- 
-	  if (content.length) {
-		var nestedObjects = [];
-		content.children('.mura-object').each(function() {
-		  Mura.resetAsyncObject(this, false);
-		  //console.log(Mura(this).data())
-      const item=Mura(this).data();
-      delete item.inited;
-		  nestedObjects.push(item);
-		});
-		self.data('items', JSON.stringify(nestedObjects));
+	  const content = self.children('div.mura-object-content');
+    if(content.length){
+      const kids=content.children('.mura-object');
+
+      if(kids.length){
+          const nestedObjects = [];
+          kids.each(function() {
+            Mura.resetAsyncObject(this, true);
+            const item=Mura(this).data();
+            delete item.inited;
+            nestedObjects.push(item);
+          });
+          self.data('items', JSON.stringify(nestedObjects));
+      }
 	  }
-	},
+  }
 });
 
 Mura.Module.GatedAsset.reopen({
