@@ -74,7 +74,7 @@ module.exports = withBundleAnalyzer(
         htmleditortype: typeof process.env.MURA_HTMLEDITORTYPE != 'undefined' ? process.env.MURA_HTMLEDITORTYPE : 'markdown'
       },
       enabled: 'true',
-        trailingSlash: true,
+        //trailingSlash: true,
         exportPathMap: async function(
           defaultPathMap,
           { dev, dir, outDir, distDir, buildId },
