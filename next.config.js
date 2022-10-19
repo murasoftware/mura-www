@@ -120,7 +120,7 @@ module.exports = withBundleAnalyzer(
       },
       env: {
         rootpath: process.env.MURA_ROOTPATH || 'http://localhost:8888',
-        siteid: process.env.MURA_SITEID || ['default'],
+        siteid: (process.env.MURA_SITEID) ? process.env.MURA_SITEID.split() : ['default'],
         editroute: '',
         sitename: typeof process.env.MURA_SITENAME != 'undefined' ? process.env.MURA_SITENAME :'Example Site',
         siteidinurls:  handleBooleanProperty(process.env.MURA_SITEIDINURLS),
