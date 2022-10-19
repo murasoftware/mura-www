@@ -7,7 +7,7 @@ import Head from '@components/Head';
 
 export const getStaticProps = async (context) => {
   setMuraConfig(muraConfig);
-  
+
   const Mura=getMura(context);
   
   const props= await getMuraProps(
@@ -53,7 +53,7 @@ export default function Page(props) {
    
     const Mura = getMura(content.siteid);
     
-    Mura.setRenderMode(renderMode);
+    Mura.renderMode=renderMode;
 
     return (
       <MainLayout {...props}  Mura={Mura}>
@@ -76,6 +76,7 @@ export default function Page(props) {
           props={props}
           queryParams={queryParams}
           Mura={Mura}
+          renderMode={renderMode}
         />
         <div dangerouslySetInnerHTML={{__html:codeblocks.footer}}/>
         {DisplayOptions.cookieconsent && 

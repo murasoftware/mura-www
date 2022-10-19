@@ -20,7 +20,7 @@ export const getStaticProps = async (context) => {
   setMuraConfig(muraConfig);
   
   const Mura=getMura(context);
-  
+
   const props= await getMuraProps(
     {
       context:context,
@@ -66,7 +66,7 @@ export default function Page(props) {
     
     const Mura = getMura(content.siteid);
     
-    Mura.setRenderMode(renderMode);
+    Mura.renderMode=renderMode;
 
     return (
       <MainLayout {...props} Mura={Mura} route={`/${router.query.page}`}>  

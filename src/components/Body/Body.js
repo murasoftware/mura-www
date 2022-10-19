@@ -5,6 +5,7 @@ import ErrorPage from 'next/error';
 
 function Body({content,moduleStyleData,header,primarycontent,footer,displayregions,queryParams,Mura}){
     const isOnDisplay = content.isondisplay;
+
     // console.log('content.isondisplay: ', content.isondisplay);
     if(typeof isOnDisplay == 'undefined' || isOnDisplay == 1){
         switch(content.subtype){
@@ -22,6 +23,7 @@ function Body({content,moduleStyleData,header,primarycontent,footer,displayregio
                 />
             )
         }
+
         return (
             <Default
                 content={content}
