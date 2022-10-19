@@ -28,8 +28,9 @@ import {
           SearchResultsLayout
 } from '@murasoftware/next-modules-bs4'; 
 
-import React from 'react';
+import React, {useEffect} from 'react';
 import { createRoot } from 'react-dom/client';
+
 //Example Custom Module
 import Example from '@components/Example';
 
@@ -43,7 +44,8 @@ export const ConnectorConfig = {
   codeblocks: process.env.codeblocks,
   variations: process.env.variations,
   MXP: process.env.MXP,
-  htmleditortype: process.env.htmleditortype
+  htmleditortype: process.env.htmleditortype,
+  indexfileinapi:false
 };
 
 export const DisplayOptions = {
@@ -258,11 +260,23 @@ moduleRegistry.forEach(module => {
           const content = Mura.content.getAll();
           const Component = this.component;
           const props = {...this.context,content};
+          const self = this;
 
-          this.root = createRoot(this.context.targetEl);
+          function ModuleWithCallbackAfterRender(props) {
+            useEffect(() => {
+              self.trigger('afterRender');
+            });
+            return  <Component {...props}/>
+          }
+          
+          if(this.root){
+            this.root.unmount();
+          }
+
+          this.root=createRoot(this.context.targetEl);
 
           this.root.render(
-           <Component {...props}/>
+            <ModuleWithCallbackAfterRender {...props}/>
           );
 
           this.clientRendered=true;
@@ -287,20 +301,22 @@ Mura.Module.Container.reopen({
       self.find('.frontEndToolsModal').remove();
       self.find('.mura-object-meta').html('');
     }
-	  var content = self.children('div.mura-object-content');
- 
-	  if (content.length) {
-		var nestedObjects = [];
-		content.children('.mura-object').each(function() {
-		  Mura.resetAsyncObject(this, false);
-		  //console.log(Mura(this).data())
-      const item=Mura(this).data();
-      delete item.inited;
-		  nestedObjects.push(item);
-		});
-		self.data('items', JSON.stringify(nestedObjects));
+	  const content = self.children('div.mura-object-content');
+    if(content.length){
+      const kids=content.children('.mura-object');
+
+      if(kids.length){
+          const nestedObjects = [];
+          kids.each(function() {
+            Mura.resetAsyncObject(this, true);
+            const item=Mura(this).data();
+            delete item.inited;
+            nestedObjects.push(item);
+          });
+          self.data('items', JSON.stringify(nestedObjects));
+      }
 	  }
-	},
+  }
 });
 
 Mura.Module.GatedAsset.reopen({
