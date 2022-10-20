@@ -11,21 +11,21 @@ export default function FourOhFour(props) {
     useEffect(() => {
         if(location.pathname.startsWith("//")){
             router.replace(location.pathname.substring(1));
-        } else {
-            const connectorConfig=Object.assign({content:{}},muraConfig.ConnectorConfig);
-            console.log(connectorConfig)
-            Mura.init(connectorConfig);
-            Mura.getCurrentUser().then(function(user){
-                if(user.isSystemUser()){
-                    if(Mura.siteidinurls){
-                        router.replace(`/${Mura.siteid}/404edit`); 
-                    } else {
-                        router.replace('/404edit');
-                    }
-                } else {
-                    setCheckingRedirect(false);
-                }
-            })
+        // } else {
+        //     const connectorConfig=Object.assign({content:{}},muraConfig.ConnectorConfig);
+        //     console.log(connectorConfig)
+        //     Mura.init(connectorConfig);
+        //     Mura.getCurrentUser().then(function(user){
+        //         if(user.isSystemUser()){
+        //             if(Mura.siteidinurls){
+        //                 router.replace(`/${Mura.siteid}/404edit`); 
+        //             } else {
+        //                 router.replace('/404edit');
+        //             }
+        //         } else {
+        //             setCheckingRedirect(false);
+        //         }
+        //     })
         }
     },[])
 

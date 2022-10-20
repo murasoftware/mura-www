@@ -53,63 +53,6 @@ module.exports = withBundleAnalyzer(
           {
             source: '/sites/:path*',
             destination: '/api/sites/:path*'
-          },
-          //DYNAMIC PATH
-          {
-            source: '/:path*',
-            destination: '/_dynamic/:path*',
-            has: [
-              {
-                type: 'cookie',
-                key: 'MURA_OCS',
-                value: '(?<paramName>.*)',
-              }
-            ]
-          },
-          {
-            source: '/:path*',
-            destination: '/_dynamic/:path*',
-            has: [
-              {
-                type: 'cookie',
-                key: 'MURA_UPC',
-                value: 'false',
-              }
-            ],
-          },
-          //DYNAMIC ROOT
-          {
-            source: '/',
-            destination: '/_dynamic',
-            has: [
-              {
-                type: 'cookie',
-                key: 'MURA_OCS',
-                value: '(?<paramName>.*)',
-              }
-            ]
-          },
-          {
-            source: '/:path*',
-            destination: '/_dynamic',
-            has: [
-              {
-                type: 'cookie',
-                key: 'MURA_UPC',
-                value: 'false',
-              }
-            ],
-          },
-         
-          //STATIC PATH
-          {
-            source: '/:path*',
-            destination: '/_static/:path*'
-          },
-           //STATIC ROOT
-           {
-            source: '/',
-            destination: '/_static'
           }
         ]
       },
