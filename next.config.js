@@ -78,28 +78,28 @@ module.exports = withBundleAnalyzer(
             ],
           },
           //DYNAMIC ROOT
-          {
-            source: '/',
-            destination: '/_dynamic',
-            has: [
-              {
-                type: 'cookie',
-                key: 'MURA_OCS',
-                value: '(?<paramName>.*)',
-              }
-            ]
-          },
-          {
-            source: '/:path*',
-            destination: '/_dynamic',
-            has: [
-              {
-                type: 'cookie',
-                key: 'MURA_UPC',
-                value: 'false',
-              }
-            ],
-          },
+          // {
+          //   source: '/',
+          //   destination: '/_dynamic',
+          //   has: [
+          //     {
+          //       type: 'cookie',
+          //       key: 'MURA_OCS',
+          //       value: '(?<paramName>.*)',
+          //     }
+          //   ]
+          // },
+          // {
+          //   source: '/',
+          //   destination: '/_dynamic',
+          //   has: [
+          //     {
+          //       type: 'cookie',
+          //       key: 'MURA_UPC',
+          //       value: 'false',
+          //     }
+          //   ],
+          // },
          
           //STATIC PATH
           {
@@ -107,10 +107,10 @@ module.exports = withBundleAnalyzer(
             destination: '/_static/:path*'
           },
            //STATIC ROOT
-           {
-            source: '/',
-            destination: '/_static'
-          }
+          //  {
+          //   source: '/',
+          //   destination: '/_static'
+          // }
         ]
       },
       eslint: {
