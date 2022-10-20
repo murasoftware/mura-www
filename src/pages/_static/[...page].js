@@ -11,6 +11,11 @@ export async function getStaticPaths() {
   setMuraConfig(muraConfig);
   const paths = await getMuraPaths();
 
+  /* 
+    set to blocking instead of fallback because of"
+    https://github.com/vercel/next.js/issues/26145
+  */
+
   return {
     paths,
     fallback: true
