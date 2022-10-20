@@ -5,6 +5,7 @@ import ErrorPage from 'next/error';
 import Body from '@components/Body';
 import muraConfig, { DisplayOptions } from 'mura.config';
 import Head from '@components/Head';
+import Loading from '@components/Loading/Loading';
 
 export async function getStaticPaths() {
   setMuraConfig(muraConfig);
@@ -39,7 +40,7 @@ export default function Page(props) {
   const router = useRouter();
 
   if (router.isFallback) {
-    return <div>Loading...</div>
+    return <Loading />
   }
 
   const {
