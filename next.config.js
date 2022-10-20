@@ -50,6 +50,7 @@ module.exports = withBundleAnalyzer(
       },
       async rewrites() {
         return [
+          //Site assets proxy
           {
             source: '/sites/:path*',
             destination: '/api/sites/:path*'
@@ -77,6 +78,7 @@ module.exports = withBundleAnalyzer(
               }
             ],
           },
+
           //DYNAMIC ROOT
           {
             source: '/',
