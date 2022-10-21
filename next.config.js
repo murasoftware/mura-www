@@ -54,6 +54,10 @@ module.exports = withBundleAnalyzer(
           {
             source: '/sites/:path*',
             destination: '/api/sites/:path*'
+          },
+          {
+            source: '/_api/:path*',
+            destination: '/api/_api/:path*'
           }
         ]
       },
