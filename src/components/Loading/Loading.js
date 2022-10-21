@@ -8,7 +8,7 @@ import {
 
 const Loading = () => {
     return (
-        <div className={styles.loadingContainer} fluid={true}>
+        <div className={styles.loadingContainer} fluid="true">
             <div className={styles.loadingRow}>
                 <Col className={styles.loadingCol} xs="auto">
                     <Grid
