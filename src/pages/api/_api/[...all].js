@@ -365,7 +365,12 @@ const doCache = (res)=> {
         if(!Array.isArray(SetCookie)){
             SetCookie=[SetCookie]; 
         }
-   
+        
+        /* 
+            This is to make sure that the consumer's
+            context has not changed from the original
+            start of the request. If it has, we don't cache
+        */
         SetCookie.forEach((item)=>{
             if(item){
                 if(typeof item == 'string'){

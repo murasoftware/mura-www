@@ -10,11 +10,11 @@ export function middleware(request) {
         const params = Object.fromEntries(urlSearchParams.entries());
         const MURA_OCS = params.mura_upc || request.cookies.get('MURA_UPC');
         const MURA_UPC = params.mura_ocs || request.cookies.get('MURA_OCS');
-    
+
         if(MURA_OCS || MURA_UPC === 'false' || params.purgeCache==='true'){
-            return NextResponse.rewrite(new URL(`/_dynamic${path}`, request.url))
+            return NextResponse.rewrite(new URL(`/_dynamic${path}${request.nextUrl.search}`, request.url))
         } else {
-            return NextResponse.rewrite(new URL(`/_static${path}`, request.url))
+            return NextResponse.rewrite(new URL(`/_static${path}${request.nextUrl.search}`, request.url))
         }
     }
 
