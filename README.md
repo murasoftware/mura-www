@@ -295,43 +295,44 @@ In some cases it may be necessary or quicker to develop your front-end locally a
 4. Configure your server  
     You now need to tell your server to use HTTPS (since development servers tend to use HTTP by default) and to use the TLS certificate you've just created.
 
-    Create a file named server-local.js  
+    Create a file named ssl-proxy.js  
     ```
-    var https = require('https');
+    require('dotenv').config();
+
+    const httpProxy = require("http-proxy");
     var fs = require('fs');
-    const path = require('path');
-    const { parse } = require('url');
 
-    const next = require('next');
-    const port = parseInt(process.env.PORT) || 3000;
-    const dev = true;
-    const app = next({ dev, dir: __dirname });
-    const handle = app.getRequestHandler();
+    const key = process.env.LOCAL_KEY || 'certs/localhost-key.pem';
+    const cert = process.env.LOCAL_CERT || 'certs/localhost.pem';
+    const port = process.env.SSL_PORT || 443;
 
-    var options = {
-        key: fs.readFileSync( 'LOCAL_PATH_TO_GENERATED_KEY',), 
-        cert:fs.readFileSync('LOCAL_PATH_TO_GENERATED_CERT',)
-    };
-
-    app.prepare().then(() => {
-    https.createServer(options, (req, res) => {
-        const parsedUrl = parse(req.url, true);
-        handle(req, res, parsedUrl);
+    const proxy=httpProxy.createServer({
+    xfwd: true,
+    ws: true,
+    target: "http://localhost:3000",
+    ssl: {
+        key: fs.readFileSync(key, "utf8"),
+        cert: fs.readFileSync(cert, "utf8")
+    }
     })
-    .listen(port, (err) => {
-        if (err) throw err;
-        console.log(`> Ready on localhost:${port}`);
-        });
-    });
+
+    proxy.on("error", function(e) {
+    console.log(e);
+    })
+
+    proxy.listen(port);
+
     ```
 
     Add the following to your scripts object in your package.json
     ```
     "scripts": {
-        "start:local": "node server-local.js -p 3000", 
+        "start:local": "npm run dev | node ssl-proxy.js", 
         …,
     }
     ```
+
+    This file will start up both the next server and an ssl proxy. This allows full next server functionality like middleware in addtion to local ssl.
 
 5. Add your local domain hosts
 

@@ -603,10 +603,6 @@ export const handler = async (event) => {
             multiValueHeaders[h]=[res.headers[h]];
         }
     });
-    
-    //console.log( 'multiValueHeaders',multiValueHeaders);
-
-    //console.log('rrr',result)
   
     return {
         statusCode: res.statusCode,
