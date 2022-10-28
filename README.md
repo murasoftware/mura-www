@@ -332,7 +332,7 @@ In some cases it may be necessary or quicker to develop your front-end locally a
     }
     ```
 
-    This file will start up both the next server and an ssl proxy. This allows full next server functionality like middleware in addtion to local ssl.
+    This file will start up both the next server and an ssl proxy. This allows full next server functionality like middleware in addition to local ssl.
 
 5. Add your local domain hosts
 
