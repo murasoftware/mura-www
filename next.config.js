@@ -26,6 +26,7 @@ const handleBooleanProperty=function(variable){
 
 module.exports = withBundleAnalyzer(
     {
+      reactStrictMode: false,
       async headers() {
         return [
           {

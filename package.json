@@ -24,9 +24,9 @@
     "@fortawesome/fontawesome-svg-core": "^1.2.35",
     "@fortawesome/free-solid-svg-icons": "^5.15.3",
     "@fortawesome/react-fontawesome": "^0.1.14",
-    "@murasoftware/next-core": "^2.0.7",
+    "@murasoftware/next-core": "^2.0.8",
     "@murasoftware/next-core-assets": "^1.0.1",
-    "@murasoftware/next-modules-bs4": "^1.0.106",
+    "@murasoftware/next-modules-bs4": "^1.0.108",
     "bootstrap": "^4.6.0",
     "cross-env": "^7.0.3",
     "fs": "^0.0.1-security",
@@ -35,8 +35,8 @@
     "html-react-parser": "^1.2.7",
     "install": "^0.10.4",
     "lodash": "^4.17.21",
-    "mura.js": "^1.0.380",
-    "next": "^12.3.1",
+    "mura.js": "^1.0.383",
+    "next": "^13.0.2",
     "next-http-proxy-middleware": "^1.2.4",
     "next-transpile-modules": "^8.0.0",
     "node-fetch": "^3.2.10",
@@ -73,7 +73,6 @@
     "hosted-git-info": "^2.8.9",
     "husky": "^5.2.0",
     "lodash": "^4.17.21",
-    "pem": "^1.14.6",
     "prettier-eslint": "^12.0.0"
   }
 }

@@ -8,8 +8,7 @@
       "@utils/*": ["src/utils/*"],
       "@pages/*": ["src/pages/*"],
       "@hooks/*": ["src/hooks/*"],
-      "@helpers/*":["src/helpers/*"],
-      "@mura/*":["src/mura/*"]
+      "@helpers/*":["src/helpers/*"]
     }
   },
   "exclude": [

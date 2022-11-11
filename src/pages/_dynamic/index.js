@@ -8,7 +8,7 @@ export const getServerSideProps = async (context) => {
   setMuraConfig(muraConfig);
   
   const Mura=getMura(context);
- 
+
   const props= await getMuraProps(
     {
       context:context,

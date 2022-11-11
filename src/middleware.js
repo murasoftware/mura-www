@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 
 export function middleware(request) {
-
+    
     const corePaths=['404','admin','core','plugins','icons','api','images'];
     let path=request.nextUrl.pathname;
     

@@ -1,6 +1,8 @@
-import fs from "fs";
-import crypto from 'crypto';
-import fetch from "node-fetch";
+const fs = require("fs");
+const crypto = require("crypto");
+const https = require('https');
+const http = require('http');
+const zlib = require("zlib");
 
 const APPRELOADKEY = process.env.PROXY_ORIGIN_APPRELOADKEY || 'appreload';
 const STALE_WHILE_REVALIDATE=process.env.PROXY_STALE_WHILE_REVALIDATE || 1;
@@ -22,6 +24,56 @@ let OriginDownTime=0;
 
 //This could be parsed from the request in the future
 const ROOTPATH=((ORIGIN_PORT==443) ? 'https://' : 'http://') + ORIGIN + ":" + ORIGIN_PORT
+
+const fakeFetch= function(url, options , data='') { 
+    return new Promise(function(resolve, reject) {
+    
+        const urlObj=new URL(url);
+
+        options.host=urlObj.hostname;
+        options.port=urlObj.port;
+        options.path=urlObj.pathname + urlObj.search;
+        options.encoding= null;
+
+        const protocolMethod=(urlObj.protocol == 'https:') ? https : http;
+
+        protocolMethod.gzip = true;
+
+        protocolMethod.request(options, (res) => {
+            let data = [];
+            
+            res.on('data', (chunk) => {
+                data.push(chunk);
+            });
+            
+            // Ending the response 
+            res.on('end', () => {
+                const { statusCode, headers } = res
+                let validResponse = statusCode >= 200 && statusCode <= 399
+                let body = Buffer.concat(data);
+                
+                if(headers['content-encoding'] && headers['content-encoding'].indexOf('gzip') > -1){
+                    body = zlib.gunzipSync(body).toString('utf8');
+                    delete headers['content-encoding'];
+                    delete headers['transfer-encoding'];
+                }
+                
+                if(typeof body != 'string'){
+                    body=body.toString('utf8');
+                }
+               
+                if (validResponse) {
+                    resolve({ statusCode, headers, body })
+                } else {
+                    reject(new Error(`Request failed. status: ${statusCode}, body: ${body}`))
+                }
+            });
+            
+        }).on("error", (err) => {
+            console.log("Error: ", err)
+        }).end()
+    })
+}
 
 /* 
     IMPORTANT HEADERS
@@ -102,8 +154,12 @@ const parseRequest=(req)=>{
     const sortedKeyParams = {};
 
     if(urlParts.length >1){
-        const params = querystring.parse(urlParts[1].toLowerCase());
-      
+        let params = {};
+        
+        if(urlParts.length){
+            params = querystring.parse(urlParts[1].toLowerCase());
+        }
+
         if(!params.mura_ocs && req.cookies['MURA_OCS']){
             params.mura_ocs=req.cookies['MURA_OCS']
         }
@@ -169,6 +225,44 @@ const parseRequest=(req)=>{
 };
 
 const parseHeaders=(headers)=>{
+    const restricted={
+        "connection":true,
+        "expect":true,
+        "keep-alive":true,
+        "proxy-authenticate":true,
+        "proxy-Authorization":true,
+        "proxy-connection":true,
+        "trailer":true,
+        "upgrade":true,
+        "x-accel-buffering":true,
+        "x-accel-charset":true,
+        "x-accel-limit-rate":true,
+        "x-accel-redirect":true,
+        "x-amz-cf-*":true,
+        "x-amzn-auth":true,
+        "x-amzn-cf-billing":true,
+        "x-amzn-cf-id":true,
+        "x-Amzn-cf-xff":true,
+        "x-amzn-errortype":true,
+        "x-amzn-fle-profile":true,
+        "x-amzn-header-count":true,
+        "x-amzn-header-order":true,
+        "x-amzn-lambda-integration-tag":true,
+        "x-amzn-requestId":true,
+        "x-cache":true,
+        "x-edge-*":true,
+        "x-forwarded-proto":true,
+        "x-real-ip":true,
+        "transfer-encoding":true,
+        "content-length":true,
+        "accept-encoding":true, 
+        "if-modified-since":true,  
+        "if-none-match":true,    
+        "if-range":true,
+        "if-unmodified-since":true,
+        "via":true
+    };
+
     const encoding = headers['content-encoding'];
 
     if(Array.isArray(encoding)){
@@ -176,12 +270,20 @@ const parseHeaders=(headers)=>{
             return (h != 'gzip');
         });
     }
+    
+    const filteredHeaders={};
 
-    return headers;
+    Object.keys(headers).forEach((key)=>{
+        if(!restricted[key]){
+            filteredHeaders[key]=headers[key];
+        }
+    });
+
+    return filteredHeaders;
 };
 
 const handleResponse=async (result)=>{
-    const body= await result.text();
+    const body= result.body;
     let data='';
     try {
         data = JSON.parse.call(null,body);
@@ -198,9 +300,9 @@ const doRequest=(req, res) =>{
     
         sendHeaders(req);
 
-        const proxiedResponse=await fetch(reqProps.url, reqProps.fetchArgs);
+        const proxiedResponse=await fakeFetch(reqProps.url, reqProps.fetchArgs);
         
-        res.proxiedHeaders=parseHeaders(proxiedResponse.headers.raw());
+        res.proxiedHeaders=parseHeaders(proxiedResponse.headers);
         
         success(await handleResponse(proxiedResponse));
     }); 
@@ -218,11 +320,13 @@ const doRequestSync=async (req, res) =>{
     let proxiedResponse={};
 
     try{
-        proxiedResponse=await fetch(reqProps.url, reqProps.fetchArgs);
+        proxiedResponse=await fakeFetch(reqProps.url, reqProps.fetchArgs);
        
         result=await handleResponse(proxiedResponse);
-    
-        const headers = parseHeaders(proxiedResponse.headers.raw());
+        
+        console.log('initial result',result);
+
+        const headers = parseHeaders(proxiedResponse.headers);
         Object.keys(headers).forEach((header)=>{
             res.setHeader(header,headers[header]);
         });
@@ -234,9 +338,9 @@ const doRequestSync=async (req, res) =>{
         
         return result;
     } catch(e){
-        console.log('error',e);
+        console.log('error in initial get',e);
         try{
-            const headers=parseHeaders(proxiedResponse.headers.raw());
+            const headers=parseHeaders(proxiedResponse.headers);
             Object.keys(headers).forEach((header)=>{
                 res.setHeader(header,headers[header]);
             });
@@ -259,13 +363,15 @@ const doRequestSync=async (req, res) =>{
 const sendHeaders=(req)=>{
     if(req.headers){
         const headers=req.headers;
-      
-        if(headers.host){
-            const hostArray=headers.host.split(":");
+        
+        const host = headers.host;
+
+        if(host){
+            const hostArray=host.split(":");
             const portCheck=(hostArray.length >1) ? hostArray[1] : 0;
            
             if(!headers['x-forwarded-host'] ){
-                headers['x-forwarded-host']=headers.host;
+                headers['x-forwarded-host']=host;
             }
            
             if(!headers['x-forwarded-port'] && portCheck){
@@ -295,6 +401,8 @@ const getStoredRequest=(requestKey)=>{
             }
         }
     }
+    
+    console.log('storedRequest',storedRequest);
 
     return storedRequest;
 };
@@ -304,7 +412,7 @@ const storeRequest=(res,result,requestKey)=>{
     
     if(res.statusCode == 200){
         if(res.proxiedHeaders){
-            headers=res.proxiedHeaders;
+            headers=Object.assign({},res.proxiedHeaders);
         }
        
         delete headers['set-cookie'];
@@ -331,6 +439,7 @@ const storeRequest=(res,result,requestKey)=>{
 };
  
 const doCache = (res)=> {
+    console.log('res in docache',res);
     let CacheControl=res.proxiedHeaders['cache-control'] || res.proxiedHeaders['Cache-Control'];
    
     if(!Array.isArray(CacheControl)){
@@ -433,7 +542,7 @@ const get= async (req, res) => {
     } else {
         const requestKey=reqProps.cachekey;
         const storedRequest=getStoredRequest(requestKey);
-     
+        
         if(storedRequest.created){
             //console.log('Exists in cache');
             if(isHealthy()){
@@ -494,74 +603,98 @@ const get= async (req, res) => {
     }
 };
 
-export default async (req, res) => {
-    let result={};
-    try{
-        if(req.method==='GET'){
-            result=await get(req,res);
-        } else {
-            result=await defaultHandler(req,res);
-        }
-
-        res.send(result);
-    }  catch(e){
-        console.log(e);
-        result=JSON.stringify(e);
-        res.send(result);
-    }
-
-}
-
 const defaultHandler= async (req, res) => {
     const result=await doRequestSync(req, res);
     return result;
 };
 
 const eventToRequest=(event)=>{
-    event.headers = event.headers || {};
-    event.multiValueHeaders = event.multiValueHeaders || {};
-    event.multiValueQueryStringParameters = event.multiValueQueryStringParameters || {}
+    if(event?.Records){
+        const request = {
+            headers:{},
+            method:event.Records[0].cf.request.method,
+            host:'',
+            cookies:{},
+            url:event.Records[0].cf.request.uri + ((event.Records[0].cf.request.querystring) ? '?' + event.Records[0].cf.request.querystring : ''),
+        };
 
-    const cookies={};
-    const rawHeaders=Object.assign({},event.multiValueHeaders,event.headers);
-    const headers= {};
 
-    Object.keys(rawHeaders).forEach(h=>{
-        h=h.toLowerCase();
-        headers[h]=rawHeaders[h];
-        if(Array.isArray(headers[h]) && headers[h].length==1 ){
-            headers[h]=headers[h][0];
+        for (const [key, value] of Object.entries(event.Records[0].cf.request.headers)) {
+            request.headers[key.toLowerCase()]=value[0].value;
         }
-    });
 
-    if(headers.cookie){
-        const cookieHeader=(Array.isArray(headers.cookie)) ? headers.cookie[0] : headers.cookie;
-        cookieHeader.split(";").forEach((c)=>{
-            if(c){
-                const valArray=c.split("=");
-                if(valArray.length){
-                    const name=valArray[0];
-                    cookies[name.trim()]=(valArray.length >1) ? valArray[1] : '';
+        if(!request.headers.host || !request.headers.host.indexOf('amazonaws') > -1){
+            request.headers.host=ORIGIN + ((ORIGIN_PORT != 80) ? ':' + ORIGIN_PORT : '');
+        }
+
+        request.host=(Array.isArray(request.headers.host)) ? request.headers.host[0] : request.headers.host;
+        
+        if(request.headers.cookie){
+            const cookieHeader=(Array.isArray(request.headers.cookie)) ? request.headers.cookie[0] : request.headers.cookie;
+            cookieHeader.split(";").forEach((c)=>{
+                if(c){
+                    const valArray=c.split("=");
+                    if(valArray.length){
+                        const name=valArray[0];
+                        request.cookies[name.trim()]=(valArray.length >1) ? valArray[1] : '';
+                    }
                 }
-            }
-        })
-    }
-    
-    if(!headers.host || !headers.host.indexOf('amazonaws') > -1){
-        headers.host=ORIGIN + ((ORIGIN_PORT != 80) ? ':' + ORIGIN_PORT : '');
-    }
+            })
 
-    return {
-        host:(Array.isArray(headers.host)) ? headers.host[0] : headers.host,
-        body:event.Body,
-        method:event.httpMethod,
-        headers : headers,
-        cookies : cookies,
-        url: event.path + ((isEmptyObject(event.multiValueQueryStringParameters)) ? '' : "?" + Object.keys(event.multiValueQueryStringParameters).map(k=>k + '=' + event.multiValueQueryStringParameters[k].join(','))),
-    };
+        }
+
+        if(event.Records[0].cf.request?.body?.data){
+            request.body=event.Records[0].cf.request.body.data;
+        }
+
+        return request;
+        
+    } else {
+        event.headers = event.headers || {};
+        event.multiValueHeaders = event.multiValueHeaders || {};
+        event.multiValueQueryStringParameters = event.multiValueQueryStringParameters || {}
+
+        const cookies={};
+        const rawHeaders=Object.assign({},event.multiValueHeaders,event.headers);
+        const headers= {};
+
+        Object.keys(rawHeaders).forEach(h=>{
+            const h_lcase=h.toLowerCase();
+            headers[h_lcase]=rawHeaders[h];
+            if(Array.isArray(headers[h_lcase]) && headers[h_lcase].length==1 ){
+                headers[h_lcase]=headers[h_lcase][0];
+            }
+        });
+
+        if(headers.cookie){
+            const cookieHeader=(Array.isArray(headers.cookie)) ? headers.cookie[0] : headers.cookie;
+            cookieHeader.split(";").forEach((c)=>{
+                if(c){
+                    const valArray=c.split("=");
+                    if(valArray.length){
+                        const name=valArray[0];
+                        cookies[name.trim()]=(valArray.length >1) ? valArray[1] : '';
+                    }
+                }
+            })
+        }
+        
+        if(!headers.host || !headers.host.indexOf('amazonaws') > -1){
+            headers.host=ORIGIN + ((ORIGIN_PORT != 80) ? ':' + ORIGIN_PORT : '');
+        }
+
+        return {
+            host:(Array.isArray(headers.host)) ? headers.host[0] : headers.host,
+            body:event.Body,
+            method:event.httpMethod,
+            headers : headers,
+            cookies : cookies,
+            url: event.path + ((isEmptyObject(event.multiValueQueryStringParameters)) ? '' : "?" + Object.keys(event.multiValueQueryStringParameters).map(k=>k + '=' + event.multiValueQueryStringParameters[k].join(','))),
+        };
+    }
 }
 
-const eventToResponse=(event)=>{
+const eventToResponse=()=>{
     return {
         headers:{},
         removeHeader:function(header){delete this.headers[header];},
@@ -572,46 +705,143 @@ const eventToResponse=(event)=>{
     };
 }
 
-export const handler = async (event) => {
-    //console.log(event)
+exports.handler = async function(event, context, callback){
+    process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;
+    const isAtEdge=(event?.Records);
+    
+    console.log('event',event)
+   
     const req=eventToRequest(event);
     const res=eventToResponse(event);
-  
+
+    //console.log('req',req);
+    //console.log('res',res);
+    console.log('isAtEdge',isAtEdge);
+
     let result={};
 
-    try{
+    if(isAtEdge){
+        try{
+            if(req.method.toLowerCase()==='get'){
+                result=await get(req,res);
+            } else {
+                result=await defaultHandler(req,res);
+            }
+        }  catch(e){
+            console.log('error getting request',e);
+            result=JSON.stringify(e);
+
+            const response = {
+                status: '500',
+                statusDescription: 'ERROR',
+                headers: res.headers,
+                body: result,
+            };
+
+            callback(null, response);
+        }
+
+        const multiValueHeaders={
+            'content-type':[
+                {
+                    key:'content-type',
+                    value:'application/json;charset=utf-8'
+                }
+            ]
+        };
+    
+        Object.keys(res.headers).forEach(h=>{
+            let c;
+
+            if(Array.isArray(res.headers[h])){
+                c=res.headers[h][0];  
+            } else {
+                c=res.headers[h];
+            }
+
+            multiValueHeaders[h]=[{
+                key: h,
+                value: c
+            }];
+        });
+        
+        delete multiValueHeaders['transfer-encoding'];
+        delete multiValueHeaders['content-length'];
+
+        if(typeof result != 'string'){
+            result=JSON.stringify(result);
+        }
+
+        //console.log('result',result);
+        console.log('multiValueHeaders',multiValueHeaders);
+        const response = {
+            status: res.statusCode,
+            statusDescription: 'OK',
+            headers: multiValueHeaders,
+            body: result
+        };
+        //console.log('response',response);
+        callback(null, response);
+
+    } else {
+
+        try{
+            if(req.method.toLowerCase()==='get'){
+                result=await get(req,res);
+            } else {
+                result=await defaultHandler(req,res);
+            }
+        }  catch(e){
+            console.log(e);
+            result=JSON.stringify(e);
+
+            return {
+                statusCode: 500,
+                multiValueHeaders:{},
+                body: result
+            }; 
+        }
+
+        if(typeof result != 'string'){
+            result=JSON.stringify(result);
+        }
+
+        const multiValueHeaders={'content-type':['application/json;charset=utf-8']};
+    
+        Object.keys(res.headers).forEach(h=>{
+            if(Array.isArray(res.headers[h])){
+                multiValueHeaders[h]=res.headers[h];  
+            } else {
+                multiValueHeaders[h]=[res.headers[h]];
+            }
+        });
+        
+        delete multiValueHeaders['transfer-encoding'];
+
+        return {
+            statusCode: res.statusCode,
+            multiValueHeaders:multiValueHeaders,
+            body: result
+        };
+    }
+}
+exports.default = async (req, res) => {
+
+    let result={};
+    // try{
         if(req.method==='GET'){
             result=await get(req,res);
         } else {
             result=await defaultHandler(req,res);
         }
-    }  catch(e){
-        console.log(e);
-        result=JSON.stringify(e);
-        return {
-            statusCode: 500,
-            multiValueHeaders:{},
-            body: result
-        }
-    }
+       
 
-    if(typeof result != 'string'){
-        result=JSON.stringify(result);
-    }
-
-    const multiValueHeaders={'content-type':['application/json']};
-   
-    Object.keys(res.headers).forEach(h=>{
-        if(Array.isArray(res.headers[h])){
-            multiValueHeaders[h]=res.headers[h];  
-        } else {
-            multiValueHeaders[h]=[res.headers[h]];
-        }
-    });
-  
-    return {
-        statusCode: res.statusCode,
-        multiValueHeaders:multiValueHeaders,
-        body: result
-    };
+       //console.log(res)
+    // }  catch(e){
+    //     console.log(e);
+    //     result=JSON.stringify(e);
+    //     res.send(result);
+    // }
+    //console.log( result)
+    res.send(result);
 }
