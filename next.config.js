@@ -78,7 +78,7 @@ module.exports = withBundleAnalyzer(
         MXP: handleBooleanProperty(process.env.MURA_MXP),
         MXPTracking: typeof process.env.MURA_MXPTRACKING != 'undefined' ? process.env.MURA_MXPTRACKING : 'native',
         htmleditortype: typeof process.env.MURA_HTMLEDITORTYPE != 'undefined' ? process.env.MURA_HTMLEDITORTYPE : 'markdown',
-        multitenant:true
+        multitenant: handleBooleanProperty(process.env.MURA_MULTITENANT)
       },
       enabled: 'true',
         //trailingSlash: true,
