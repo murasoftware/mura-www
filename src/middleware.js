@@ -52,8 +52,8 @@ export async function middleware(request) {
         }
 
         
-        const MURA_OCS = params.mura_upc || request.cookies.get('MURA_UPC');
-        const MURA_UPC = params.mura_ocs || request.cookies.get('MURA_OCS');
+        const MURA_OCS = params.mura_ocs || request.cookies.get('MURA_OCS');
+        const MURA_UPC = params.mura_upc || request.cookies.get('MURA_UPC');
 
         if(MURA_OCS || MURA_UPC === 'false' || params.purgeCache==='true'){
             return NextResponse.rewrite(new URL(`/_dynamic${tenantPath}${path}${request.nextUrl.search}`, request.url))
