@@ -7,9 +7,9 @@ import Head from '@components/Head';
 
 export const getStaticProps = async (context) => {
   setMuraConfig(muraConfig);
-
+  console.log('root getStaticProps');
   const Mura=getMura(context);
-  
+  console.log('Mura Is here! 4',Mura.siteid,context.params)
   const props= await getMuraProps(
     {
       context:context,

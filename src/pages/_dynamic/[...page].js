@@ -6,9 +6,9 @@ import muraConfig from 'mura.config';
 
 export const getServerSideProps = async (context) => {
   setMuraConfig(muraConfig);
-  
+
   const Mura=getMura(context);
-  
+  console.log('Mura Is here! 1',Mura.siteid,context.params)
   const props= await getMuraProps(
     {
       context:context,

@@ -8,25 +8,32 @@ import Head from '@components/Head';
 import Loading from '@components/Loading/Loading';
 
 export async function getStaticPaths() {
-  setMuraConfig(muraConfig);
-  const paths = await getMuraPaths();
+  if(muraConfig.ConnectorConfig.multitenant){
+    return {
+      paths:[],
+      fallback: true
+    };
+  } else { 
+    setMuraConfig(muraConfig);
+    const paths = await getMuraPaths();
 
-  /* 
-    set to blocking instead of fallback because of"
-    https://github.com/vercel/next.js/issues/26145
-  */
+    /* 
+      set to blocking instead of fallback because of"
+      https://github.com/vercel/next.js/issues/26145
+    */
 
-  return {
-    paths,
-    fallback: true
-  };
+    return {
+      paths,
+      fallback: true
+    };
+  }
 }
 
 export const getStaticProps = async (context) => {
   setMuraConfig(muraConfig);
-  
-  const Mura=getMura(context);
 
+  const Mura=getMura(context);
+  console.log('Mura Is here! 3',Mura.siteid,context.params)
   const props= await getMuraProps(
     {
       context:context,

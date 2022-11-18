@@ -8,7 +8,7 @@ import {
           Embed,
           Hr,
           UtilityNav,
-          //PrimaryNav, getPrimaryNavDynamicProps,
+          PrimaryNav, getPrimaryNavDynamicProps,
           ResourceHub, getResourceHubDynamicProps,
           ArticleMeta,
           CTAButton,
@@ -33,7 +33,7 @@ import { createRoot } from 'react-dom/client';
 
 //Example Custom Module
 import Example from '@components/Example';
-import PrimaryNav, {getDynamicProps as getPrimaryNavDynamicProps} from '@components/PrimaryNav';
+
 export const ConnectorConfig = {
   rootpath: process.env.rootpath,
   siteid: process.env.siteid,
@@ -45,7 +45,8 @@ export const ConnectorConfig = {
   variations: process.env.variations,
   MXP: process.env.MXP,
   htmleditortype: process.env.htmleditortype,
-  indexfileinapi:false
+  indexfileinapi:false,
+  multitenant: process.env.multitenant
 };
 
 export const DisplayOptions = {
