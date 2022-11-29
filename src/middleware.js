@@ -20,8 +20,7 @@ export async function middleware(request) {
                     headers:{
                         'x-forwarded-host':request.headers.get('x-forwarded-host') || request.headers.get('host'),
                         'cookie':request.headers.get('cookie')
-                    },
-                    next: { revalidate: 10 }
+                    }
                 });
     
                 //try{
