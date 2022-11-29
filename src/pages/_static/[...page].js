@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import { getMuraPaths, setMuraConfig, MainLayout, MuraJSRefPlaceholder ,getMura, getMuraProps} from '@murasoftware/next-core';
 import ErrorPage from 'next/error';
@@ -45,6 +45,11 @@ export const getStaticProps = async (context) => {
     }
   );
 
+  if(props.props.content.config.restricted){
+    props.props.content.body='';
+    delete props.props.content.displayregions.primarycontent;
+  }
+  
   return props;
 }
 
@@ -55,7 +60,7 @@ export default function Page(props) {
     return <Loading />
   }
 
-  const {
+  let {
     content = {},
     content: { displayregions } = {},
     content: {
@@ -78,7 +83,7 @@ export default function Page(props) {
     setMuraConfig(muraConfig);
     
     const Mura = getMura(content.siteid);
-    
+
     Mura.renderMode=renderMode;
 
     return (

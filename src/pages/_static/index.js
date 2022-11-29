@@ -21,6 +21,11 @@ export const getStaticProps = async (context) => {
     }
   );
 
+  if(props.props.content.config.restricted){
+    props.props.content.body='';
+    delete props.props.content.displayregions.primarycontent;
+  }
+
   return props;
 }
 

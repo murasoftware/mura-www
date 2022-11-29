@@ -1,8 +1,10 @@
 import React from 'react';
 import { DisplayRegion } from '@murasoftware/next-core';
 import { muraConfig } from 'mura.config';
+import Loading from '@components/Loading/Loading';
 
 function Default({content,moduleStyleData,header,primarycontent,footer,displayregions,queryParams, Mura}){
+    
     return(
         <>
         {content && displayregions && header &&
@@ -25,6 +27,9 @@ function Default({content,moduleStyleData,header,primarycontent,footer,displayre
             Mura={Mura}
             />
         }
+        {content && displayregions && !primarycontent &&
+            <Loading />
+        } 
         {content && displayregions && footer &&
             <DisplayRegion
             region={footer}
