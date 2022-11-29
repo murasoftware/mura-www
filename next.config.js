@@ -80,16 +80,15 @@ module.exports = withBundleAnalyzer(
         htmleditortype: typeof process.env.MURA_HTMLEDITORTYPE != 'undefined' ? process.env.MURA_HTMLEDITORTYPE : 'markdown',
         multitenant: handleBooleanProperty(process.env.MURA_MULTITENANT)
       },
-      enabled: 'true',
-        //trailingSlash: true,
-        exportPathMap: async function(
-          defaultPathMap,
-          { dev, dir, outDir, distDir, buildId },
-        ) {
+      //trailingSlash: true,
+      exportPathMap: async function(
+        defaultPathMap,
+        { dev, dir, outDir, distDir, buildId },
+      ) {
 
-          let newPathMap = {...defaultPathMap};
-          delete newPathMap['/edit/[...page]'];
-          return newPathMap;
-        }
+        let newPathMap = {...defaultPathMap};
+        delete newPathMap['/edit/[...page]'];
+        return newPathMap;
+      }
     }
   );
