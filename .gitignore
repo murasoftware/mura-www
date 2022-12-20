@@ -17,3 +17,4 @@ yarn-error.log*
 #.env.production is created dynamically in Buddy.works
 #update the "Create Env File" action in Buddy works to add/update environment variables
 .env.production
+public/mura.config.json
