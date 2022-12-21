@@ -35,7 +35,7 @@
     "html-react-parser": "^1.2.7",
     "install": "^0.10.4",
     "lodash": "^4.17.21",
-    "mura.js": "^1.0.386",
+    "mura.js": "^1.0.388",
     "next": "^13.0.7",
     "next-http-proxy-middleware": "^1.2.4",
     "next-transpile-modules": "^8.0.0",
