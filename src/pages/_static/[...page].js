@@ -49,7 +49,7 @@ export const getStaticProps = async (context) => {
     props.props.content.body='';
     delete props.props.content.displayregions.primarycontent;
   }
-  console.log(props);
+
   return props;
 }
 
