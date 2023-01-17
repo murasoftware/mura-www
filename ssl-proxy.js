@@ -42,7 +42,7 @@ const nextProxy=createProxyMiddleware( {
   onProxyReqWs: setProxyHeaders
 } );
 
-app.use(/^((?!(\/admin|\/_api|\/sites|\/themes||\/plugins|\/core|\/index.cfm|\/temp)).)*$/, nextProxy)
+app.use(/^((?!(\/admin|\/_api|\/sites|\/themes|\/plugins|\/core|\/index.cfm|\/temp)).)*$/, nextProxy)
 app.use('*', muraProxy)
 
 
