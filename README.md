@@ -335,7 +335,7 @@ In some cases it may be necessary or quicker to develop your front-end locally a
     onProxyReqWs: setProxyHeaders
     } );
 
-    app.use(/^((?!(\/admin|\/_api|\/sites|\/plugins|\/core|\/index.cfm|\/temp)).)*$/, nextProxy)
+    app.use(/^((?!(\/admin|\/_api|\/sites|\/themes|\/plugins|\/core|\/index.cfm|\/temp)).)*$/, nextProxy)
     app.use('*', muraProxy)
 
 
