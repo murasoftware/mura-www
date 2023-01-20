@@ -1,8 +1,6 @@
 import { NextResponse } from 'next/server'
 
 export async function middleware(request) {
-
-    console.log('test');
     
     const getSiteIdMap=async(request, domain)=>{
         let siteMap=await fetch(`${process.env.rootpath}/_api/json/v1/default?method=findSiteid&domain=${domain.split(':')[0]}`,{
