@@ -50,6 +50,8 @@ export const getStaticProps = async (context) => {
     delete props.props.content.displayregions.primarycontent;
   }
 
+  Mura.deInit();
+  
   return props;
 }
 
