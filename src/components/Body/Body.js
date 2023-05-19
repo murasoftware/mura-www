@@ -9,14 +9,16 @@ function Body({content,moduleStyleData,header,primarycontent,footer,displayregio
     let  isOnDisplay = content.isondisplay;
 
     useEffect(() => {
-        if(primarycontent){
-            setBodyRegion(primarycontent);
-        } else {
-            Mura.renderFilename(content.filename,{displayregions:'primarycontent'}).then(function(rendered){
-                content.body=rendered.get('body');
-                isOnDisplay=rendered.get('isondisplay');
-                setBodyRegion(rendered.get('displayregions').primarycontent);
-            });
+        if(!content.redirect){
+            if(primarycontent){
+                setBodyRegion(primarycontent);
+            } else {
+                Mura.renderFilename(content.filename,{displayregions:'primarycontent'}).then(function(rendered){
+                    content.body=rendered.get('body');
+                    isOnDisplay=rendered.get('isondisplay');
+                    setBodyRegion(rendered.get('displayregions').primarycontent);
+                });
+            }
         }
     }, [content.contenthistid]);
 
