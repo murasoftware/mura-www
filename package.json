@@ -24,7 +24,7 @@
     "@fortawesome/fontawesome-svg-core": "^1.2.35",
     "@fortawesome/free-solid-svg-icons": "^5.15.3",
     "@fortawesome/react-fontawesome": "^0.1.14",
-    "@murasoftware/next-core": "^2.0.14",
+    "@murasoftware/next-core": "^2.0.15",
     "@murasoftware/next-core-assets": "^1.0.1",
     "@murasoftware/next-modules-bs4": "^1.0.112",
     "bootstrap": "^4.6.0",
