@@ -52,13 +52,8 @@ export const getStaticProps = async (context) => {
 
   Mura.deInit();
   
-  if(context.statusCode==404){
-    return {
-      notFound:true
-    };
-  } else {
-    return props;
-  }
+  return props;
+ 
 }
 
 export default function Page(props) {
