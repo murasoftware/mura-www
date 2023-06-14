@@ -113,7 +113,14 @@ let moduleRegistry = [
   {
     name: 'Collection',
     component: Collection,
-    getDynamicProps: getCollectionDynamicProps,
+    getDynamicProps: async function(props){
+      if(typeof window != 'undefined' || !props.content.config.restricted){
+        const data=await getCollectionDynamicProps(props);
+        return data;
+      } else{
+        return {};
+      }
+    },
   },
   {
     name: 'Video',
