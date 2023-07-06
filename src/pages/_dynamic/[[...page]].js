@@ -1,6 +1,6 @@
 import React from 'react';
 import { useRouter } from 'next/router';
-import Page from '../_static/[...page]';
+import Page from '../_static/[[...page]]';
 import { EditLayout, setMuraConfig, getMuraProps, getMura } from '@murasoftware/next-core';
 import muraConfig from 'mura.config';
 
