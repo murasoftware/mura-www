@@ -1,9 +1,33 @@
-import React,{ useEffect } from 'react';
+import React, { useState } from 'react';
+import { useRouter } from 'next/router';
+import { getMuraPaths, setMuraConfig, MainLayout, MuraJSRefPlaceholder ,getMura, getMuraProps} from '@murasoftware/next-core';
 import ErrorPage from 'next/error';
-import { MainLayout, setMuraConfig, MuraJSRefPlaceholder, getMura, getMuraProps } from '@murasoftware/next-core';
 import Body from '@components/Body';
 import muraConfig, { DisplayOptions } from 'mura.config';
 import Head from '@components/Head';
+import Loading from '@components/Loading/Loading';
+
+export async function getStaticPaths() {
+  //if(muraConfig.ConnectorConfig.multitenant){
+    return {
+      paths:[],
+      fallback: true
+    };
+  // } else { 
+  //   setMuraConfig(muraConfig);
+  //   const paths = await getMuraPaths();
+
+  //   /* 
+  //     set to blocking instead of fallback because of"
+  //     https://github.com/vercel/next.js/issues/26145
+  //   */
+
+  //   return {
+  //     paths,
+  //     fallback: true
+  //   };
+  // }
+}
 
 export const getStaticProps = async (context) => {
   setMuraConfig(muraConfig);
@@ -20,20 +44,26 @@ export const getStaticProps = async (context) => {
       }
     }
   );
-  
-  Mura.deInit();
-  
+
   if(props?.props?.content?.config?.restricted){
     props.props.content.body='';
     delete props.props.content.displayregions.primarycontent;
   }
 
+  Mura.deInit();
+  
   return props;
+ 
 }
 
 export default function Page(props) {
+  const router = useRouter();
 
-  const {
+  if (router.isFallback) {
+    return <Loading />
+  }
+
+  let {
     content = {},
     content: { displayregions } = {},
     content: {
@@ -45,10 +75,7 @@ export default function Page(props) {
     renderMode
   } = props;
 
-  /*
-   When in a route not defined in static routes it's intitially missing props
-  */
-   if(!content){
+  if(!content){
     return <ErrorPage statusCode="500" />
   } else if (content && typeof content.statusCode != 'undefined' && content.statusCode != 200){
     return <ErrorPage statusCode={content.statusCode} />
@@ -57,17 +84,17 @@ export default function Page(props) {
   } else {
 
     setMuraConfig(muraConfig);
-   
-    const Mura = getMura(content.siteid);
     
+    const Mura = getMura(content.siteid);
+
     Mura.renderMode=renderMode;
 
     return (
-      <MainLayout {...props}  Mura={Mura}>
+      <MainLayout {...props} Mura={Mura} route={`/${router.query.page}`}>  
         <Head            
           content={content}
           MuraJSRefPlaceholder={MuraJSRefPlaceholder}
-          codeblocks={props.codeblocks}
+          codeblocks={codeblocks}
           Mura={Mura}
         />
         <div dangerouslySetInnerHTML={{__html:codeblocks.bodystart}}/>
@@ -78,17 +105,15 @@ export default function Page(props) {
           primarycontent={primarycontent}
           footer={footer}
           displayregions={displayregions}
-          props={props}
           queryParams={queryParams}
+          props={props}
           Mura={Mura}
-          renderMode={renderMode}
         />
         <div dangerouslySetInnerHTML={{__html:codeblocks.footer}}/>
-        {DisplayOptions.cookieconsent && 
-          <div className="mura-object" data-object='cookie_consent' data-statsid='cookie_consent' data-width='sm' />
-        }
-        </MainLayout>
+          {DisplayOptions.cookieconsent && 
+            <div className="mura-object" data-object='cookie_consent' data-statsid='cookie_consent' data-width='sm' />
+          }
+      </MainLayout>
     );
   }
 }
-
