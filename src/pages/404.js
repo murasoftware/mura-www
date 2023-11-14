@@ -1,7 +1,7 @@
 import { useRouter } from "next/router"
 import ErrorPage from 'next/error';
 import { useEffect, useState } from "react"
-import muraConfig from 'mura.config';
+import muraConfig from 'mura.config.js';
 import Mura from 'mura.js';
 
 

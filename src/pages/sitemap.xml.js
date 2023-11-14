@@ -1,6 +1,6 @@
 import React from "react";
 import { setMuraConfig, getMura } from '@murasoftware/next-core';
-import muraConfig from 'mura.config';
+import muraConfig from 'mura.config.js';
 
 const Sitemap = () => {};
 

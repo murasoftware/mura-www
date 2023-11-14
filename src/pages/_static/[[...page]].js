@@ -1,36 +1,22 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useRouter } from 'next/router';
-import { getMuraPaths, setMuraConfig, MainLayout, MuraJSRefPlaceholder ,getMura, getMuraProps} from '@murasoftware/next-core';
+import { setMuraConfig, MainLayout, MuraJSRefPlaceholder ,getMura, getMuraProps} from '@murasoftware/next-core';
 import ErrorPage from 'next/error';
 import Body from '@components/Body';
-import muraConfig, { DisplayOptions } from 'mura.config';
+import  { Builder, DisplayOptions } from 'mura.config.js';
 import Head from '@components/Head';
 import Loading from '@components/Loading/Loading';
 
 export async function getStaticPaths() {
-  //if(muraConfig.ConnectorConfig.multitenant){
     return {
       paths:[],
       fallback: true
     };
-  // } else { 
-  //   setMuraConfig(muraConfig);
-  //   const paths = await getMuraPaths();
-
-  //   /* 
-  //     set to blocking instead of fallback because of"
-  //     https://github.com/vercel/next.js/issues/26145
-  //   */
-
-  //   return {
-  //     paths,
-  //     fallback: true
-  //   };
-  // }
 }
 
 export const getStaticProps = async (context) => {
-  setMuraConfig(muraConfig);
+
+  setMuraConfig(Builder.getJSConfig());
 
   const Mura=getMura(context);
   
@@ -83,8 +69,7 @@ export default function Page(props) {
     return <ErrorPage statusCode="404" />
   } else {
 
-    setMuraConfig(muraConfig);
-    
+    setMuraConfig(Builder.getJSConfig());
     const Mura = getMura(content.siteid);
 
     Mura.renderMode=renderMode;

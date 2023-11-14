@@ -1,6 +1,6 @@
 import React from 'react';
 import { DisplayRegion } from '@murasoftware/next-core';
-import { muraConfig } from 'mura.config';
+import { muraConfig } from 'mura.config.js';
 import Loading from '@components/Loading/Loading';
 
 function Default({content,moduleStyleData,header,primarycontent,footer,displayregions,queryParams, Mura}){

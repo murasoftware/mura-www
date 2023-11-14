@@ -1,4 +1,4 @@
-import muraConfig from 'mura.config';
+import muraConfig from 'mura.config.js';
 import { setMuraConfig ,getMura} from '@murasoftware/next-core';
 
 export default async (req, res) => {
