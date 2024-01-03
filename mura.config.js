@@ -15,7 +15,7 @@ export const getConfiguredMura=async function(context){
     siteidinurls:  process.env.siteidinurls,
     htmleditortype: process.env.htmleditortype,
     indexfileinapi:false,
-    multitenant: process.env.multitenant
+    multitenant: true
   })
   await builder.registerLib(ModuleLibrary);
   const Mura=builder.getMura(context);

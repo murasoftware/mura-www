@@ -37,29 +37,27 @@ export async function middleware(request) {
           
             const params = Object.fromEntries(new URLSearchParams(request.nextUrl.search).entries());
 
-            if(process.env.multitenant){
-                global.siteidmap=global.siteidmap || {};
-                const domain=request.headers.get('x-forwarded-host') || request.headers.get('host') || 'localhost';
-              
-                if(domain && (!global.siteidmap[domain] || params.bindtodomain)){
-                    await getSiteIdMap(request, domain);
-                } else if(((Date.now() - global.siteidmap[domain].time) > 1000)){
-                    getSiteIdMap(request, domain);
-                }
-               
-                let siteid= (domain && global.siteidmap[domain].siteid) ? global.siteidmap[domain].siteid : '';
-                
-                if(!siteid){
-                    console.log('missing siteid for domain',domain.split(":")[0]);
-                }
-
-                siteid=siteid || 'default';
-
-                request.headers.get('x-mura-siteid',siteid);
-
-                tenantPath=`/${siteid}`;
+            global.siteidmap=global.siteidmap || {};
+            const domain=request.headers.get('x-forwarded-host') || request.headers.get('host') || 'localhost';
+            
+            if(domain && (!global.siteidmap[domain] || params.bindtodomain)){
+                await getSiteIdMap(request, domain);
+            } else if(((Date.now() - global.siteidmap[domain].time) > 1000)){
+                getSiteIdMap(request, domain);
             }
-   
+            
+            let siteid= (domain && global.siteidmap[domain].siteid) ? global.siteidmap[domain].siteid : '';
+            
+            if(!siteid){
+                console.log('missing siteid for domain',domain.split(":")[0]);
+            }
+
+            siteid=siteid || 'default';
+
+            request.headers.get('x-mura-siteid',siteid);
+
+            tenantPath=`/${siteid}`;
+        
             const MURA_OCS = params.mura_ocs || request.cookies.get('MURA_OCS')?.value;
             const MURA_UPC = params.mura_upc || request.cookies.get('MURA_UPC')?.value;
 
