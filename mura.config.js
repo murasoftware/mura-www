@@ -1,4 +1,4 @@
-import Builder from 'MuraBuilder.js';
+import Builder from 'Builder.js';
 import { ModuleLibrary } from '@murasoftware/next-modules-bs4';
 
 export const DisplayOptions = {
