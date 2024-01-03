@@ -1,13 +1,12 @@
 import React from 'react';
 import { useRouter } from 'next/router';
 import Page from '../_static/[[...page]]';
-import { EditLayout, setMuraConfig, getMuraProps, getMura } from '@murasoftware/next-core';
-import { Builder } from 'mura.config.js';
+import { EditLayout, getMuraProps } from '@murasoftware/next-core';
+import {getConfiguredMura} from 'mura.config.js';
 
 export const getServerSideProps = async (context) => {
-  setMuraConfig(Builder.getJSConfig());
-  
-  const Mura=getMura(context);
+
+  const Mura=await getConfiguredMura(context);
   
   const props= await getMuraProps(
     {

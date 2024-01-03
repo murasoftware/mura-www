@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { useDeferredValue, setState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { setMuraConfig, MainLayout, MuraJSRefPlaceholder ,getMura, getMuraProps} from '@murasoftware/next-core';
+import { MainLayout, MuraJSRefPlaceholder , getMuraProps} from '@murasoftware/next-core';
 import ErrorPage from 'next/error';
 import Body from '@components/Body';
-import  { Builder, DisplayOptions } from 'mura.config.js';
+import  {  DisplayOptions } from 'mura.config.js';
 import Head from '@components/Head';
 import Loading from '@components/Loading/Loading';
+import { getConfiguredMura } from 'mura.config.js';
+
 
 export async function getStaticPaths() {
     return {
@@ -16,10 +18,8 @@ export async function getStaticPaths() {
 
 export const getStaticProps = async (context) => {
 
-  setMuraConfig(Builder.getJSConfig());
+  const Mura=getConfiguredMura(context);
 
-  const Mura=getMura(context);
-  
   const props= await getMuraProps(
     {
       context:context,
@@ -44,6 +44,7 @@ export const getStaticProps = async (context) => {
 
 export default function Page(props) {
   const router = useRouter();
+  const [muraRef,setMuraRef]=React.useState(false);
 
   if (router.isFallback) {
     return <Loading />
@@ -69,9 +70,15 @@ export default function Page(props) {
     return <ErrorPage statusCode="404" />
   } else {
 
-    setMuraConfig(Builder.getJSConfig());
-    const Mura = getMura(content.siteid);
+    if(!muraRef){
+      getConfiguredMura(content.siteid).then((Mura)=>{
+        //console.log('firstToUpperCase',Mura.firstToUpperCase)
+        setMuraRef({Mura:Mura});
+      });
+      return <Loading />
+    }
 
+    const Mura=muraRef.Mura;
     Mura.renderMode=renderMode;
 
     return (

@@ -1,10 +1,12 @@
 import Mura from 'mura.js';
 import React, {useEffect} from 'react';
 import { createRoot } from 'react-dom/client';
+import {getMura as getMuraInstance,setMuraConfig } from '@murasoftware/next-core';
+
 
 class Builder {
-    constructor(connectorConfig) {
-        this.connectorConfig=connectorConfig;
+    constructor(muraConfig) {
+        this.connectorConfig=muraConfig;
         this.jsonConfig = {
             "global":{
                 "rendererProperties":{
@@ -37,9 +39,17 @@ class Builder {
 
         this.moduleRegistry = [];
         this.externalLookup = {};
+        this.moduleClientMap = {};
     }
-
-    registerLib(ModuleLibrary,siteid) {
+    
+    getMura(context){
+      setMuraConfig(this.getJSConfig());
+      const MuraInstance=getMuraInstance(context);
+      MuraInstance.Module=this.moduleClientMap;
+      return MuraInstance
+    }
+    
+    async registerLib(ModuleLibrary,siteid) {
        /*
         example ModuleLibrary:
           {
@@ -85,21 +95,22 @@ class Builder {
         }
  
         if(ModuleLibrary.moduleRegistry.length){
-          this.registerModules(ModuleLibrary.moduleRegistry,siteid);
+          await this.registerModules(ModuleLibrary.moduleRegistry,siteid);
         }
 
+        return this;
     }
 
-    registerModules(paths,siteid) {
+    async registerModules(paths,siteid) {
         for (const module of paths) {
-          this.registerModule(module,siteid);
+          await this.registerModule(module,siteid);
        }
     }
 
-    registerModule(incomingModule,siteid) {
+    async registerModule(incomingModule,siteid) {
 
         /*
-        exampe ModuleConfig:
+        example ModuleConfig:
           {
             name: 'CollectionLayout',
             component: CollectionLayout,
@@ -148,11 +159,12 @@ class Builder {
         delete jsonModule.getQueryProps
         config.modules[jsonModule.key]=jsonModule;
         
+        return this;
     }
 
     generateModuleLookup() {
         const moduleLookup={};
-
+        //console.log(this.moduleRegistry)
         this.moduleRegistry.forEach(module => {
             if(typeof module.component == 'undefined'){
               this.externalLookup[module.name]=module;
@@ -177,7 +189,7 @@ class Builder {
                 SSR:module.SSR
               };
               if (!module.excludeFromClient) {
-                Mura.Module[module.key] = Mura.UI.extend({
+               this.moduleClientMap[module.key] = Mura.UI.extend({
                   component: module.component,
                   clientRendered: false,
                   renderClient() {
@@ -216,17 +228,17 @@ class Builder {
                 });
               }
             }
-          });
+        });
+      
+        this.applyModuleShims();
 
-          this.applyModuleShims();
-
-          return moduleLookup;
+        return moduleLookup;
     }
 
     //These exist because there are vanilla version in Mura.js istelf that need react specific tweaks
     applyModuleShims(){
-      //console.log(Mura.Module)
-        Mura.Module.Container.reopen({
+      //console.log(this.moduleLookup)
+       this.moduleClientMap.Container.reopen({
             reset(self, empty) {
             if(empty){
               self.find('.mura-object:not([data-object="container"])').html('');
@@ -250,8 +262,8 @@ class Builder {
               }
           }
         });
-        
-        Mura.Module.GatedAsset.reopen({
+       
+       this.moduleClientMap.GatedAsset.reopen({
             reset(self, empty) {
               self.find('.frontEndToolsModal').remove();
               self.find('.mura-object-meta').html('');

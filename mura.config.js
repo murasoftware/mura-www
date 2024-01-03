@@ -1,24 +1,23 @@
-import MuraBuilder from 'builder';
+import Builder from 'MuraBuilder.js';
 import { ModuleLibrary } from '@murasoftware/next-modules-bs4';
 
-const builder=new MuraBuilder( {
-  rootpath: process.env.rootpath,
-  siteid: process.env.siteid,
-  processMarkup: false,
-  editroute: process.env.editroute,
-  sitename: process.env.sitename,
-  siteidinurls:  process.env.siteidinurls,
-  codeblocks: process.env.codeblocks,
-  variations: process.env.variations,
-  MXP: process.env.MXP,
-  htmleditortype: process.env.htmleditortype,
-  indexfileinapi:false,
-  multitenant: process.env.multitenant
-});
-
-builder.registerLib(ModuleLibrary);
-
-export const Builder=builder;
 export const DisplayOptions = {
   cookieconsent:true
 };
+
+export const getConfiguredMura=async function(context){
+  const builder=new Builder({
+    rootpath: process.env.rootpath,
+    siteid: process.env.siteid,
+    processMarkup: false,
+    editroute: process.env.editroute,
+    sitename: process.env.sitename,
+    siteidinurls:  process.env.siteidinurls,
+    htmleditortype: process.env.htmleditortype,
+    indexfileinapi:false,
+    multitenant: process.env.multitenant
+  })
+  await builder.registerLib(ModuleLibrary);
+  const Mura=builder.getMura(context);
+  return Mura;
+}
