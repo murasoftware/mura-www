@@ -6,8 +6,7 @@ import Body from '@components/Body';
 import  {  DisplayOptions } from 'mura.config.js';
 import Head from '@components/Head';
 import Loading from '@components/Loading/Loading';
-import { getConfiguredMura } from 'mura.config.js';
-
+import {getConfiguredMura} from 'mura.config.js';
 
 export async function getStaticPaths() {
     return {
