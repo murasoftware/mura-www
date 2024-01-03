@@ -8,11 +8,8 @@ export const DisplayOptions = {
 export const getConfiguredMura=async function(context){
   const builder=new Builder({
     rootpath: process.env.rootpath,
-    siteid: process.env.siteid,
     processMarkup: false,
-    editroute: process.env.editroute,
     sitename: process.env.sitename,
-    siteidinurls:  process.env.siteidinurls,
     htmleditortype: process.env.htmleditortype,
     indexfileinapi:false,
     multitenant: true

@@ -46,6 +46,16 @@ class Builder {
       setMuraConfig(this.getJSConfig());
       const MuraInstance=getMuraInstance(context);
       MuraInstance.Module=this.moduleClientMap;
+
+      this.exportJSON(
+        process.cwd() + `/public/mura.config.json`
+      );
+
+      // this.exportJSON(
+      //   process.cwd() + `/public/${MuraInstance.siteid}.config.json`,
+      //   MuraInstance.siteid
+      // );
+
       return MuraInstance
     }
     
@@ -68,8 +78,7 @@ class Builder {
     
         const rendererProperties=((siteid) ? this.getJSONConfig(siteid) : this.jsonConfig.global).rendererProperties;
         
-        const libRendererProps=Object.assign({},ModuleLibrary.rendererProperties);
-        
+        const libRendererProps=structuredClone(ModuleLibrary.rendererProperties);
         delete libRendererProps.spacingOptions;
         delete libRendererProps.moduleThemeOptions;
         delete libRendererProps.layoutOptions;
@@ -121,9 +130,7 @@ class Builder {
             isCollectionLayout: true,
           }
         */
-        const module={};
-
-        Object.assign(module,incomingModule);
+        const module=Object.assign({},incomingModule);
         
         const config=(siteid) ? this.getJSONConfig(siteid) : this.jsonConfig.global;
         
@@ -145,11 +152,11 @@ class Builder {
         if(typeof module.SSR == 'undefined'){
           module.SSR=true;
         }
-
-        if(module.isCollectionLayout && !config.rendererProperties.collectionLayoutArray.find((layout) => layout.name == module.name)){
+        
+        if(module.isCollectionLayout && !config.rendererProperties.collectionLayoutArray.includes(module.key)){
           config.rendererProperties.collectionLayoutArray.push(module.key);
         }
-
+       
         this.moduleRegistry.push(module);
        
         const jsonModule=Object.assign({},module);
@@ -293,13 +300,13 @@ class Builder {
     //for writing to a mura.config.json or site client.config.json files
     getJSONConfig(siteid){
       if(siteid){
-        if(!this.jsonConfig.siteid[siteid]){
-          this.jsonConfig.siteid[siteid]={
+        if(!this.jsonConfig.sites[siteid]){
+          this.jsonConfig.sites[siteid]={
             "rendererProperties":{},
             "modules":{}
           };
         }
-        return this.jsonConfig.siteid[siteid];
+        return this.jsonConfig.sites[siteid];
       } else {
         return this.jsonConfig;
       }
@@ -312,18 +319,6 @@ class Builder {
             ExternalModules: this.externalLookup,
             ConnectorConfig: this.connectorConfig
         };
-
-        if(typeof window == 'undefined'){
-          const configPath=process.cwd() + '/public/mura.config.json'
-          import('fs').then(fs=>{
-            fs.access(configPath, fs.F_OK, (err) => {
-              if (err) {
-                this.exportJSON(configPath);
-                return
-              }
-            })
-          })
-        }
 
         return MuraConfig;  
     }
