@@ -35,8 +35,8 @@ services:
         # MURA_FIXEDMODULEWIDTHS: "false"
         # MURA_MODULEFULLWIDTHDEFAULT: "true"
     volumes:
-        -   ../mura/app/admin:/var/www/admin
-        -   ../mura/app/core:/var/www/core
+        # -   ../mura/app/admin:/var/www/admin
+        # -   ../mura/app/core:/var/www/core
         -   sites_data:/var/www/sites
         -   themes_data:/var/www/themes
     ports:
