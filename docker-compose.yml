@@ -3,7 +3,7 @@ version: '3.8'
 services:
   #Mura Server
   mura:
-    image: murasoftware/mura-dxp:latest
+    image: blueriver/mura:latest
     environment:
         LUCEE_JAVA_OPTS: "-Xms1024m -Xmx2048m"
         MURA_ADMIN_USERNAME: admin
@@ -21,7 +21,7 @@ services:
         MURA_INDEXFILEINURLS: "false"
         MURA_EXTERNALCONFIG: "http://host.docker.internal:3000/mura.config.json"
         MURA_DEFAULTTHEMEURL: "https://github.com/murasoftware/mura-minimal/archive/master.zip"
-        MURA_HTMLEDITORTYPE: markdown
+        MURA_HTMLEDITORTYPE: html
         MURA_AUTODISCOVERPLUGINS: "true"
         MURA_VARIATIONS: "true"
         MURA_MAILSERVERIP: "mailcatcher"
@@ -32,7 +32,11 @@ services:
         MURA_RESORUCEDOMAIN: "localhost"
         MURA_REMOTEPORT: "3000"
         MURA_EDITROUTE: ""
+        # MURA_FIXEDMODULEWIDTHS: "false"
+        # MURA_MODULEFULLWIDTHDEFAULT: "true"
     volumes:
+        # -   ../mura/app/admin:/var/www/admin
+        # -   ../mura/app/core:/var/www/core
         -   sites_data:/var/www/sites
         -   themes_data:/var/www/themes
     ports:
@@ -45,17 +49,28 @@ services:
       - "${MAILCATCHER_PORT:-1080}:1080"
       - "${SMTP_PORT:-1025}:1025"
   #MySQL
+    #mura_mysql:
+    # image: mysql:latest
+    # environment:
+    #     MYSQL_ROOT_PASSWORD: password
+    #     MYSQL_DATABASE: muradb
+    # volumes:
+    #     - mysql_data:/var/lib/mysql
+    # ports:
+    #     - "55556:3306"
+
   mura_mysql:
-    image: mysql:latest
+    image: mariadb:latest
     environment:
         MYSQL_ROOT_PASSWORD: password
         MYSQL_DATABASE: muradb
     volumes:
-        - mysql_data:/var/lib/mysql
+        - mura_mariadb_data:/var/lib/mysql
     ports:
         - "55556:3306"
-
+        
 volumes:
-    mysql_data:
+    # mysql_data:
+    mura_mariadb_data:
     sites_data:
     themes_data:
